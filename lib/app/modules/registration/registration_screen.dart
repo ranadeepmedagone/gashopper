@@ -5,6 +5,8 @@ import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import '../../core/utils/widgets/custom_elevation_button.dart';
+import '../../core/utils/widgets/custom_textfield.dart';
 import '../../core/values/constants.dart';
 
 class RegistrationScreen extends StatelessWidget {
@@ -93,8 +95,10 @@ class RegistrationScreen extends StatelessWidget {
                         ),
                       ),
                       LoginFlow(
+                        isForgetPassword: controller.isForgetPassword,
                         isRegister: controller.isRegister,
                         onCreateAccountClicked: controller.toggleRegister,
+                        onClickForgetPassword: controller.toggleForgetPassword,
                       )
                     ],
                   ),
@@ -110,10 +114,17 @@ class RegistrationScreen extends StatelessWidget {
 
 class LoginFlow extends StatelessWidget {
   final bool isRegister;
+  final bool isForgetPassword;
   final Function()? onCreateAccountClicked;
+  final Function()? onClickForgetPassword;
 
-  const LoginFlow(
-      {super.key, this.isRegister = false, this.onCreateAccountClicked});
+  const LoginFlow({
+    super.key,
+    this.isRegister = false,
+    this.isForgetPassword = false,
+    this.onCreateAccountClicked,
+    this.onClickForgetPassword,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -126,77 +137,49 @@ class LoginFlow extends StatelessWidget {
       children: [
         SizedBox(height: mQ.height / 10),
 
-        if (isRegister)
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'First name',
-              hintStyle: GashopperTheme.fontWeightApplier(
-                FontWeight.w600,
-                textTheme.bodyMedium!.copyWith(
-                  color: GashopperTheme.grey1,
-                  fontSize: 14,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: GashopperTheme.grey1,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: GashopperTheme.grey1,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                    color: GashopperTheme.appYellow, width: 1.5),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
+        if (isRegister && !isForgetPassword)
+          CustomTextField(
+            hintText: 'First name',
+            hintStyle: GashopperTheme.fontWeightApplier(
+              FontWeight.w600,
+              textTheme.bodyMedium!.copyWith(
+                color: GashopperTheme.grey1,
+                fontSize: 14,
               ),
             ),
+            borderRadius: 12,
+            borderColor: Colors.grey[400]!,
+            focusedBorderColor: GashopperTheme.appYellow,
+            borderWidth: 1.5,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            controller: TextEditingController(),
+            keyboardType: TextInputType.name,
+            obscureText: false,
           ).ltrbPadding(0, 0, 0, 16),
 
-        if (isRegister)
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'Last name',
-              hintStyle: GashopperTheme.fontWeightApplier(
-                FontWeight.w600,
-                textTheme.bodyMedium!.copyWith(
-                  color: GashopperTheme.grey1,
-                  fontSize: 14,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: GashopperTheme.grey1,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: GashopperTheme.grey1,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                    color: GashopperTheme.appYellow, width: 1.5),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
+        if (isRegister && !isForgetPassword)
+          CustomTextField(
+            hintText: 'Last name',
+            hintStyle: GashopperTheme.fontWeightApplier(
+              FontWeight.w600,
+              textTheme.bodyMedium!.copyWith(
+                color: GashopperTheme.grey1,
+                fontSize: 14,
               ),
             ),
+            borderRadius: 12,
+            borderColor: Colors.grey[400]!,
+            focusedBorderColor: GashopperTheme.appYellow,
+            borderWidth: 1.5,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            controller: TextEditingController(),
+            keyboardType: TextInputType.name,
+            obscureText: false,
           ).ltrbPadding(0, 0, 0, 16),
 
-           if (isRegister)
+        if (isRegister && !isForgetPassword)
           IntlPhoneField(
             focusNode: focusNode,
             decoration: InputDecoration(
@@ -237,45 +220,50 @@ class LoginFlow extends StatelessWidget {
           ).ltrbPadding(0, 0, 0, 16),
 
         // Email TextField
-        TextField(
-          decoration: InputDecoration(
-            hintText: 'Enter email i’d',
-            hintStyle: GashopperTheme.fontWeightApplier(
-              FontWeight.w600,
-              textTheme.bodyMedium!.copyWith(
-                color: GashopperTheme.grey1,
-                fontSize: 14,
-              ),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: GashopperTheme.grey1,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: GashopperTheme.grey1,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide:
-                  const BorderSide(color: GashopperTheme.appYellow, width: 1.5),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
+        CustomTextField(
+          hintText: 'Enter email i’d',
+          hintStyle: GashopperTheme.fontWeightApplier(
+            FontWeight.w600,
+            textTheme.bodyMedium!.copyWith(
+              color: GashopperTheme.grey1,
+              fontSize: 14,
             ),
           ),
+          borderRadius: 12,
+          borderColor: Colors.grey[400]!,
+          focusedBorderColor: GashopperTheme.appYellow,
+          borderWidth: 1.5,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          controller: TextEditingController(),
+          keyboardType: TextInputType.name,
+          obscureText: false,
         ).ltrbPadding(0, 0, 0, 16),
 
         // Password TextField
-        TextField(
+        CustomTextField(
+          hintText: 'Enter password',
+          hintStyle: GashopperTheme.fontWeightApplier(
+            FontWeight.w600,
+            textTheme.bodyMedium!.copyWith(
+              color: GashopperTheme.grey1,
+              fontSize: 14,
+            ),
+          ),
+          borderRadius: 12,
+          borderColor: Colors.grey[400]!,
+          focusedBorderColor: GashopperTheme.appYellow,
+          borderWidth: 1.5,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          controller: TextEditingController(),
+          keyboardType: TextInputType.name,
           obscureText: true,
-          decoration: InputDecoration(
-            hintText: 'Enter password',
+        ).ltrbPadding(0, 0, 0, (isRegister || isForgetPassword) ? 16 : 4),
+
+        if (isRegister || isForgetPassword)
+          CustomTextField(
+            hintText: 'Confirm password',
             hintStyle: GashopperTheme.fontWeightApplier(
               FontWeight.w600,
               textTheme.bodyMedium!.copyWith(
@@ -283,113 +271,55 @@ class LoginFlow extends StatelessWidget {
                 fontSize: 14,
               ),
             ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: GashopperTheme.grey1,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: GashopperTheme.grey1,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide:
-                  const BorderSide(color: GashopperTheme.appYellow, width: 1.5),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16,
-            ),
-          ),
-        ).ltrbPadding(0, 0, 0, isRegister ? 16 : 4),
-
-       
-
-        if (isRegister)
-          TextField(
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: 'Confirm password',
-              hintStyle: GashopperTheme.fontWeightApplier(
-                FontWeight.w600,
-                textTheme.bodyMedium!.copyWith(
-                  color: GashopperTheme.grey1,
-                  fontSize: 14,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: GashopperTheme.grey1,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: GashopperTheme.grey1,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                    color: GashopperTheme.appYellow, width: 1.5),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
-              ),
-            ),
+            borderRadius: 12,
+            borderColor: Colors.grey[400]!,
+            focusedBorderColor: GashopperTheme.appYellow,
+            borderWidth: 1.5,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            controller: TextEditingController(),
+            keyboardType: TextInputType.name,
+            obscureText: false,
           ).ltrbPadding(0, 0, 0, 16),
 
         // Forget Password
-
-        if (!isRegister)
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              'Forget Password ?',
-              style: GashopperTheme.fontWeightApplier(
-                FontWeight.w600,
-                textTheme.bodyMedium!.copyWith(
-                  color: GashopperTheme.black,
-                  fontSize: 14,
-                  letterSpacing: 0.2,
+        if (!isRegister && !isForgetPassword)
+          InkWell(
+            onTap: () {
+              if (onClickForgetPassword != null) onClickForgetPassword!();
+            },
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Forget Password ?',
+                style: GashopperTheme.fontWeightApplier(
+                  FontWeight.w600,
+                  textTheme.bodyMedium!.copyWith(
+                    color: GashopperTheme.black,
+                    fontSize: 14,
+                    letterSpacing: 0.2,
+                  ),
                 ),
               ),
             ),
-          ).ltrbPadding(0, 0, 0, 24),
+          ),
 
         // Login Button
         Row(
           children: [
             Expanded(
-              child: ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: GashopperTheme.appYellow,
-                  foregroundColor: GashopperTheme.black,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: Text(
-                  isRegister ? 'Register' : 'Login',
-                  style: GashopperTheme.fontWeightApplier(
-                    FontWeight.w700,
-                    textTheme.bodyMedium!.copyWith(
-                      color: GashopperTheme.black,
-                      fontSize: 16,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ),
-              ).ltrbPadding(0, 0, 0, isRegister ? 24 : 32),
+              child: CustomElevatedButton(
+                title: isForgetPassword
+                    ? 'Enter '
+                    : isRegister
+                        ? 'Register'
+                        : 'Login',
+                onPressed: () {
+                  if (isForgetPassword && onClickForgetPassword != null) {
+                    onClickForgetPassword!();
+                  }
+                },
+              ).ltrbPadding(0, 24, 0, isRegister ? 24 : 32),
             ),
           ],
         ),

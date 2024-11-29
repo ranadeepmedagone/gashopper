@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/widgets/custom_elevation_button.dart';
 import '../../core/values/constants.dart';
 import '../registration/registration_screen.dart';
 
@@ -155,43 +157,41 @@ class SplashScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Stack(
-       fit: StackFit.expand,
+      fit: StackFit.expand,
       children: [
         // First background SVG
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SvgPicture.asset(
-              Constants.registrationBg,
-              fit: BoxFit.fill,
-              colorFilter: const ColorFilter.mode(
-               GashopperTheme.appYellow,
-                BlendMode.srcATop,
-              ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: SvgPicture.asset(
+            Constants.registrationBg,
+            fit: BoxFit.fill,
+            colorFilter: const ColorFilter.mode(
+              GashopperTheme.appYellow,
+              BlendMode.srcATop,
             ),
           ),
-          // Second background SVG
-          Positioned(
-            top: 0,
-            right: 0,
-            child: SvgPicture.asset(
-              Constants.registrationBg2,
-              fit: BoxFit.fill,
-              colorFilter: const ColorFilter.mode(
-               GashopperTheme.appYellow,
-                BlendMode.srcATop,
-              ),
+        ),
+        // Second background SVG
+        Positioned(
+          top: 0,
+          right: 0,
+          child: SvgPicture.asset(
+            Constants.registrationBg2,
+            fit: BoxFit.fill,
+            colorFilter: const ColorFilter.mode(
+              GashopperTheme.appYellow,
+              BlendMode.srcATop,
             ),
           ),
+        ),
         Stack(
           children: [
             _buildLogoAndTitle(context),
             _buildMiddleImage(context),
-            _buildGetStartedButton(context, size),
+            _buildGetStartedButton(context),
           ],
         ),
       ],
@@ -200,8 +200,7 @@ class SplashScreenContent extends StatelessWidget {
 
   Widget _buildLogoAndTitle(BuildContext context) {
     final textTheme = Get.textTheme;
-    return 
-    Positioned.fill(
+    return Positioned.fill(
       child: Transform.translate(
         offset: Offset(0, animations.logoUpward.value),
         child: Center(
@@ -257,66 +256,24 @@ class SplashScreenContent extends StatelessWidget {
     );
   }
 
-  Widget _buildGetStartedButton(BuildContext context, Size size) {
+  Widget _buildGetStartedButton(BuildContext context) {
     return Positioned(
       left: 0,
       right: 0,
       bottom: 60 + animations.buttonSlide.value,
       child: Opacity(
         opacity: animations.buttonFade.value,
-        child: GetStartedButton(size: size),
-      ),
-    );
-  }
-}
-
-class GetStartedButton extends StatelessWidget {
-  final Size size;
-
-  const GetStartedButton({
-    super.key,
-    required this.size,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: size.width * 0.8,
-        height: 56,
-        child: ElevatedButton(
+        child: CustomElevatedButton(
+          title: "Lets Start",
+          rightIcon: const Icon(
+            Icons.keyboard_arrow_right_rounded,
+            color: GashopperTheme.black,
+            size: 26,
+          ),
           onPressed: () {
-            Get.to(() =>  RegistrationScreen());
+            Get.to(() => RegistrationScreen());
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: GashopperTheme.appYellow,
-            foregroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(28),
-            ),
-            elevation: 0,
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Lets Start",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1,
-                  color: GashopperTheme.black,
-                ),
-              ),
-              SizedBox(width: 2),
-              Icon(
-                Icons.keyboard_arrow_right_rounded,
-                color: GashopperTheme.black,
-                size: 30,
-              ),
-            ],
-          ),
-        ),
+        ).ltrbPadding(24, 0, 24, 0),
       ),
     );
   }
