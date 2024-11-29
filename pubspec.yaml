@@ -25,12 +25,17 @@ dependencies:
   
   # UI Components
   cached_network_image: ^3.3.0
+
   flutter_svg: ^2.0.9
+
   shimmer: ^3.0.0
   
   # Utils
   intl: ^0.18.1
+
   json_annotation: ^4.8.1
+
+  intl_phone_field: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +48,7 @@ dev_dependencies:
   
   # Code Generation
   build_runner: ^2.4.7
+  
   json_serializable: ^6.7.1
   
   # Testing

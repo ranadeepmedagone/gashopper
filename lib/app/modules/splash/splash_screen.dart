@@ -286,7 +286,7 @@ class GetStartedButton extends StatelessWidget {
         height: 56,
         child: ElevatedButton(
           onPressed: () {
-            Get.to(() => const RegistrationScreen());
+            Get.to(() =>  RegistrationScreen());
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: GashopperTheme.appYellow,

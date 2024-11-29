@@ -302,6 +302,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "intl_phone_field",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/intl_phone_field-3.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "io",
       "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/io-1.0.4",
       "packageUri": "lib/",
@@ -710,7 +716,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-11-29T10:47:10.460324Z",
+  "generated": "2024-11-29T14:36:47.244028Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/ranadeepmedagone/flutter",

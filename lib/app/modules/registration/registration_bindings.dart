@@ -1,12 +1,11 @@
-
 import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
 
-class InitialBindings extends Bindings {
+class RegistrationBindings extends Bindings {
   @override
   void dependencies() {
-    
-    Get.lazyPut(() => RegistrationController(), fenix: true);
-   
+    Get.lazyPut<RegistrationController>(
+      () => RegistrationController(),
+    );
   }
 }
