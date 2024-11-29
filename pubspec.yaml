@@ -1,0 +1,61 @@
+name: gashopper
+
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  get: ^4.6.5
+
+  google_fonts: ^6.2.1
+
+  # Network
+  dio: ^5.3.2
+
+  internet_connection_checker: ^1.0.0+1
+  
+  # UI Components
+  cached_network_image: ^3.3.0
+  flutter_svg: ^2.0.9
+  shimmer: ^3.0.0
+  
+  # Utils
+  intl: ^0.18.1
+  json_annotation: ^4.8.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+    
+  # Linting
+  flutter_lints: ^3.0.1
+
+  flutter_launcher_icons: ^0.13.1
+  
+  # Code Generation
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
+  
+  # Testing
+  mockito: ^5.4.3
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+flutter_launcher_icons:
+  image_path: "assets/icons/app-icon.png"
+  android: "launcher_icon"
+  ios: true
