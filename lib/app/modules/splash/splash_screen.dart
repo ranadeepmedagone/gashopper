@@ -37,34 +37,35 @@ class _SplashScreenState extends State<SplashScreen>
     _middleImageFadeAnimation = _createAnimation(
       begin: 0.0,
       end: 1.0,
-      intervalStart: 0.5,
-      intervalEnd: 0.8,
+      intervalStart: 0.0, // Start immediately
+      intervalEnd: 0.5,   // End halfway
       curve: Curves.easeIn,
     );
 
     _middleImageScaleAnimation = _createAnimation(
       begin: 0.8,
       end: 1.0,
-      intervalStart: 0.5,
-      intervalEnd: 0.8,
+      intervalStart: 0.0, // Start immediately
+      intervalEnd: 0.5,   // End halfway
       curve: Curves.easeOutCubic,
     );
 
     _buttonSlideAnimation = _createAnimation(
       begin: 100.0,
       end: 0.0,
-      intervalStart: 0.6,
-      intervalEnd: 0.8,
+      intervalStart: 0.5,  // Start after middle image
+      intervalEnd: 1.0,    // End at finish
       curve: Curves.easeOutCubic,
     );
 
     _buttonFadeAnimation = _createAnimation(
       begin: 0.0,
       end: 1.0,
-      intervalStart: 0.6,
-      intervalEnd: 0.8,
+      intervalStart: 0.5,  // Start after middle image
+      intervalEnd: 1.0,    // End at finish
       curve: Curves.easeIn,
     );
+
 
     _controller.forward();
   }
