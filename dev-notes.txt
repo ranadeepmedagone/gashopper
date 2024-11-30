@@ -1,0 +1,36 @@
+Always do THIS:
+- Ranadeep's MacBook
+    ```
+    export JAVA_HOME=/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home
+    flutter config --jdk-dir $JAVA_HOME
+    ```
+
+- Check: 
+    ```
+    echo $JAVA_HOME
+    javac -version
+    flutter config --list
+    ```
+
+Commands:
+- dart run build_runner build --delete-conflicting-outputs
+- dart run flutter_launcher_icons
+
+Cleans:
+- flutter clean && flutter pub get
+- cd ios/ && rm Podfile.lock && pod cache clean --all && pod repo update && pod install && cd ../
+
+Run:
+- flutter run (normal run)
+- flutter run --dart-define-from-file=env.json  (to run with env variables)
+- flutter run --no-enable-impeller (to disable impeller in debug for ios)
+
+Packages Upgrade:
+- flutter pub outdated
+- flutter pub upgrade
+- flutter pub upgrade --major-versions (Use this only to upgrade major versions).
+- NOTE: While upgrading major versions, kindly consider if there are any breaking changes or not.
+
+Builds:
+- iOS: flutter build ipa --dart-define-from-file=env.json
+- Android: flutter build appbundle --dart-define-from-file=env.json
