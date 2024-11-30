@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
+import 'package:gashopper/app/modules/home/home_screen.dart';
 import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -62,10 +63,11 @@ class RegistrationScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.only(
-                      top: mQ.size.height / 14.2,
-                      left: 24,
-                      right: 24,
-                      bottom: 24),
+                    top: mQ.size.height / 14.2,
+                    left: 24,
+                    right: 24,
+                    bottom: 24,
+                  ),
                   child: Column(
                     children: [
                       RichText(
@@ -317,6 +319,8 @@ class LoginFlow extends StatelessWidget {
                 onPressed: () {
                   if (isForgetPassword && onClickForgetPassword != null) {
                     onClickForgetPassword!();
+                  } else {
+                    Get.to(() => HomeScreen());
                   }
                 },
               ).ltrbPadding(0, 24, 0, isRegister ? 24 : 32),

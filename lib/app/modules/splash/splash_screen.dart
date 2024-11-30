@@ -17,8 +17,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _logoUpwardAnimation;
-  late final Animation<double> _titleFadeAnimation;
   late final Animation<double> _buttonSlideAnimation;
   late final Animation<double> _buttonFadeAnimation;
   late final Animation<double> _middleImageFadeAnimation;
@@ -34,22 +32,6 @@ class _SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1800),
       vsync: this,
-    );
-
-    _logoUpwardAnimation = _createAnimation(
-      begin: 0.0,
-      end: -340.0,
-      intervalStart: 0.2,
-      intervalEnd: 0.6,
-      curve: Curves.easeOutCubic,
-    );
-
-    _titleFadeAnimation = _createAnimation(
-      begin: 0.0,
-      end: 1.0,
-      intervalStart: 0.3,
-      intervalEnd: 0.5,
-      curve: Curves.easeIn,
     );
 
     _middleImageFadeAnimation = _createAnimation(
@@ -116,8 +98,6 @@ class _SplashScreenState extends State<SplashScreen>
         animation: _controller,
         builder: (context, child) => SplashScreenContent(
           animations: SplashAnimations(
-            logoUpward: _logoUpwardAnimation,
-            titleFade: _titleFadeAnimation,
             buttonSlide: _buttonSlideAnimation,
             buttonFade: _buttonFadeAnimation,
             middleImageFade: _middleImageFadeAnimation,
@@ -130,16 +110,12 @@ class _SplashScreenState extends State<SplashScreen>
 }
 
 class SplashAnimations {
-  final Animation<double> logoUpward;
-  final Animation<double> titleFade;
   final Animation<double> buttonSlide;
   final Animation<double> buttonFade;
   final Animation<double> middleImageFade;
   final Animation<double> middleImageScale;
 
   const SplashAnimations({
-    required this.logoUpward,
-    required this.titleFade,
     required this.buttonSlide,
     required this.buttonFade,
     required this.middleImageFade,
@@ -157,6 +133,10 @@ class SplashScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mQ = MediaQuery.of(context);
+
+    final textTheme = Get.textTheme;
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -187,51 +167,55 @@ class SplashScreenContent extends StatelessWidget {
             ),
           ),
         ),
-        Stack(
-          children: [
-            _buildLogoAndTitle(context),
-            _buildMiddleImage(context),
-            _buildGetStartedButton(context),
-          ],
-        ),
-      ],
-    );
-  }
 
-  Widget _buildLogoAndTitle(BuildContext context) {
-    final textTheme = Get.textTheme;
-    return Positioned.fill(
-      child: Transform.translate(
-        offset: Offset(0, animations.logoUpward.value),
-        child: Center(
-          child: RichText(
-            text: TextSpan(
+        SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: mQ.size.height / 14.2,
+              left: 24,
+              right: 24,
+              bottom: 24,
+            ),
+            child: Column(
               children: [
-                TextSpan(
-                  text: 'Gas',
-                  style: GashopperTheme.fontWeightApplier(
-                    FontWeight.w700,
-                    textTheme.bodyMedium!.copyWith(
-                      color: GashopperTheme.black,
-                      fontSize: 50,
-                    ),
-                  ),
-                ),
-                TextSpan(
-                  text: 'hopper',
-                  style: GashopperTheme.fontWeightApplier(
-                    FontWeight.w700,
-                    textTheme.bodyMedium!.copyWith(
-                      color: GashopperTheme.appYellow,
-                      fontSize: 50,
-                    ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Gas',
+                        style: GashopperTheme.fontWeightApplier(
+                          FontWeight.w700,
+                          textTheme.bodyMedium!.copyWith(
+                            color: GashopperTheme.black,
+                            fontSize: 50,
+                          ),
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'hopper',
+                        style: GashopperTheme.fontWeightApplier(
+                          FontWeight.w700,
+                          textTheme.bodyMedium!.copyWith(
+                            color: GashopperTheme.appYellow,
+                            fontSize: 50,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
         ),
-      ),
+
+        Stack(
+          children: [
+            _buildMiddleImage(context),
+            _buildGetStartedButton(context),
+          ],
+        ),
+      ],
     );
   }
 

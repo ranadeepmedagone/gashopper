@@ -11,4 +11,6 @@ class Constants {
   static const String splashBg = 'assets/images/splash.svg';
   static const String registrationBg = "assets/images/registration-bg.svg";
   static const String registrationBg2 = "assets/images/registration-bg2.svg";
+  static const String userAvatar = 'assets/images/user-avatar.svg';
+  static const String sideMenuBg = 'assets/images/side-menu-bg.svg';
 }

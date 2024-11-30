@@ -8,6 +8,7 @@ class RegistrationController extends GetxController {
   // Toggle register
   void toggleRegister() {
     isRegister = !isRegister;
+    isForgetPassword = false;
     update();
   }
 
