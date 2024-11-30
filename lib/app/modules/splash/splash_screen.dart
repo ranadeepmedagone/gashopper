@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
     _middleImageFadeAnimation = _createAnimation(
       begin: 0.0,
       end: 1.0,
-      intervalStart: 0.0, // Start immediately
+      intervalStart: 0.2, // Start immediately
       intervalEnd: 0.5,   // End halfway
       curve: Curves.easeIn,
     );
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen>
     _middleImageScaleAnimation = _createAnimation(
       begin: 0.8,
       end: 1.0,
-      intervalStart: 0.0, // Start immediately
+      intervalStart: 0.2, // Start immediately
       intervalEnd: 0.5,   // End halfway
       curve: Curves.easeOutCubic,
     );
