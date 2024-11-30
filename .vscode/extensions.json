@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "jeroen-meijer.pubspec-assist",
+        "dart-code.dart-code",
+        "usernamehw.errorlens",
+        "dart-code.flutter",
+        "eamodio.gitlens",
+        "gruntfuggly.todo-tree",
+        "redhat.vscode-yaml",
+        "streetsidesoftware.code-spell-checker",
+    ]
+}
