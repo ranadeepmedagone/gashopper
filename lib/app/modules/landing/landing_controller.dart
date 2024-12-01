@@ -29,7 +29,7 @@ class LandingController extends GetxController {
       facing: CameraFacing.back,
       torchEnabled: false,
     );
-    isScanning = true; // Corrected
+    isScanning = true;
     update();
   }
 
@@ -44,10 +44,10 @@ class LandingController extends GetxController {
   }
 
   void enableScanning() {
-    isScanEnabled = true; // Corrected
-    showError = false; // Corrected
-    hasValidQR = false; // Corrected
-    scannedCode = ''; // Corrected
+    isScanEnabled = true;
+    showError = false;
+    hasValidQR = false;
+    scannedCode = '';
 
     update();
   }
@@ -58,8 +58,8 @@ class LandingController extends GetxController {
     final List<Barcode> barcodes = capture.barcodes;
     for (final barcode in barcodes) {
       if (barcode.rawValue != null) {
-        isLoading = true; // Corrected
-        scannedCode = barcode.rawValue!; // Corrected
+        isLoading = true;
+        scannedCode = barcode.rawValue!;
         update();
 
         try {
@@ -70,10 +70,10 @@ class LandingController extends GetxController {
           bool isValid = barcode.rawValue?.startsWith('VALID') ?? false;
 
           if (isValid) {
-            hasValidQR = true; // Corrected
+            hasValidQR = true;
             cameraController?.stop();
           } else {
-            showError = true; // Corrected
+            showError = true;
             Get.snackbar(
               'Invalid QR',
               'Please scan a valid QR code',
@@ -82,14 +82,14 @@ class LandingController extends GetxController {
           }
           update();
         } catch (e) {
-          showError = true; // Corrected
+          showError = true;
           Get.snackbar(
             'Error',
             'Failed to process QR code',
             snackPosition: SnackPosition.BOTTOM,
           );
         } finally {
-          isLoading = false; // Corrected
+          isLoading = false;
         }
         update();
       }
@@ -97,10 +97,10 @@ class LandingController extends GetxController {
   }
 
   void resetScan() {
-    isScanEnabled = false; // Corrected
-    hasValidQR = false; // Corrected
-    showError = false; // Corrected
-    scannedCode = ''; // Corrected
+    isScanEnabled = false;
+    hasValidQR = false;
+    showError = false;
+    scannedCode = '';
     cameraController?.start();
     update();
   }
