@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
@@ -43,14 +42,13 @@ class NavDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            
             const Divider(
               color: GashopperTheme.grey1,
             ).ltrbPadding(0, 16, 0, 16),
-      
             _buildDrawerItem('Home', Icons.home, () {
               Get.back();
             }),
+            _buildDrawerItem('Shift', Icons.work_history_outlined, () {}),
             _buildDrawerItem('Reports', Icons.edit_document, () {}),
             _buildDrawerItem('Request / Reports', Icons.business, () {}),
             _buildDrawerItem('Settings', Icons.settings, () {}),
@@ -85,7 +83,7 @@ Widget _buildDrawerItem(String title, IconData icon, Function()? onTap) {
                 color: GashopperTheme.black,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                letterSpacing: 0.4,
+                letterSpacing: 0.5,
               ),
             ),
           ],

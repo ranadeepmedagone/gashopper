@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_elevation_button.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_navbar.dart';
@@ -59,6 +61,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           child: Column(
             children: [
+              const DateNavigator().ltrbPadding(0, 0, 0, 16),
               CustomElevatedButton(
                 title: 'Sales',
                 customBackgroundColor: GashopperTheme.appBackGrounColor,
@@ -185,6 +188,110 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class DateNavigator extends StatefulWidget {
+  const DateNavigator({super.key});
+
+  @override
+  State<DateNavigator> createState() => _DateNavigatorState();
+}
+
+class _DateNavigatorState extends State<DateNavigator> {
+  DateTime _selectedDate = DateTime.now();
+
+  bool isToday = false;
+
+  void _goToPreviousDay() {
+    setState(() {
+      _selectedDate = _selectedDate.subtract(const Duration(days: 1));
+      isToday = false;
+    });
+  }
+
+  void _goToNextDay() {
+    setState(() {
+      final DateTime today = DateTime.now();
+      final DateTime todayWithoutTime = DateTime(today.year, today.month, today.day);
+      final DateTime selectedDateWithoutTime =
+          DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day);
+
+      isToday = selectedDateWithoutTime.isAtSameMomentAs(todayWithoutTime);
+
+      if (isToday) {
+        return;
+      }
+
+      _selectedDate = _selectedDate.add(const Duration(days: 1));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Get.textTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Date Navigator',
+          style: GashopperTheme.fontWeightApplier(
+            FontWeight.w700,
+            textTheme.bodyMedium!.copyWith(
+              color: GashopperTheme.black,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: GashopperTheme.black, width: 1.5),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.keyboard_arrow_left_outlined,
+                  size: 28,
+                  color: GashopperTheme.black,
+                ),
+                onPressed: () {
+                  _goToPreviousDay();
+                },
+              ),
+              const Icon(
+                Icons.calendar_month_outlined,
+                color: GashopperTheme.black,
+              ),
+              Text(
+                DateFormat('dd-MM-yyyy').format(_selectedDate),
+                style: GashopperTheme.fontWeightApplier(
+                  FontWeight.w700,
+                  textTheme.bodyMedium!.copyWith(
+                    color: GashopperTheme.black,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.keyboard_arrow_right_outlined,
+                  size: 28,
+                  color: isToday ? GashopperTheme.grey1.withOpacity(0.4) : GashopperTheme.black,
+                ),
+                onPressed: () {
+                  if (!isToday) _goToNextDay();
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

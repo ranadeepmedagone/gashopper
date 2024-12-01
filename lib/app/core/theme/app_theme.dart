@@ -71,4 +71,6 @@ class GashopperTheme {
   static const yellow3 = Color(0xFFFEDC00);
 
   static const grey1 = Color(0xFF6D6A6A);
+
+  static const red = Color(0xFFFB4C4C);
 }
