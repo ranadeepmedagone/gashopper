@@ -4,5 +4,5 @@
 abstract class Routes {
   static const String registrationScreen = '/registration';
   static const String homeScreen = '/home';
-  
+  static const String landingScreen = '/landing';
 }

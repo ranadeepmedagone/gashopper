@@ -14,8 +14,8 @@ import '../landing/landing_screen.dart';
 class RegistrationScreen extends StatelessWidget {
   RegistrationScreen({super.key});
 
-  /// Initializes the [MicroScheduleProgressController] controller.
-  final microScheduleProgressController = Get.find<RegistrationController>();
+  /// Initializes the [RegistrationController] controller.
+  final registrationController = Get.find<RegistrationController>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class RegistrationScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: GashopperTheme.appBackGrounColor,
       body: GetBuilder<RegistrationController>(initState: (state) {
-        microScheduleProgressController.isRegister = false;
-        microScheduleProgressController.update();
+        registrationController.isRegister = false;
+        registrationController.update();
       }, builder: (controller) {
         return Stack(
           fit: StackFit.expand,
@@ -315,7 +315,7 @@ class LoginFlow extends StatelessWidget {
                   if (isForgetPassword && onClickForgetPassword != null) {
                     onClickForgetPassword!();
                   } else {
-                    Get.to(() => const LandingScreen());
+                    Get.to(() => LandingScreen());
                   }
                 },
               ).ltrbPadding(0, 24, 0, isRegister ? 24 : 32),
