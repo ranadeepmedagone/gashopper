@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
-import 'package:gashopper/app/modules/home/home_screen.dart';
 import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+
 import '../../core/utils/widgets/custom_elevation_button.dart';
 import '../../core/utils/widgets/custom_textfield.dart';
 import '../../core/values/constants.dart';
+import '../landing/landing_screen.dart';
 
 class RegistrationScreen extends StatelessWidget {
   RegistrationScreen({super.key});
@@ -153,8 +154,7 @@ class LoginFlow extends StatelessWidget {
             borderColor: Colors.grey[400]!,
             focusedBorderColor: GashopperTheme.appYellow,
             borderWidth: 1.5,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             controller: TextEditingController(),
             keyboardType: TextInputType.name,
             obscureText: false,
@@ -174,8 +174,7 @@ class LoginFlow extends StatelessWidget {
             borderColor: Colors.grey[400]!,
             focusedBorderColor: GashopperTheme.appYellow,
             borderWidth: 1.5,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             controller: TextEditingController(),
             keyboardType: TextInputType.name,
             obscureText: false,
@@ -207,8 +206,7 @@ class LoginFlow extends StatelessWidget {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                    color: GashopperTheme.appYellow, width: 1.5),
+                borderSide: const BorderSide(color: GashopperTheme.appYellow, width: 1.5),
               ),
             ),
             dropdownIcon: const Icon(
@@ -235,8 +233,7 @@ class LoginFlow extends StatelessWidget {
           borderColor: Colors.grey[400]!,
           focusedBorderColor: GashopperTheme.appYellow,
           borderWidth: 1.5,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           controller: TextEditingController(),
           keyboardType: TextInputType.name,
           obscureText: false,
@@ -256,8 +253,7 @@ class LoginFlow extends StatelessWidget {
           borderColor: Colors.grey[400]!,
           focusedBorderColor: GashopperTheme.appYellow,
           borderWidth: 1.5,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
           controller: TextEditingController(),
           keyboardType: TextInputType.name,
           obscureText: true,
@@ -277,8 +273,7 @@ class LoginFlow extends StatelessWidget {
             borderColor: Colors.grey[400]!,
             focusedBorderColor: GashopperTheme.appYellow,
             borderWidth: 1.5,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             controller: TextEditingController(),
             keyboardType: TextInputType.name,
             obscureText: false,
@@ -320,7 +315,7 @@ class LoginFlow extends StatelessWidget {
                   if (isForgetPassword && onClickForgetPassword != null) {
                     onClickForgetPassword!();
                   } else {
-                    Get.to(() => HomeScreen());
+                    Get.to(() => const LandingScreen());
                   }
                 },
               ).ltrbPadding(0, 24, 0, isRegister ? 24 : 32),
