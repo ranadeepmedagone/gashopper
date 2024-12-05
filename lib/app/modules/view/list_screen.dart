@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
-import 'package:gashopper/app/modules/home/home_controller.dart';
+import 'package:gashopper/app/modules/controller/main_controller.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
@@ -13,11 +13,11 @@ class SalesListScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final homeController = Get.find<HomeController>();
+  final homeController = Get.find<MainController>();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(builder: (c) {
+    return GetBuilder<MainController>(builder: (c) {
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: GashopperTheme.appBackGrounColor,

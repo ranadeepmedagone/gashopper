@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_textfield.dart';
-import 'package:gashopper/app/modules/home/home_controller.dart';
+import 'package:gashopper/app/modules/controller/main_controller.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
@@ -15,11 +15,11 @@ class CreateScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final HomeController homeController = Get.find();
+  final MainController homeController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(builder: (c) {
+    return GetBuilder<MainController>(builder: (c) {
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: GashopperTheme.appBackGrounColor,

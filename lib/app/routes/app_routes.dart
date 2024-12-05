@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
-import '../modules/home/create_screen.dart';
-import '../modules/home/home_bindings.dart';
-import '../modules/home/home_screen.dart';
-import '../modules/home/list_screen.dart';
+import '../modules/bindings/main_bindings.dart';
 import '../modules/landing/lading_bindings.dart';
 import '../modules/landing/landing_screen.dart';
 import '../modules/no_data_screen.dart';
 import '../modules/registration/registration_bindings.dart';
 import '../modules/registration/registration_screen.dart';
+import '../modules/view/create_screen.dart';
+import '../modules/view/home_screen.dart';
+import '../modules/view/list_screen.dart';
 
 //  `RouteGenerator` is a class that generates routes for the application.
 class RouteGenerator {
@@ -37,7 +37,7 @@ class RouteGenerator {
       case Routes.homeScreen:
         return GetPageRoute(
           routeName: Routes.homeScreen,
-          binding: HomeBindings(),
+          binding: MainBindings(),
           page: () => HomeScreen(),
           settings: settings,
         );
@@ -45,7 +45,7 @@ class RouteGenerator {
       case Routes.listScreen:
         return GetPageRoute(
           routeName: Routes.listScreen,
-          binding: HomeBindings(),
+          binding: MainBindings(),
           page: () => SalesListScreen(),
           settings: settings,
         );
@@ -53,7 +53,7 @@ class RouteGenerator {
       case Routes.createScreen:
         return GetPageRoute(
           routeName: Routes.createScreen,
-          binding: HomeBindings(),
+          binding: MainBindings(),
           page: () => CreateScreen(),
           settings: settings,
         );

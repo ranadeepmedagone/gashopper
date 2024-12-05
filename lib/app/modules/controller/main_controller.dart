@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../../routes/app_pages.dart';
 
-class HomeController extends GetxController {
+class MainController extends GetxController {
   bool isOnPressSales = false;
 
   bool isOnPressExpenses = false;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_elevation_button.dart';
-import 'package:gashopper/app/modules/home/home_controller.dart';
+import 'package:gashopper/app/modules/controller/main_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -14,11 +14,11 @@ class HomeScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final homeController = Get.find<HomeController>();
+  final homeController = Get.find<MainController>();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(initState: (state) {
+    return GetBuilder<MainController>(initState: (state) {
       homeController.resetValues();
       homeController.update();
     }, builder: (c) {
