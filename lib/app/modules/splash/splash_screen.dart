@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
+
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_elevation_button.dart';
 import '../../core/values/constants.dart';
@@ -14,8 +15,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _buttonSlideAnimation;
   late final Animation<double> _buttonFadeAnimation;
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
       begin: 0.0,
       end: 1.0,
       intervalStart: 0.2, // Start immediately
-      intervalEnd: 0.5,   // End halfway
+      intervalEnd: 0.5, // End halfway
       curve: Curves.easeIn,
     );
 
@@ -46,26 +46,25 @@ class _SplashScreenState extends State<SplashScreen>
       begin: 0.8,
       end: 1.0,
       intervalStart: 0.2, // Start immediately
-      intervalEnd: 0.5,   // End halfway
+      intervalEnd: 0.5, // End halfway
       curve: Curves.easeOutCubic,
     );
 
     _buttonSlideAnimation = _createAnimation(
       begin: 100.0,
       end: 0.0,
-      intervalStart: 0.5,  // Start after middle image
-      intervalEnd: 1.0,    // End at finish
+      intervalStart: 0.5, // Start after middle image
+      intervalEnd: 1.0, // End at finish
       curve: Curves.easeOutCubic,
     );
 
     _buttonFadeAnimation = _createAnimation(
       begin: 0.0,
       end: 1.0,
-      intervalStart: 0.5,  // Start after middle image
-      intervalEnd: 1.0,    // End at finish
+      intervalStart: 0.5, // Start after middle image
+      intervalEnd: 1.0, // End at finish
       curve: Curves.easeIn,
     );
-
 
     _controller.forward();
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gashopper/app/core/theme/app_theme.dart';
+import 'package:gashopper/app/core/utils/helpers.dart';
+import 'package:get/get.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -27,7 +29,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusBarBrightness: Brightness.dark,
       ),
       centerTitle: isTitleCentered,
-      leading: customLeadingWidget,
+      leading: customLeadingWidget ??
+          IconButton(
+            tooltip: 'Back',
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: GashopperTheme.black,
+              size: 26,
+            ),
+          ).ltrbPadding(12, 0, 0, 0),
       automaticallyImplyLeading: false,
       backgroundColor: GashopperTheme.appYellow,
       elevation: 0,

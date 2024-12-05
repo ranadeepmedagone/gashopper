@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_navbar.dart';
+import 'list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -69,7 +70,9 @@ class HomeScreen extends StatelessWidget {
                   color: GashopperTheme.black,
                   width: 1.5,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(() => SalesListScreen());
+                },
               ).ltrbPadding(0, 0, 0, 16),
               CustomElevatedButton(
                 title: 'Expenses',
