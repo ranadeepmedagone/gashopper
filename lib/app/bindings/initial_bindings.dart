@@ -1,6 +1,7 @@
 import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
 
+import '../modules/home/home_controller.dart';
 import '../modules/landing/landing_controller.dart';
 
 class InitialBindings extends Bindings {
@@ -8,5 +9,6 @@ class InitialBindings extends Bindings {
   void dependencies() {
     Get.lazyPut(() => RegistrationController(), fenix: true);
     Get.lazyPut(() => LandingController(), fenix: true);
+    Get.lazyPut(() => HomeController(), fenix: true);
   }
 }

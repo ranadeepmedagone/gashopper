@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
+import '../modules/home/create_screen.dart';
+import '../modules/home/home_bindings.dart';
+import '../modules/home/home_screen.dart';
+import '../modules/home/list_screen.dart';
 import '../modules/landing/lading_bindings.dart';
 import '../modules/landing/landing_screen.dart';
 import '../modules/no_data_screen.dart';
@@ -27,6 +31,30 @@ class RouteGenerator {
           routeName: Routes.landingScreen,
           binding: LandingBindings(),
           page: () => LandingScreen(),
+          settings: settings,
+        );
+
+      case Routes.homeScreen:
+        return GetPageRoute(
+          routeName: Routes.homeScreen,
+          binding: HomeBindings(),
+          page: () => HomeScreen(),
+          settings: settings,
+        );
+
+      case Routes.listScreen:
+        return GetPageRoute(
+          routeName: Routes.listScreen,
+          binding: HomeBindings(),
+          page: () => SalesListScreen(),
+          settings: settings,
+        );
+
+      case Routes.createScreen:
+        return GetPageRoute(
+          routeName: Routes.createScreen,
+          binding: HomeBindings(),
+          page: () => CreateScreen(),
           settings: settings,
         );
 

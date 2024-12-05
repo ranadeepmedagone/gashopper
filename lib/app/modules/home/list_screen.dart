@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
+import 'package:gashopper/app/modules/home/home_controller.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
@@ -12,88 +13,92 @@ class SalesListScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final homeController = Get.find<HomeController>();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: GashopperTheme.appBackGrounColor,
-      appBar: const CustomAppBar(
-        isTitleCentered: true,
-        title: 'Business Unit',
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Sales',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                  color: GashopperTheme.black,
-                ),
-              ).ltrbPadding(0, 0, 0, 8),
-              CustomElevatedButton(
-                title: 'Create',
-                customTextStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                  color: GashopperTheme.black,
-                ),
-                customBackgroundColor: GashopperTheme.appBackGrounColor,
-                customBorderSide: const BorderSide(
-                  color: GashopperTheme.black,
-                  width: 1.5,
-                ),
-                leftIcon: const Icon(
-                  Icons.add,
-                  color: GashopperTheme.black,
-                  size: 28,
-                ),
-                onPressed: () {
-                  Get.to(() => CreateScreen());
-                },
-              ).ltrbPadding(0, 0, 0, 16),
-              const Row(
-                children: [
-                  Icon(
-                    Icons.history,
+    return GetBuilder<HomeController>(builder: (c) {
+      return Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: GashopperTheme.appBackGrounColor,
+        appBar: const CustomAppBar(
+          isTitleCentered: true,
+          title: 'Business Unit',
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  c.getTypeNmae(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
                     color: GashopperTheme.black,
-                    size: 24,
                   ),
-                  SizedBox(width: 4),
-                  Text(
-                    'History',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.5,
+                ).ltrbPadding(0, 0, 0, 8),
+                CustomElevatedButton(
+                  title: 'Create',
+                  customTextStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                    color: GashopperTheme.black,
+                  ),
+                  customBackgroundColor: GashopperTheme.appBackGrounColor,
+                  customBorderSide: const BorderSide(
+                    color: GashopperTheme.black,
+                    width: 1.5,
+                  ),
+                  leftIcon: const Icon(
+                    Icons.add,
+                    color: GashopperTheme.black,
+                    size: 28,
+                  ),
+                  onPressed: () {
+                    Get.to(() => CreateScreen());
+                  },
+                ).ltrbPadding(0, 0, 0, 16),
+                const Row(
+                  children: [
+                    Icon(
+                      Icons.history,
                       color: GashopperTheme.black,
+                      size: 24,
                     ),
-                  ),
-                ],
-              ).ltrbPadding(0, 0, 0, 16),
-              ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ListCard(
-                    isPending: (index == 1 || index == 3 || index == 5 || index == 6),
-                    title: 'CBZ Trucking',
-                    value: '280.37',
-                  ).ltrbPadding(0, 0, 0, 16);
-                },
-              ),
-            ],
+                    SizedBox(width: 4),
+                    Text(
+                      'History',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5,
+                        color: GashopperTheme.black,
+                      ),
+                    ),
+                  ],
+                ).ltrbPadding(0, 0, 0, 16),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return ListCard(
+                      isPending: (index == 1 || index == 3 || index == 5 || index == 6),
+                      title: 'CBZ Trucking',
+                      value: '280.37',
+                    ).ltrbPadding(0, 0, 0, 16);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -113,9 +118,9 @@ class ListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(left: 8),
-      decoration: const BoxDecoration(
-        color: GashopperTheme.black,
-        borderRadius: BorderRadius.all(Radius.circular(14)),
+      decoration: BoxDecoration(
+        color: isPending ? GashopperTheme.grey1.withOpacity(0.5) : GashopperTheme.black,
+        borderRadius: const BorderRadius.all(Radius.circular(14)),
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
