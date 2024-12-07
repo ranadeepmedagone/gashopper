@@ -43,6 +43,8 @@ dependencies:
 
   dropdown_button2: ^2.3.9
 
+  sms_autofill: ^2.4.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

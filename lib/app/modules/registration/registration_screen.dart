@@ -5,8 +5,10 @@ import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../core/utils/widgets/custom_elevation_button.dart';
+import '../../core/utils/widgets/custom_richtext.dart';
 import '../../core/utils/widgets/custom_textfield.dart';
 import '../../core/values/constants.dart';
 import '../landing/landing_screen.dart';
@@ -26,11 +28,10 @@ class RegistrationScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: GashopperTheme.appBackGrounColor,
       body: GetBuilder<RegistrationController>(initState: (state) {
-        registrationController.isRegister = false;
+        registrationController.isMobileFlow = true;
         registrationController.update();
       }, builder: (controller) {
         return Stack(
-          fit: StackFit.expand,
           children: [
             // First background SVG
             Positioned(
@@ -59,55 +60,63 @@ class RegistrationScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Content
-            SafeArea(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: mQ.size.height / 14.2,
-                    left: 24,
-                    right: 24,
-                    bottom: 24,
-                  ),
-                  child: Column(
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Gas',
-                              style: GashopperTheme.fontWeightApplier(
-                                FontWeight.w700,
-                                textTheme.bodyMedium!.copyWith(
-                                  color: GashopperTheme.black,
-                                  fontSize: 50,
-                                ),
+
+            Positioned(
+              top: 24,
+              right: 0,
+              left: 0,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: mQ.size.height / 14.2,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Gas',
+                            style: GashopperTheme.fontWeightApplier(
+                              FontWeight.w700,
+                              textTheme.bodyMedium!.copyWith(
+                                color: GashopperTheme.black,
+                                fontSize: 50,
                               ),
                             ),
-                            TextSpan(
-                              text: 'hopper',
-                              style: GashopperTheme.fontWeightApplier(
-                                FontWeight.w700,
-                                textTheme.bodyMedium!.copyWith(
-                                  color: GashopperTheme.appYellow,
-                                  fontSize: 50,
-                                ),
+                          ),
+                          TextSpan(
+                            text: 'hopper',
+                            style: GashopperTheme.fontWeightApplier(
+                              FontWeight.w700,
+                              textTheme.bodyMedium!.copyWith(
+                                color: GashopperTheme.appYellow,
+                                fontSize: 50,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      LoginFlow(
-                        isForgetPassword: controller.isForgetPassword,
-                        isRegister: controller.isRegister,
-                        onCreateAccountClicked: controller.toggleRegister,
-                        onClickForgetPassword: controller.toggleForgetPassword,
-                      )
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
+            // Content
+            Positioned(
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 24, right: 24),
+                  child: LoginFlow(
+                    isMobileFlow: controller.isMobileFlow,
+                    enterMobileNumber: controller.toggleMobileFlow,
+                  ),
+                ),
+              ),
+            )
           ],
         );
       }),
@@ -116,17 +125,21 @@ class RegistrationScreen extends StatelessWidget {
 }
 
 class LoginFlow extends StatelessWidget {
-  final bool isRegister;
-  final bool isForgetPassword;
-  final Function()? onCreateAccountClicked;
-  final Function()? onClickForgetPassword;
+  final bool isMobileFlow;
+  final Function()? enterMobileNumber;
+  // final bool isRegister;
+  // final bool isForgetPassword;
+  // final Function()? onCreateAccountClicked;
+  // final Function()? onClickForgetPassword;
 
   const LoginFlow({
     super.key,
-    this.isRegister = false,
-    this.isForgetPassword = false,
-    this.onCreateAccountClicked,
-    this.onClickForgetPassword,
+    required this.isMobileFlow,
+    this.enterMobileNumber,
+    // this.isRegister = false,
+    // this.isForgetPassword = false,
+    // this.onCreateAccountClicked,
+    // this.onClickForgetPassword,
   });
 
   @override
@@ -135,14 +148,53 @@ class LoginFlow extends StatelessWidget {
     final textTheme = Get.textTheme;
     FocusNode focusNode = FocusNode();
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(height: mQ.height / 10),
 
-        if (isRegister && !isForgetPassword)
+        // if (isRegister && !isForgetPassword)
+        //   CustomTextField(
+        //     hintText: 'First name',
+        //     hintStyle: GashopperTheme.fontWeightApplier(
+        //       FontWeight.w600,
+        //       textTheme.bodyMedium!.copyWith(
+        //         color: GashopperTheme.grey1,
+        //         fontSize: 14,
+        //       ),
+        //     ),
+        //     borderRadius: 12,
+        //     borderColor: Colors.grey[400]!,
+        //     focusedBorderColor: GashopperTheme.appYellow,
+        //     borderWidth: 1.5,
+        //     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        //     controller: TextEditingController(),
+        //     keyboardType: TextInputType.name,
+        //     obscureText: false,
+        //   ).ltrbPadding(0, 0, 0, 16),
+
+        // if (isRegister && !isForgetPassword)
+        //   CustomTextField(
+        //     hintText: 'Last name',
+        //     hintStyle: GashopperTheme.fontWeightApplier(
+        //       FontWeight.w600,
+        //       textTheme.bodyMedium!.copyWith(
+        //         color: GashopperTheme.grey1,
+        //         fontSize: 14,
+        //       ),
+        //     ),
+        //     borderRadius: 12,
+        //     borderColor: Colors.grey[400]!,
+        //     focusedBorderColor: GashopperTheme.appYellow,
+        //     borderWidth: 1.5,
+        //     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        //     controller: TextEditingController(),
+        //     keyboardType: TextInputType.name,
+        //     obscureText: false,
+        //   ).ltrbPadding(0, 0, 0, 16),
+
+        // Email TextField
+        if (isMobileFlow)
           CustomTextField(
-            hintText: 'First name',
+            hintText: 'Enter email i’d',
             hintStyle: GashopperTheme.fontWeightApplier(
               FontWeight.w600,
               textTheme.bodyMedium!.copyWith(
@@ -160,30 +212,12 @@ class LoginFlow extends StatelessWidget {
             obscureText: false,
           ).ltrbPadding(0, 0, 0, 16),
 
-        if (isRegister && !isForgetPassword)
-          CustomTextField(
-            hintText: 'Last name',
-            hintStyle: GashopperTheme.fontWeightApplier(
-              FontWeight.w600,
-              textTheme.bodyMedium!.copyWith(
-                color: GashopperTheme.grey1,
-                fontSize: 14,
-              ),
-            ),
-            borderRadius: 12,
-            borderColor: Colors.grey[400]!,
-            focusedBorderColor: GashopperTheme.appYellow,
-            borderWidth: 1.5,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-            controller: TextEditingController(),
-            keyboardType: TextInputType.name,
-            obscureText: false,
-          ).ltrbPadding(0, 0, 0, 16),
-
-        if (isRegister && !isForgetPassword)
+        // if (isRegister && !isForgetPassword)
+        if (isMobileFlow)
           IntlPhoneField(
             focusNode: focusNode,
             decoration: InputDecoration(
+              fillColor: GashopperTheme.appBackGrounColor,
               hintText: 'Enter mobile number',
               hintStyle: GashopperTheme.fontWeightApplier(
                 FontWeight.w600,
@@ -219,86 +253,23 @@ class LoginFlow extends StatelessWidget {
             disableLengthCheck: true,
           ).ltrbPadding(0, 0, 0, 16),
 
-        // Email TextField
-        CustomTextField(
-          hintText: 'Enter email i’d',
-          hintStyle: GashopperTheme.fontWeightApplier(
-            FontWeight.w600,
-            textTheme.bodyMedium!.copyWith(
-              color: GashopperTheme.grey1,
-              fontSize: 14,
-            ),
-          ),
-          borderRadius: 12,
-          borderColor: Colors.grey[400]!,
-          focusedBorderColor: GashopperTheme.appYellow,
-          borderWidth: 1.5,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-          controller: TextEditingController(),
-          keyboardType: TextInputType.name,
-          obscureText: false,
-        ).ltrbPadding(0, 0, 0, 16),
-
-        // Password TextField
-        CustomTextField(
-          hintText: 'Enter password',
-          hintStyle: GashopperTheme.fontWeightApplier(
-            FontWeight.w600,
-            textTheme.bodyMedium!.copyWith(
-              color: GashopperTheme.grey1,
-              fontSize: 14,
-            ),
-          ),
-          borderRadius: 12,
-          borderColor: Colors.grey[400]!,
-          focusedBorderColor: GashopperTheme.appYellow,
-          borderWidth: 1.5,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-          controller: TextEditingController(),
-          keyboardType: TextInputType.name,
-          obscureText: true,
-        ).ltrbPadding(0, 0, 0, (isRegister || isForgetPassword) ? 16 : 4),
-
-        if (isRegister || isForgetPassword)
-          CustomTextField(
-            hintText: 'Confirm password',
-            hintStyle: GashopperTheme.fontWeightApplier(
-              FontWeight.w600,
-              textTheme.bodyMedium!.copyWith(
-                color: GashopperTheme.grey1,
-                fontSize: 14,
-              ),
-            ),
-            borderRadius: 12,
-            borderColor: Colors.grey[400]!,
-            focusedBorderColor: GashopperTheme.appYellow,
-            borderWidth: 1.5,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-            controller: TextEditingController(),
-            keyboardType: TextInputType.name,
-            obscureText: false,
-          ).ltrbPadding(0, 0, 0, 16),
-
-        // Forget Password
-        if (!isRegister && !isForgetPassword)
-          InkWell(
-            onTap: () {
-              if (onClickForgetPassword != null) onClickForgetPassword!();
+        if (!isMobileFlow)
+          OtpFlow(
+            onSubmit: (code) {
+              // Handle OTP submission
             },
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                'Forget Password ?',
-                style: GashopperTheme.fontWeightApplier(
-                  FontWeight.w600,
-                  textTheme.bodyMedium!.copyWith(
-                    color: GashopperTheme.black,
-                    fontSize: 14,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-              ),
-            ),
+            onResendOtp: () {
+              // Handle resend OTP
+            },
+            otpController: TextEditingController(),
+            isResendLoading: false,
+            phoneNumber: '+1234567890',
+            error: null, // Show error if any
+            seconds: 30, // Countdown timer
+            onVerifyPressed: () {
+              // Handle verify button press
+            },
+            isVerifyLoading: false,
           ),
 
         // Login Button
@@ -306,143 +277,480 @@ class LoginFlow extends StatelessWidget {
           children: [
             Expanded(
               child: CustomElevatedButton(
-                title: isForgetPassword
-                    ? 'Enter '
-                    : isRegister
-                        ? 'Register'
-                        : 'Login',
+                // isDisable:  true,
+                title:
+                    // isForgetPassword
+                    //     ? 'Enter '
+                    //     : isRegister
+                    //         ?
+                    //         'Register'
+                    //         :
+                    isMobileFlow ? 'Enter' : 'Verify OTP',
                 onPressed: () {
-                  if (isForgetPassword && onClickForgetPassword != null) {
-                    onClickForgetPassword!();
+                  if (isMobileFlow) {
+                    if (enterMobileNumber != null) enterMobileNumber!();
                   } else {
                     Get.to(() => LandingScreen());
                   }
                 },
-              ).ltrbPadding(0, 24, 0, isRegister ? 24 : 32),
+              ).ltrbPadding(0, 24, 0, mQ.height / 15.4),
             ),
           ],
         ),
 
-        if (isRegister)
-          InkWell(
-            onTap: () {
-              if (onCreateAccountClicked != null) onCreateAccountClicked!();
-            },
-            child: const Text(
-              'Already have an account? ',
-              style: TextStyle(
-                color: GashopperTheme.black,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.2,
-              ),
-            ),
-          ).ltrbPadding(0, 0, 0, 24),
+        // Password TextField
+        // CustomTextField(
+        //   hintText: 'Enter password',
+        //   hintStyle: GashopperTheme.fontWeightApplier(
+        //     FontWeight.w600,
+        //     textTheme.bodyMedium!.copyWith(
+        //       color: GashopperTheme.grey1,
+        //       fontSize: 14,
+        //     ),
+        //   ),
+        //   borderRadius: 12,
+        //   borderColor: Colors.grey[400]!,
+        //   focusedBorderColor: GashopperTheme.appYellow,
+        //   borderWidth: 1.5,
+        //   contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        //   controller: TextEditingController(),
+        //   keyboardType: TextInputType.name,
+        //   obscureText: true,
+        // ).ltrbPadding(0, 0, 0, (isRegister || isForgetPassword) ? 16 : 4),
+
+        // if (isRegister || isForgetPassword)
+        //   CustomTextField(
+        //     hintText: 'Confirm password',
+        //     hintStyle: GashopperTheme.fontWeightApplier(
+        //       FontWeight.w600,
+        //       textTheme.bodyMedium!.copyWith(
+        //         color: GashopperTheme.grey1,
+        //         fontSize: 14,
+        //       ),
+        //     ),
+        //     borderRadius: 12,
+        //     borderColor: Colors.grey[400]!,
+        //     focusedBorderColor: GashopperTheme.appYellow,
+        //     borderWidth: 1.5,
+        //     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        //     controller: TextEditingController(),
+        //     keyboardType: TextInputType.name,
+        //     obscureText: false,
+        //   ).ltrbPadding(0, 0, 0, 16),
+
+        // Forget Password
+        // if (!isRegister && !isForgetPassword)
+        //   InkWell(
+        //     onTap: () {
+        //       if (onClickForgetPassword != null) onClickForgetPassword!();
+        //     },
+        //     child: Align(
+        //       alignment: Alignment.centerRight,
+        //       child: Text(
+        //         'Forget Password ?',
+        //         style: GashopperTheme.fontWeightApplier(
+        //           FontWeight.w600,
+        //           textTheme.bodyMedium!.copyWith(
+        //             color: GashopperTheme.black,
+        //             fontSize: 14,
+        //             letterSpacing: 0.2,
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+
+        // if (isRegister)
+        //   InkWell(
+        //     onTap: () {
+        //       if (onCreateAccountClicked != null) onCreateAccountClicked!();
+        //     },
+        //     child: const Text(
+        //       'Already have an account? ',
+        //       style: TextStyle(
+        //         color: GashopperTheme.black,
+        //         fontSize: 14,
+        //         fontWeight: FontWeight.w600,
+        //         letterSpacing: 0.2,
+        //       ),
+        //     ),
+        //   ).ltrbPadding(0, 0, 0, 24),
 
         // Or sign up with
-        Row(
-          children: [
-            const Expanded(
-                child: Divider(
-              color: GashopperTheme.grey1,
-            )),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Or sign up with',
-                style: GashopperTheme.fontWeightApplier(
-                  FontWeight.w600,
-                  textTheme.bodyMedium!.copyWith(
-                    color: GashopperTheme.black,
-                    fontSize: 14,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-              ),
-            ),
-            const Expanded(
-                child: Divider(
-              color: GashopperTheme.grey1,
-            )),
-          ],
-        ).ltrbPadding(0, 0, 0, 32),
+        // Row(
+        //   children: [
+        //     const Expanded(
+        //         child: Divider(
+        //       color: GashopperTheme.grey1,
+        //     )),
+        //     Padding(
+        //       padding: const EdgeInsets.symmetric(horizontal: 16),
+        //       child: Text(
+        //         'Or sign up with',
+        //         style: GashopperTheme.fontWeightApplier(
+        //           FontWeight.w600,
+        //           textTheme.bodyMedium!.copyWith(
+        //             color: GashopperTheme.black,
+        //             fontSize: 14,
+        //             letterSpacing: 0.2,
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     const Expanded(
+        //         child: Divider(
+        //       color: GashopperTheme.grey1,
+        //     )),
+        //   ],
+        // ).ltrbPadding(0, 0, 0, 32),
 
         // Social Login Buttons
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              height: 50,
-              width: 50,
-              child: _buildSocialButton(Constants.googleIcon, padding: 10),
-            ),
-            SizedBox(
-              height: 50,
-              width: 50,
-              child: _buildSocialButton(Constants.facebookIcon),
-            ),
-            SizedBox(
-              height: 50,
-              width: 50,
-              child: _buildSocialButton(Constants.twitterxIcon, padding: 10),
-            ),
-          ],
-        ).ltrbPadding(0, 0, 0, 32),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //   children: [
+        //     SizedBox(
+        //       height: 50,
+        //       width: 50,
+        //       child: _buildSocialButton(Constants.googleIcon, padding: 10),
+        //     ),
+        // SizedBox(
+        //   height: 50,
+        //   width: 50,
+        //   child: _buildSocialButton(Constants.facebookIcon),
+        // ),
+        // SizedBox(
+        //   height: 50,
+        //   width: 50,
+        //   child: _buildSocialButton(Constants.twitterxIcon, padding: 10),
+        // ),
+        //   ],
+        // ).ltrbPadding(0, 0, 0, 32),
 
         // Create Account
-        if (!isRegister)
-          InkWell(
-            onTap: () {
-              if (onCreateAccountClicked != null) onCreateAccountClicked!();
-            },
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Not register yet ? ',
-                  style: TextStyle(
-                    color: GashopperTheme.grey1,
-                    fontSize: 14,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-                Text(
-                  'Create Account',
-                  style: TextStyle(
-                    color: GashopperTheme.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-              ],
-            ),
-          ),
+        // if (!isRegister)
+        //   InkWell(
+        //     onTap: () {
+        //       if (onCreateAccountClicked != null) onCreateAccountClicked!();
+        //     },
+        //     child: const Row(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+        //         Text(
+        //           'Not register yet ? ',
+        //           style: TextStyle(
+        //             color: GashopperTheme.grey1,
+        //             fontSize: 14,
+        //             letterSpacing: 0.2,
+        //           ),
+        //         ),
+        //         Text(
+        //           'Create Account',
+        //           style: TextStyle(
+        //             color: GashopperTheme.black,
+        //             fontSize: 14,
+        //             fontWeight: FontWeight.w600,
+        //             letterSpacing: 0.2,
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
       ],
     );
   }
 
-  Widget _buildSocialButton(String iconPath, {double? padding}) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300] ?? GashopperTheme.grey1),
-        borderRadius: BorderRadius.circular(12),
+  // Widget _buildSocialButton(String iconPath, {double? padding}) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       border: Border.all(color: Colors.grey[300] ?? GashopperTheme.grey1),
+  //       borderRadius: BorderRadius.circular(12),
+  //     ),
+  //     child: Material(
+  //       color: Colors.transparent,
+  //       child: InkWell(
+  //         onTap: () {},
+  //         borderRadius: BorderRadius.circular(11),
+  //         child: Container(
+  //           padding: EdgeInsets.all(padding ?? 8),
+  //           child: SvgPicture.asset(
+  //             iconPath,
+  //             fit: BoxFit.fill,
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+}
+
+// otp_flow.dart
+class OtpFlow extends StatelessWidget {
+  final Function(String?) onSubmit;
+  final VoidCallback onResendOtp;
+  final VoidCallback? onVerifyPressed;
+  final String? error;
+  final int? seconds;
+  final TextEditingController otpController;
+  final bool isResendLoading;
+  final String? phoneNumber;
+  final bool isVerifyLoading;
+
+  OtpFlow({
+    required this.onSubmit,
+    required this.isResendLoading,
+    required this.onResendOtp,
+    required this.otpController,
+    this.phoneNumber,
+    super.key,
+    this.error,
+    this.seconds,
+    this.onVerifyPressed,
+    this.isVerifyLoading = false,
+  });
+
+  final controller = Get.put(OtpFieldController());
+
+  @override
+  Widget build(BuildContext context) {
+    final mQ = MediaQuery.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildHeader(context).ltrbPadding(0, 0, 0, 16),
+        _buildOtpInput(mQ),
+        if (error != null) ...[
+          const SizedBox(height: 4),
+          _buildErrorText(context),
+        ],
+        _buildResendOtp().ltrbPadding(0, 20, 0, 24),
+      ],
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: 'Verify with an OTP\n',
+            style: GashopperTheme.fontWeightApplier(
+              FontWeight.w700,
+              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: GashopperTheme.black,
+                    fontSize: 20,
+                  ),
+            ),
+          ),
+          const TextSpan(text: ''),
+          TextSpan(
+            text: 'Enter OTP sent to $phoneNumber',
+            style: const TextStyle(
+              color: GashopperTheme.black,
+              fontSize: 16,
+            ),
+          )
+        ],
       ),
+    );
+  }
+
+  Widget _buildOtpInput(MediaQueryData mQ) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: mQ.size.width),
+      child: PinFieldAutoFill(
+        cursor: Cursor(
+          width: 1,
+          height: 20,
+          color: GashopperTheme.black,
+          radius: const Radius.circular(1),
+          enabled: true,
+        ),
+        decoration: BoxLooseDecoration(
+          strokeColorBuilder: error != null
+              ? const FixedColorBuilder(GashopperTheme.red)
+              : PinListenColorBuilder(
+                  GashopperTheme.appYellow,
+                  GashopperTheme.appYellow.withOpacity(0.5),
+                ),
+          bgColorBuilder: const FixedColorBuilder(GashopperTheme.appBackGrounColor),
+          strokeWidth: 1.5,
+          textStyle: const TextStyle(
+            color: GashopperTheme.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onCodeSubmitted: onSubmit,
+        codeLength: 6,
+        focusNode: controller.focusNode,
+        controller: otpController,
+        currentCode: otpController.text,
+        keyboardType: TextInputType.number,
+        onCodeChanged: (code) {
+          if (code?.length == 4) {
+            onSubmit(code);
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildErrorText(BuildContext context) {
+    return Text(
+      error!,
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+            color: Colors.red,
+            fontSize: 16,
+          ),
+    );
+  }
+
+  Widget _buildResendOtp() {
+    return Row(
+      children: [
+        if (_shouldShowTimer) _buildResendTimer() else _buildResendButton(),
+      ],
+    );
+  }
+
+  bool get _shouldShowTimer => seconds != null && seconds! > 0;
+
+  Widget _buildResendTimer() {
+    return CustomRichText(
+      headline: 'Resend OTP in ',
+      value: '00:${seconds.toString().padLeft(2, '0')}',
+      leftCustomColor: GashopperTheme.black,
+      rightCustomColor: GashopperTheme.black,
+      leftCustomFontWeight: FontWeight.normal,
+      rightCustomFontWeight: FontWeight.w700,
+      leftCustomFontsize: 16,
+      rightCustomFontsize: 16,
+    );
+  }
+
+  Widget _buildResendButton() {
+    final isResendEnabled = seconds == 0;
+    final hasError = seconds == -2;
+    final isResent = seconds == -1;
+
+    return AbsorbPointer(
+      absorbing: isResendLoading || !isResendEnabled,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
-          borderRadius: BorderRadius.circular(11),
-          child: Container(
-            padding: EdgeInsets.all(padding ?? 8),
-            child: SvgPicture.asset(
-              iconPath,
-              fit: BoxFit.fill,
-            ),
+          borderRadius: BorderRadius.circular(20),
+          onTap: onResendOtp,
+          child: OtpStatusInfoContainer(
+            infoIcon: _buildResendIcon(isResent),
+            infoText: _getResendText(isResent, hasError, isResendEnabled),
+            otpError: hasError,
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildResendIcon(bool isResent) {
+    if (isResent) {
+      return const Icon(
+        Icons.check,
+        color: GashopperTheme.appYellow,
+        size: 18,
+        weight: 30.0,
+      );
+    }
+
+    if (isResendLoading) {
+      return const SizedBox(
+        width: 18,
+        height: 18,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: GashopperTheme.appYellow,
+        ),
+      );
+    }
+
+    return const Icon(
+      Icons.sms_outlined,
+      color: GashopperTheme.appYellow,
+      size: 18,
+      weight: 10.0,
+    );
+  }
+
+  String _getResendText(bool isResent, bool hasError, bool isEnabled) {
+    if (isResent) return 'OTP sent';
+    if (hasError) return 'Error in resending OTP';
+    if (isEnabled) return 'Resend OTP';
+    return '';
+  }
+}
+
+class OtpStatusInfoContainer extends StatelessWidget {
+  final String? infoText;
+  final Widget? infoIcon;
+  final bool otpError;
+
+  const OtpStatusInfoContainer({
+    super.key,
+    this.infoText,
+    this.infoIcon,
+    this.otpError = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: GashopperTheme.appYellow.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          infoIcon ?? const Icon(Icons.sms, color: GashopperTheme.appYellow),
+          if (infoText?.isNotEmpty ?? false) ...[
+            const SizedBox(width: 8),
+            Text(
+              infoText!,
+              style: TextStyle(
+                color: otpError ? Colors.red : GashopperTheme.appYellow,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class OtpFieldController extends GetxController {
+  FocusNode focusNode = FocusNode();
+  late SmsAutoFill smsAutoReader;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _initializeSmsListener();
+  }
+
+  void _initializeSmsListener() {
+    smsAutoReader = SmsAutoFill();
+    smsAutoReader.listenForCode();
+  }
+
+  @override
+  void onClose() {
+    smsAutoReader.unregisterListener();
+    focusNode.dispose();
+    super.onClose();
   }
 }

@@ -14,6 +14,7 @@ class CustomElevatedButton extends StatelessWidget {
   final bool isLeftIcon;
   final bool isRightIconEnd;
   final Color? customTextColor;
+  final bool isDisable;
 
   const CustomElevatedButton({
     super.key,
@@ -27,6 +28,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.isLeftIcon = false,
     this.isRightIconEnd = false,
     this.customTextColor,
+    this.isDisable = false,
     required this.onPressed,
   });
 
@@ -34,9 +36,10 @@ class CustomElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isDisable ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: customBackgroundColor ?? GashopperTheme.appYellow,
+          backgroundColor: customBackgroundColor ??
+              (isDisable ? Colors.grey[300] : GashopperTheme.appYellow),
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius),
@@ -58,7 +61,8 @@ class CustomElevatedButton extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.5,
-                    color: customTextColor ?? GashopperTheme.black,
+                    color: customTextColor ??
+                        (isDisable ? GashopperTheme.grey1 : GashopperTheme.black),
                   ),
             ),
             if (isRightIconEnd) const Spacer(),

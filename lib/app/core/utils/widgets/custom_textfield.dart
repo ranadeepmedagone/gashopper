@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gashopper/app/core/theme/app_theme.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
@@ -36,6 +37,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       decoration: InputDecoration(
+        fillColor: GashopperTheme.appBackGrounColor,
         hintText: hintText,
         hintStyle: hintStyle ??
             const TextStyle(

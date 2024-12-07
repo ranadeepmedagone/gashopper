@@ -518,6 +518,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "pin_input_text_field",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/pin_input_text_field-4.5.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.13"
+    },
+    {
       "name": "platform",
       "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/platform-3.1.6",
       "packageUri": "lib/",
@@ -576,6 +582,12 @@
       "rootUri": "file:///Users/ranadeepmedagone/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "sms_autofill",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/sms_autofill-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "source_gen",
@@ -770,7 +782,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-12-05T05:07:06.333973Z",
+  "generated": "2024-12-07T10:01:09.751122Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/ranadeepmedagone/flutter",
