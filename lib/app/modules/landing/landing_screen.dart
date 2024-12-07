@@ -9,7 +9,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_elevation_button.dart';
 import '../../core/values/constants.dart';
-import '../view/home_screen.dart';
+import '../screens/home_screen.dart';
 import 'landing_controller.dart';
 
 class LandingScreen extends StatelessWidget {

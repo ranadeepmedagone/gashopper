@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import '../modules/bindings/main_bindings.dart';
 import '../modules/landing/lading_bindings.dart';
 import '../modules/landing/landing_screen.dart';
-import '../modules/no_data_screen.dart';
 import '../modules/registration/registration_bindings.dart';
 import '../modules/registration/registration_screen.dart';
-import '../modules/view/create_screen.dart';
-import '../modules/view/home_screen.dart';
-import '../modules/view/list_screen.dart';
+import '../modules/screens/create_screen.dart';
+import '../modules/screens/home_screen.dart';
+import '../modules/screens/list_screen.dart';
+import '../modules/screens/no_data_screen.dart';
 
 //  `RouteGenerator` is a class that generates routes for the application.
 class RouteGenerator {
