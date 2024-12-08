@@ -30,17 +30,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: isTitleCentered,
       leading: customLeadingWidget ??
-          IconButton(
-            tooltip: 'Back',
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: GashopperTheme.black,
-              size: 26,
-            ),
-          ).ltrbPadding(12, 0, 0, 0),
+          (showBackButton
+              ? IconButton(
+                  tooltip: 'Back',
+                  onPressed: () {
+                    Get.back();
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: GashopperTheme.black,
+                    size: 26,
+                  ),
+                ).ltrbPadding(12, 0, 0, 0)
+              : null),
       automaticallyImplyLeading: false,
       backgroundColor: GashopperTheme.appYellow,
       elevation: 0,

@@ -3,6 +3,7 @@ import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_elevation_button.dart';
 import 'package:gashopper/app/modules/controller/main_controller.dart';
+import 'package:gashopper/app/modules/screens/photo_upload_screen.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -129,7 +130,9 @@ class HomeScreen extends StatelessWidget {
                 ).ltrbPadding(0, 0, 0, 16),
                 CustomElevatedButton(
                   title: 'Veeder root',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => PhotoUploadScreen());
+                  },
                   leftIcon: const Icon(
                     Icons.camera_alt_outlined,
                     color: GashopperTheme.black,
@@ -145,7 +148,9 @@ class HomeScreen extends StatelessWidget {
                 ).ltrbPadding(0, 0, 0, 16),
                 CustomElevatedButton(
                   title: 'Ruby report',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => PhotoUploadScreen());
+                  },
                   leftIcon: const Icon(
                     Icons.camera_alt_outlined,
                     color: GashopperTheme.black,
@@ -161,7 +166,9 @@ class HomeScreen extends StatelessWidget {
                 ).ltrbPadding(0, 0, 0, 16),
                 CustomElevatedButton(
                   title: 'Rate board',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => PhotoUploadScreen());
+                  },
                   leftIcon: const Icon(
                     Icons.camera_alt_outlined,
                     color: GashopperTheme.black,
@@ -177,7 +184,9 @@ class HomeScreen extends StatelessWidget {
                 ).ltrbPadding(0, 0, 0, 16),
                 CustomElevatedButton(
                   title: 'Change Price',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => PhotoUploadScreen());
+                  },
                   leftIcon: const Icon(
                     Icons.camera_alt_outlined,
                     color: GashopperTheme.black,

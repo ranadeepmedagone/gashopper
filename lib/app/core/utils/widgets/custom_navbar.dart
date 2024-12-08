@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
 
+import '../../../modules/screens/shift_update_screen.dart';
 import '../../theme/app_theme.dart';
 import 'custom_profile.dart';
 
@@ -48,7 +49,9 @@ class NavDrawer extends StatelessWidget {
             _buildDrawerItem('Home', Icons.home, () {
               Get.back();
             }),
-            _buildDrawerItem('Shift', Icons.work_history_outlined, () {}),
+            _buildDrawerItem('Shift', Icons.work_history_outlined, () {
+              Get.to(() => ShiftUpdateScreen());
+            }),
             _buildDrawerItem('Reports', Icons.edit_document, () {}),
             _buildDrawerItem('Request / Reports', Icons.business, () {}),
             _buildDrawerItem('Settings', Icons.settings, () {}),

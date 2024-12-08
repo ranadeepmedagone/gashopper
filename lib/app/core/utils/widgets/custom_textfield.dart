@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool obscureText;
+  final Function()? onTap;
 
   const CustomTextField({
     super.key,
@@ -28,11 +29,13 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onTap: onTap,
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,

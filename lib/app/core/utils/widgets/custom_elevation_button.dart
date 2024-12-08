@@ -42,7 +42,7 @@ class CustomElevatedButton extends StatelessWidget {
               (isDisable ? Colors.grey[300] : GashopperTheme.appYellow),
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.circular(30),
             side: customBorderSide ?? BorderSide.none,
           ),
           elevation: 0,
