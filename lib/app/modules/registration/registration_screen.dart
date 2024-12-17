@@ -9,7 +9,6 @@ import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../core/utils/widgets/custom_elevation_button.dart';
 import '../../core/utils/widgets/custom_richtext.dart';
-import '../../core/utils/widgets/custom_textfield.dart';
 import '../../core/values/constants.dart';
 import '../landing/landing_screen.dart';
 
@@ -69,37 +68,81 @@ class RegistrationScreen extends StatelessWidget {
                 padding: EdgeInsets.only(
                   top: mQ.size.height / 14.2,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    RichText(
-                      text: TextSpan(
+                child: controller.isMobileFlow
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          TextSpan(
-                            text: 'Gas',
-                            style: GashopperTheme.fontWeightApplier(
-                              FontWeight.w700,
-                              textTheme.bodyMedium!.copyWith(
-                                color: GashopperTheme.black,
-                                fontSize: 50,
-                              ),
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'hopper',
-                            style: GashopperTheme.fontWeightApplier(
-                              FontWeight.w700,
-                              textTheme.bodyMedium!.copyWith(
-                                color: GashopperTheme.appYellow,
-                                fontSize: 50,
-                              ),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Gas',
+                                  style: GashopperTheme.fontWeightApplier(
+                                    FontWeight.w700,
+                                    textTheme.bodyMedium!.copyWith(
+                                      color: GashopperTheme.black,
+                                      fontSize: 50,
+                                    ),
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'hopper',
+                                  style: GashopperTheme.fontWeightApplier(
+                                    FontWeight.w700,
+                                    textTheme.bodyMedium!.copyWith(
+                                      color: GashopperTheme.appYellow,
+                                      fontSize: 50,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                                  onPressed: () {
+                                    controller.isMobileFlow = true;
+                                    controller.update();
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios))
+                              .ltrbPadding(24, 0, 0, 0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Gas',
+                                      style: GashopperTheme.fontWeightApplier(
+                                        FontWeight.w700,
+                                        textTheme.bodyMedium!.copyWith(
+                                          color: GashopperTheme.black,
+                                          fontSize: 50,
+                                        ),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: 'hopper',
+                                      style: GashopperTheme.fontWeightApplier(
+                                        FontWeight.w700,
+                                        textTheme.bodyMedium!.copyWith(
+                                          color: GashopperTheme.appYellow,
+                                          fontSize: 50,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ).ltrbPadding(mQ.size.width / 29, 0, 0, 0),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ),
             ),
             // Content
@@ -127,19 +170,11 @@ class RegistrationScreen extends StatelessWidget {
 class LoginFlow extends StatelessWidget {
   final bool isMobileFlow;
   final Function()? enterMobileNumber;
-  // final bool isRegister;
-  // final bool isForgetPassword;
-  // final Function()? onCreateAccountClicked;
-  // final Function()? onClickForgetPassword;
 
   const LoginFlow({
     super.key,
     required this.isMobileFlow,
     this.enterMobileNumber,
-    // this.isRegister = false,
-    // this.isForgetPassword = false,
-    // this.onCreateAccountClicked,
-    // this.onClickForgetPassword,
   });
 
   @override
@@ -148,69 +183,40 @@ class LoginFlow extends StatelessWidget {
     final textTheme = Get.textTheme;
     FocusNode focusNode = FocusNode();
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: mQ.height / 10),
 
-        // if (isRegister && !isForgetPassword)
-        //   CustomTextField(
-        //     hintText: 'First name',
-        //     hintStyle: GashopperTheme.fontWeightApplier(
-        //       FontWeight.w600,
-        //       textTheme.bodyMedium!.copyWith(
-        //         color: GashopperTheme.grey1,
-        //         fontSize: 14,
-        //       ),
-        //     ),
-        //     borderRadius: 12,
-        //     borderColor: Colors.grey[400]!,
-        //     focusedBorderColor: GashopperTheme.appYellow,
-        //     borderWidth: 1.5,
-        //     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-        //     controller: TextEditingController(),
-        //     keyboardType: TextInputType.name,
-        //     obscureText: false,
-        //   ).ltrbPadding(0, 0, 0, 16),
-
-        // if (isRegister && !isForgetPassword)
-        //   CustomTextField(
-        //     hintText: 'Last name',
-        //     hintStyle: GashopperTheme.fontWeightApplier(
-        //       FontWeight.w600,
-        //       textTheme.bodyMedium!.copyWith(
-        //         color: GashopperTheme.grey1,
-        //         fontSize: 14,
-        //       ),
-        //     ),
-        //     borderRadius: 12,
-        //     borderColor: Colors.grey[400]!,
-        //     focusedBorderColor: GashopperTheme.appYellow,
-        //     borderWidth: 1.5,
-        //     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-        //     controller: TextEditingController(),
-        //     keyboardType: TextInputType.name,
-        //     obscureText: false,
-        //   ).ltrbPadding(0, 0, 0, 16),
-
-        // Email TextField
         if (isMobileFlow)
-          CustomTextField(
-            hintText: 'Enter email i’d',
-            hintStyle: GashopperTheme.fontWeightApplier(
-              FontWeight.w600,
-              textTheme.bodyMedium!.copyWith(
-                color: GashopperTheme.grey1,
-                fontSize: 14,
-              ),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Login',
+                  style: GashopperTheme.fontWeightApplier(
+                    FontWeight.w700,
+                    textTheme.bodyMedium!.copyWith(
+                      color: GashopperTheme.black,
+                      fontSize: 30,
+                    ),
+                  ),
+                ),
+                const TextSpan(text: ' '),
+                TextSpan(
+                  text: 'with',
+                  style: GashopperTheme.fontWeightApplier(
+                    FontWeight.w700,
+                    textTheme.bodyMedium!.copyWith(
+                      color: GashopperTheme.appYellow,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            borderRadius: 12,
-            borderColor: Colors.grey[400]!,
-            focusedBorderColor: GashopperTheme.appYellow,
-            borderWidth: 1.5,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-            controller: TextEditingController(),
-            keyboardType: TextInputType.name,
-            obscureText: false,
-          ).ltrbPadding(0, 0, 0, 16),
+          ),
+
+        const SizedBox(height: 16),
 
         // if (isRegister && !isForgetPassword)
         if (isMobileFlow)
@@ -277,15 +283,7 @@ class LoginFlow extends StatelessWidget {
           children: [
             Expanded(
               child: CustomElevatedButton(
-                // isDisable:  true,
-                title:
-                    // isForgetPassword
-                    //     ? 'Enter '
-                    //     : isRegister
-                    //         ?
-                    //         'Register'
-                    //         :
-                    isMobileFlow ? 'Enter' : 'Verify OTP',
+                title: isMobileFlow ? 'Enter' : 'Verify OTP',
                 onPressed: () {
                   if (isMobileFlow) {
                     if (enterMobileNumber != null) enterMobileNumber!();
@@ -297,191 +295,9 @@ class LoginFlow extends StatelessWidget {
             ),
           ],
         ),
-
-        // Password TextField
-        // CustomTextField(
-        //   hintText: 'Enter password',
-        //   hintStyle: GashopperTheme.fontWeightApplier(
-        //     FontWeight.w600,
-        //     textTheme.bodyMedium!.copyWith(
-        //       color: GashopperTheme.grey1,
-        //       fontSize: 14,
-        //     ),
-        //   ),
-        //   borderRadius: 12,
-        //   borderColor: Colors.grey[400]!,
-        //   focusedBorderColor: GashopperTheme.appYellow,
-        //   borderWidth: 1.5,
-        //   contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-        //   controller: TextEditingController(),
-        //   keyboardType: TextInputType.name,
-        //   obscureText: true,
-        // ).ltrbPadding(0, 0, 0, (isRegister || isForgetPassword) ? 16 : 4),
-
-        // if (isRegister || isForgetPassword)
-        //   CustomTextField(
-        //     hintText: 'Confirm password',
-        //     hintStyle: GashopperTheme.fontWeightApplier(
-        //       FontWeight.w600,
-        //       textTheme.bodyMedium!.copyWith(
-        //         color: GashopperTheme.grey1,
-        //         fontSize: 14,
-        //       ),
-        //     ),
-        //     borderRadius: 12,
-        //     borderColor: Colors.grey[400]!,
-        //     focusedBorderColor: GashopperTheme.appYellow,
-        //     borderWidth: 1.5,
-        //     contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-        //     controller: TextEditingController(),
-        //     keyboardType: TextInputType.name,
-        //     obscureText: false,
-        //   ).ltrbPadding(0, 0, 0, 16),
-
-        // Forget Password
-        // if (!isRegister && !isForgetPassword)
-        //   InkWell(
-        //     onTap: () {
-        //       if (onClickForgetPassword != null) onClickForgetPassword!();
-        //     },
-        //     child: Align(
-        //       alignment: Alignment.centerRight,
-        //       child: Text(
-        //         'Forget Password ?',
-        //         style: GashopperTheme.fontWeightApplier(
-        //           FontWeight.w600,
-        //           textTheme.bodyMedium!.copyWith(
-        //             color: GashopperTheme.black,
-        //             fontSize: 14,
-        //             letterSpacing: 0.2,
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-
-        // if (isRegister)
-        //   InkWell(
-        //     onTap: () {
-        //       if (onCreateAccountClicked != null) onCreateAccountClicked!();
-        //     },
-        //     child: const Text(
-        //       'Already have an account? ',
-        //       style: TextStyle(
-        //         color: GashopperTheme.black,
-        //         fontSize: 14,
-        //         fontWeight: FontWeight.w600,
-        //         letterSpacing: 0.2,
-        //       ),
-        //     ),
-        //   ).ltrbPadding(0, 0, 0, 24),
-
-        // Or sign up with
-        // Row(
-        //   children: [
-        //     const Expanded(
-        //         child: Divider(
-        //       color: GashopperTheme.grey1,
-        //     )),
-        //     Padding(
-        //       padding: const EdgeInsets.symmetric(horizontal: 16),
-        //       child: Text(
-        //         'Or sign up with',
-        //         style: GashopperTheme.fontWeightApplier(
-        //           FontWeight.w600,
-        //           textTheme.bodyMedium!.copyWith(
-        //             color: GashopperTheme.black,
-        //             fontSize: 14,
-        //             letterSpacing: 0.2,
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //     const Expanded(
-        //         child: Divider(
-        //       color: GashopperTheme.grey1,
-        //     )),
-        //   ],
-        // ).ltrbPadding(0, 0, 0, 32),
-
-        // Social Login Buttons
-
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //   children: [
-        //     SizedBox(
-        //       height: 50,
-        //       width: 50,
-        //       child: _buildSocialButton(Constants.googleIcon, padding: 10),
-        //     ),
-        // SizedBox(
-        //   height: 50,
-        //   width: 50,
-        //   child: _buildSocialButton(Constants.facebookIcon),
-        // ),
-        // SizedBox(
-        //   height: 50,
-        //   width: 50,
-        //   child: _buildSocialButton(Constants.twitterxIcon, padding: 10),
-        // ),
-        //   ],
-        // ).ltrbPadding(0, 0, 0, 32),
-
-        // Create Account
-        // if (!isRegister)
-        //   InkWell(
-        //     onTap: () {
-        //       if (onCreateAccountClicked != null) onCreateAccountClicked!();
-        //     },
-        //     child: const Row(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-        //         Text(
-        //           'Not register yet ? ',
-        //           style: TextStyle(
-        //             color: GashopperTheme.grey1,
-        //             fontSize: 14,
-        //             letterSpacing: 0.2,
-        //           ),
-        //         ),
-        //         Text(
-        //           'Create Account',
-        //           style: TextStyle(
-        //             color: GashopperTheme.black,
-        //             fontSize: 14,
-        //             fontWeight: FontWeight.w600,
-        //             letterSpacing: 0.2,
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
       ],
     );
   }
-
-  // Widget _buildSocialButton(String iconPath, {double? padding}) {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       border: Border.all(color: Colors.grey[300] ?? GashopperTheme.grey1),
-  //       borderRadius: BorderRadius.circular(12),
-  //     ),
-  //     child: Material(
-  //       color: Colors.transparent,
-  //       child: InkWell(
-  //         onTap: () {},
-  //         borderRadius: BorderRadius.circular(11),
-  //         child: Container(
-  //           padding: EdgeInsets.all(padding ?? 8),
-  //           child: SvgPicture.asset(
-  //             iconPath,
-  //             fit: BoxFit.fill,
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
 // otp_flow.dart
@@ -568,13 +384,8 @@ class OtpFlow extends StatelessWidget {
           radius: const Radius.circular(1),
           enabled: true,
         ),
-        decoration: BoxLooseDecoration(
-          strokeColorBuilder: error != null
-              ? const FixedColorBuilder(GashopperTheme.red)
-              : PinListenColorBuilder(
-                  GashopperTheme.appYellow,
-                  GashopperTheme.appYellow.withOpacity(0.5),
-                ),
+        decoration: BoxTightDecoration(
+          strokeColor: error != null ? GashopperTheme.red : GashopperTheme.appYellow,
           bgColorBuilder: const FixedColorBuilder(GashopperTheme.appBackGrounColor),
           strokeWidth: 1.5,
           textStyle: const TextStyle(
