@@ -7,4 +7,6 @@ abstract class Routes {
   static const String homeScreen = '/home';
   static const String listScreen = '/list';
   static const String createScreen = '/create';
+  static const String photoUploadScreen = '/photo_upload';
+  static const String noDataScreen = '/no_data';
 }

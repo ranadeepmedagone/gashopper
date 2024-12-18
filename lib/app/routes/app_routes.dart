@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gashopper/app/modules/bindings/photo_upload_bindings.dart';
+import 'package:gashopper/app/modules/screens/photo_upload_screen.dart';
 import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
@@ -55,6 +57,14 @@ class RouteGenerator {
           routeName: Routes.createScreen,
           binding: MainBindings(),
           page: () => CreateScreen(),
+          settings: settings,
+        );
+
+      case Routes.photoUploadScreen:
+        return GetPageRoute(
+          routeName: Routes.photoUploadScreen,
+          binding: PhotoUploadBindings(),
+          page: () => PhotoUploadScreen(),
           settings: settings,
         );
 

@@ -1,3 +1,4 @@
+// lib/data/network/dio_helper.dart
 import 'package:dio/dio.dart';
 
 class DioHelper {
@@ -6,41 +7,48 @@ class DioHelper {
   static init() {
     dio = Dio(
       BaseOptions(
-        baseUrl: '',
+        baseUrl: 'YOUR_BASE_URL',
         receiveDataWhenStatusError: true,
         headers: {
           'Content-Type': 'application/json',
         },
       ),
     );
-
-    // Add interceptors
-    dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) {
-        // Add auth token if needed
-        // options.headers['Authorization'] = 'Bearer $token';
-        return handler.next(options);
-      },
-      onResponse: (response, handler) {
-        return handler.next(response);
-      },
-      onError: (error, handler) {
-        return handler.next(error);
-      },
-    ));
-  }
-
-  static Future<Response> getData({
-    required String url,
-    Map<String, dynamic>? queryParameters,
-  }) async {
-    return await dio.get(url, queryParameters: queryParameters);
   }
 
   static Future<Response> postData({
     required String url,
     required Map<String, dynamic> data,
+    Map<String, dynamic>? query,
+    String? token,
   }) async {
-    return await dio.post(url, data: data);
+    dio.options.headers['Authorization'] = token != null ? 'Bearer $token' : '';
+
+    return await dio.post(
+      url,
+      data: data,
+      queryParameters: query,
+    );
+  }
+}
+
+// lib/data/models/auth_response.dart
+class AuthResponse {
+  final String message;
+  final String? token;
+  final bool success;
+
+  AuthResponse({
+    required this.message,
+    this.token,
+    required this.success,
+  });
+
+  factory AuthResponse.fromJson(Map<String, dynamic> json) {
+    return AuthResponse(
+      message: json['message'] ?? '',
+      token: json['token'],
+      success: json['success'] ?? false,
+    );
   }
 }
