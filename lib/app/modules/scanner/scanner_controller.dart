@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-class LandingController extends GetxController {
+class ScannerController extends GetxController {
   MobileScannerController? cameraController;
 
   bool isScanning = false;

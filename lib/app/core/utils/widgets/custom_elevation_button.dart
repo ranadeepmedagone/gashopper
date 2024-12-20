@@ -6,7 +6,7 @@ class CustomElevatedButton extends StatelessWidget {
   final String title;
   final Widget? rightIcon;
   final double borderRadius;
-  final VoidCallback onPressed;
+  final Function()? onPressed;
   final Color? customBackgroundColor;
   final TextStyle? customTextStyle;
   final BorderSide? customBorderSide;
@@ -15,6 +15,7 @@ class CustomElevatedButton extends StatelessWidget {
   final bool isRightIconEnd;
   final Color? customTextColor;
   final bool isDisable;
+  final bool isLoading;
 
   const CustomElevatedButton({
     super.key,
@@ -30,6 +31,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.customTextColor,
     this.isDisable = false,
     required this.onPressed,
+    this.isLoading = false,
   });
 
   @override
@@ -65,6 +67,15 @@ class CustomElevatedButton extends StatelessWidget {
                         (isDisable ? GashopperTheme.grey1 : GashopperTheme.black),
                   ),
             ),
+            if (isLoading) const SizedBox(width: 16),
+            if (isLoading)
+              const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  color: GashopperTheme.black,
+                ),
+              ),
             if (isRightIconEnd) const Spacer(),
             const SizedBox(width: 2),
             if (rightIcon != null) rightIcon!,

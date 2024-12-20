@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
-import 'package:gashopper/app/modules/landing/landing_screen.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_elevation_button.dart';
-import '../controller/shift_update_controller.dart';
+import '../controllers/shift_update_controller.dart';
+import '../scanner/scanner_screen.dart';
 
 // shift_update_screen.dart
 
@@ -69,7 +69,7 @@ class _ShiftUpdateScreenState extends State<ShiftUpdateScreen> {
                   CustomElevatedButton(
                     title: 'End Shift',
                     onPressed: () {
-                      Get.to(() => LandingScreen());
+                      Get.to(() => ScanerScreen());
                     },
                   ).ltrbPadding(0, 0, 0, 16),
                   CustomElevatedButton(

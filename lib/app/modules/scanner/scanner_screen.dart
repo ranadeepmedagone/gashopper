@@ -10,13 +10,13 @@ import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_elevation_button.dart';
 import '../../core/values/constants.dart';
 import '../screens/home_screen.dart';
-import 'landing_controller.dart';
+import 'scanner_controller.dart';
 
-class LandingScreen extends StatelessWidget {
-  LandingScreen({super.key});
+class ScanerScreen extends StatelessWidget {
+  ScanerScreen({super.key});
 
   /// Initializes the [LandingController] controller.
-  final landingController = Get.find<LandingController>();
+  final landingController = Get.find<ScannerController>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -30,7 +30,7 @@ class LandingScreen extends StatelessWidget {
         isTitleCentered: true,
         title: 'Business Unit',
       ),
-      body: GetBuilder<LandingController>(builder: (controller) {
+      body: GetBuilder<ScannerController>(builder: (controller) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           child: Column(

@@ -5,10 +5,10 @@ import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 import '../modules/bindings/main_bindings.dart';
-import '../modules/landing/lading_bindings.dart';
-import '../modules/landing/landing_screen.dart';
 import '../modules/registration/registration_bindings.dart';
 import '../modules/registration/registration_screen.dart';
+import '../modules/scanner/scanner_bindings.dart';
+import '../modules/scanner/scanner_screen.dart';
 import '../modules/screens/create_screen.dart';
 import '../modules/screens/home_screen.dart';
 import '../modules/screens/list_screen.dart';
@@ -32,7 +32,7 @@ class RouteGenerator {
         return GetPageRoute(
           routeName: Routes.landingScreen,
           binding: LandingBindings(),
-          page: () => LandingScreen(),
+          page: () => ScanerScreen(),
           settings: settings,
         );
 

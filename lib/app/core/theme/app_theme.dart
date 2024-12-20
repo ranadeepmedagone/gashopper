@@ -61,7 +61,7 @@ class GashopperTheme {
   }
 
   static const appBackGrounColor = Color(0xFFFAFAFA);
-  static const appYellow = Color(0xFFF6BE32);
+  static const appYellow = Color(0xFFFFC600);
   static const black = Color(0xFF2B363C);
 
   static const black1 = Color(0xff333333);

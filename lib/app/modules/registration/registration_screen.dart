@@ -4,13 +4,12 @@ import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../core/utils/widgets/custom_elevation_button.dart';
 import '../../core/utils/widgets/custom_richtext.dart';
+import '../../core/utils/widgets/custom_textfield.dart';
 import '../../core/values/constants.dart';
-import '../landing/landing_screen.dart';
 
 class RegistrationScreen extends StatelessWidget {
   RegistrationScreen({super.key});
@@ -156,6 +155,12 @@ class RegistrationScreen extends StatelessWidget {
                   child: LoginFlow(
                     isMobileFlow: controller.isMobileFlow,
                     enterMobileNumber: controller.toggleMobileFlow,
+                    emailTextEditingController: controller.emailTextEditingController,
+                    otpController: controller.otpController,
+                    enterEmail: controller.enterEmail,
+                    verifyOtp: controller.verifyOtp,
+                    isEmailLoading: controller.isEnterEmailLoading,
+                    isOtpLoading: controller.isVerifyOTPLoading,
                   ),
                 ),
               ),
@@ -170,18 +175,29 @@ class RegistrationScreen extends StatelessWidget {
 class LoginFlow extends StatelessWidget {
   final bool isMobileFlow;
   final Function()? enterMobileNumber;
+  final TextEditingController emailTextEditingController;
+  final TextEditingController otpController;
+  final Function()? enterEmail;
+  final Function()? verifyOtp;
+  final bool isEmailLoading;
+  final bool isOtpLoading;
 
   const LoginFlow({
     super.key,
     required this.isMobileFlow,
     this.enterMobileNumber,
+    required this.emailTextEditingController,
+    required this.otpController,
+    this.enterEmail,
+    this.verifyOtp,
+    this.isEmailLoading = false,
+    this.isOtpLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final mQ = MediaQuery.of(context).size;
     final textTheme = Get.textTheme;
-    FocusNode focusNode = FocusNode();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -218,45 +234,24 @@ class LoginFlow extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // if (isRegister && !isForgetPassword)
         if (isMobileFlow)
-          IntlPhoneField(
-            focusNode: focusNode,
-            decoration: InputDecoration(
-              fillColor: GashopperTheme.appBackGrounColor,
-              hintText: 'Enter mobile number',
-              hintStyle: GashopperTheme.fontWeightApplier(
-                FontWeight.w600,
-                textTheme.bodyMedium!.copyWith(
-                  color: GashopperTheme.grey1,
-                  fontSize: 14,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: GashopperTheme.grey1,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(
-                  color: GashopperTheme.grey1,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: GashopperTheme.appYellow, width: 1.5),
+          CustomTextField(
+            hintText: 'Enter your email',
+            hintStyle: GashopperTheme.fontWeightApplier(
+              FontWeight.w600,
+              textTheme.bodyMedium!.copyWith(
+                color: GashopperTheme.grey1,
+                fontSize: 14,
               ),
             ),
-            dropdownIcon: const Icon(
-              Icons.arrow_drop_down,
-              color: GashopperTheme.appYellow,
-            ),
-            languageCode: "en",
-            onChanged: (phone) {},
-            onCountryChanged: (country) {},
-            disableLengthCheck: true,
+            borderRadius: 12,
+            borderColor: Colors.grey[400]!,
+            focusedBorderColor: GashopperTheme.appYellow,
+            borderWidth: 1.5,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            controller: emailTextEditingController,
+            keyboardType: TextInputType.name,
+            obscureText: false,
           ).ltrbPadding(0, 0, 0, 16),
 
         if (!isMobileFlow)
@@ -267,7 +262,7 @@ class LoginFlow extends StatelessWidget {
             onResendOtp: () {
               // Handle resend OTP
             },
-            otpController: TextEditingController(),
+            otpController: otpController,
             isResendLoading: false,
             phoneNumber: '+1234567890',
             error: null, // Show error if any
@@ -283,12 +278,13 @@ class LoginFlow extends StatelessWidget {
           children: [
             Expanded(
               child: CustomElevatedButton(
+                isLoading: isEmailLoading || isOtpLoading,
                 title: isMobileFlow ? 'Enter' : 'Verify OTP',
                 onPressed: () {
                   if (isMobileFlow) {
-                    if (enterMobileNumber != null) enterMobileNumber!();
+                    if (enterEmail != null) enterEmail!();
                   } else {
-                    Get.to(() => LandingScreen());
+                    if (verifyOtp != null) verifyOtp!();
                   }
                 },
               ).ltrbPadding(0, 24, 0, mQ.height / 15.4),

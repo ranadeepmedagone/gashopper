@@ -1,5 +1,6 @@
-import 'package:gashopper/app/modules/controller/main_controller.dart';
 import 'package:get/get.dart';
+
+import '../controllers/main_controller.dart';
 
 class MainBindings extends Bindings {
   @override
