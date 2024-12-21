@@ -35,6 +35,7 @@ class RegistrationController extends GetxController {
   int otpTimer = 45;
   Timer? timer;
   String? otpError;
+  String? emailErrorMessage;
   bool canResendOtp = false;
 
   @override
@@ -60,32 +61,45 @@ class RegistrationController extends GetxController {
   }
 
   // This method is called when user clicks on enter email button
-  Future<void> enterEmail() async {
+  Future<(bool, String?)> enterEmail() async {
     emailFocusNode?.unfocus();
 
-    if (!isEmailValid) return;
+    emailErrorMessage = null;
+    update();
+
+    if (!isEmailValid) {
+      emailErrorMessage = 'Email is required';
+      update();
+      return (false, 'Email is required');
+    }
 
     if (!emailTextEditingController.text.contains('@')) {
-      await _showError('Please enter a valid email');
-      return;
+      emailErrorMessage = 'Please enter a valid email';
+      update();
+      return (false, 'Invalid email format');
     }
 
     try {
       isEnterEmailLoading = true;
       update();
 
-      final response = await _dioHelper.requestOtp(emailTextEditingController.text.trim());
+      final (response, errorMessage) =
+          await _dioHelper.requestOtp(emailTextEditingController.text.trim());
 
-      if (response.data == null || response.statusCode != 200) {
-        await _showError('Failed to send OTP. Please try again.');
-        return;
+      if (errorMessage != null || response?.data == null) {
+        emailErrorMessage = errorMessage ?? 'Failed to send OTP. Please try again.';
+        update();
+        return (false, errorMessage ?? 'Failed to send OTP. Please try again.');
       }
 
       loginOTPRequest = LoginOTPRequest.fromJson(response.data);
       isEmailFlow = false;
-      startOtpTimer(); // Start timer after successful OTP request
+      startOtpTimer();
+
+      return (true, null);
     } catch (e) {
       await _showError(e.toString());
+      return (false, e.toString());
     } finally {
       isEnterEmailLoading = false;
       update();
@@ -93,11 +107,12 @@ class RegistrationController extends GetxController {
   }
 
   // This method is called when user clicks on verify otp button
-  // Modify verifyOtp to handle validation
   Future<void> verifyOtp() async {
     if (!isOtpValid) return;
 
-    // Check for 6 digits
+    otpError = null;
+    update();
+
     if (otpController.text.trim().length != 6) {
       otpError = 'Please enter 6-digit OTP';
       update();
@@ -106,30 +121,37 @@ class RegistrationController extends GetxController {
 
     try {
       isVerifyOTPLoading = true;
-      otpError = null; // Clear any previous errors
+      otpError = null;
       update();
 
-      final response = await _dioHelper.verifyOtp(
+      final (response, errorMessage) = await _dioHelper.verifyOtp(
         email: emailTextEditingController.text.trim(),
         otp: int.parse(otpController.text.trim()),
         referenceNumber: loginOTPRequest?.referenceNumber ?? '',
       );
 
-      if (response.statusCode != 200 || response.data == null) {
-        otpError = 'Invalid OTP. Please try again.';
+      if (errorMessage != null || response?.data == null) {
+        otpError = errorMessage ?? 'Error verifying OTP';
         update();
         return;
       }
 
-      token = Token.fromJson(response.data);
-      if (token == null) {
-        otpError = 'Invalid response from server';
-        update();
-        return;
-      }
+      try {
+        token = Token.fromJson(response);
 
-      await _authService.saveToken(token!);
-      Get.offAllNamed(Routes.scannerScreen);
+        if (token == null) {
+          otpError = 'Invalid response from server';
+          update();
+          return;
+        }
+
+        await _authService.saveToken(token!);
+
+        Get.offAllNamed(Routes.scannerScreen);
+      } catch (e) {
+        otpError = 'Invalid token format';
+        update();
+      }
     } catch (e) {
       otpError = e.toString();
       update();
@@ -170,14 +192,23 @@ class RegistrationController extends GetxController {
   Future<void> resendOtp() async {
     if (!canResendOtp) return;
 
-    isResendOTPLoading = true;
-    update();
-
     try {
-      final response = await _dioHelper.requestOtp(emailTextEditingController.text.trim());
+      isResendOTPLoading = true;
+      update();
 
-      if (response.data == null || response.statusCode != 200) {
+      final (response, errorMessage) =
+          await _dioHelper.requestOtp(emailTextEditingController.text.trim());
+
+      if (errorMessage != null) {
         otpTimer = -2; // Error state
+        otpError = errorMessage;
+        update();
+        return;
+      }
+
+      if (response?.data == null) {
+        otpTimer = -2;
+        otpError = 'Failed to resend OTP';
         update();
         return;
       }
@@ -185,7 +216,9 @@ class RegistrationController extends GetxController {
       loginOTPRequest = LoginOTPRequest.fromJson(response.data);
       startOtpTimer(); // Restart timer after successful resend
     } catch (e) {
-      otpTimer = -2; // Error state
+      otpTimer = -2;
+      await _showError(e.toString());
+    } finally {
       isResendOTPLoading = false;
       update();
     }

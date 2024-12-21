@@ -15,6 +15,7 @@ class CustomTextField extends StatelessWidget {
   final Function()? onTap;
   final Function(String)? onChanged;
   final FocusNode? focusNode;
+  final String? errorText;
 
   const CustomTextField({
     super.key,
@@ -34,6 +35,7 @@ class CustomTextField extends StatelessWidget {
     this.onTap,
     this.onChanged,
     this.focusNode,
+    this.errorText,
   });
 
   @override
@@ -72,6 +74,22 @@ class CustomTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius),
             borderSide: BorderSide(
               color: borderColor,
+            ),
+          ),
+          error: errorText != null
+              ? Text(
+                  errorText!,
+                  style: const TextStyle(
+                    color: GashopperTheme.red,
+                    fontSize: 14,
+                  ),
+                )
+              : null,
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+            borderSide: const BorderSide(
+              color: GashopperTheme.red,
+              width: 1,
             ),
           ),
           focusedBorder: OutlineInputBorder(

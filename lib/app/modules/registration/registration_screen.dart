@@ -88,6 +88,7 @@ class RegistrationScreen extends StatelessWidget {
                         otpError: controller.otpError,
                         otpTimer: controller.otpTimer,
                         isResendOTPLoading: controller.isResendOTPLoading,
+                        emailErrorText: controller.emailErrorMessage,
                       ),
                     ),
                   ),
@@ -179,6 +180,7 @@ class LoginFlow extends StatelessWidget {
   final bool isOtpLoading;
   final FocusNode? emailFocusNode;
   final String? otpError;
+  final String? emailErrorText;
   final int? otpTimer;
   final bool isResendOTPLoading;
 
@@ -197,6 +199,7 @@ class LoginFlow extends StatelessWidget {
     this.emailFocusNode,
     this.otpError,
     this.otpTimer,
+    this.emailErrorText,
   });
 
   @override
@@ -248,6 +251,7 @@ class LoginFlow extends StatelessWidget {
 
   Widget _buildEmailInput(TextTheme textTheme) {
     return CustomTextField(
+      errorText: emailErrorText,
       hintText: 'Enter your email',
       hintStyle: GashopperTheme.fontWeightApplier(
         FontWeight.w600,

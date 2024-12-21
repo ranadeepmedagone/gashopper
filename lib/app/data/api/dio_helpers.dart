@@ -6,7 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gashopper/app/data/api/api_end_points.dart';
-import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 import '../services/auth_service.dart';
@@ -64,21 +63,31 @@ class DioHelper extends GetxController {
 
   // Auth APIs
   // Request OTP
-  Future<dio.Response> requestOtp(String email) async {
+  Future<(dynamic, String?)> requestOtp(String email) async {
     try {
       final response = await _dio.post(
         ApiEndPoints.requestOtp,
         data: {'email': email},
       );
 
-      return response;
-    } catch (e) {
-      throw _handleError(e);
+      if (response.statusCode == 200) return (response, null);
+    } catch (err) {
+      if (err is DioException) {
+        if (err.response?.data is String) {
+          return (null, err.response?.data.toString());
+        }
+        if (err.response?.data['message'] is String) {
+          return (null, err.response?.data['message'].toString());
+        }
+        return (null, null);
+      }
+      return (null, null);
     }
+    return (null, null);
   }
 
   // Verify OTP
-  Future<dio.Response> verifyOtp({
+  Future<(dynamic, String?)> verifyOtp({
     required String? email,
     required int otp,
     required String? referenceNumber,
@@ -94,84 +103,22 @@ class DioHelper extends GetxController {
         },
       );
 
-      return response;
-    } catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Future<dio.Response> resendOtp(String email) async {
-    try {
-      final response = await _dio.post(
-        // ApiEndPoints.resendOtp,
-        '',
-        data: {'email': email},
-      );
-      return response;
-    } catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Future<dio.Response> logout() async {
-    try {
-      final response = await _dio.post(
-        // ApiEndPoints.logout,
-        '',
-      );
-      return response;
-    } catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  // Error Handling
-  Exception _handleError(dynamic error) {
-    if (error is DioException) {
-      switch (error.type) {
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.sendTimeout:
-        case DioExceptionType.receiveTimeout:
-          return TimeoutException('Request timeout');
-
-        case DioExceptionType.badResponse:
-          switch (error.response?.statusCode) {
-            case 400:
-              return BadRequestException(
-                error.response?.data['message'] ?? 'Bad request',
-              );
-            case 401:
-              // Handle unauthorized
-              Get.offAllNamed(Routes.registrationScreen);
-              return UnauthorizedException(
-                error.response?.data['message'] ?? 'Unauthorized',
-              );
-            case 403:
-              return UnauthorizedException(
-                error.response?.data['message'] ?? 'Access denied',
-              );
-            case 404:
-              return NotFoundException(
-                error.response?.data['message'] ?? 'Not found',
-              );
-            case 500:
-              return ServerException(
-                error.response?.data['message'] ?? 'Server error',
-              );
-            default:
-              return ServerException(
-                error.response?.data['message'] ?? 'Server error',
-              );
-          }
-
-        case DioExceptionType.cancel:
-          return RequestCancelledException('Request cancelled');
-
-        default:
-          return NetworkException('Network error occurred');
+      if (response.statusCode == 200) {
+        return (response, null);
       }
+    } catch (err) {
+      if (err is DioException) {
+        if (err.response?.data is String) {
+          return (null, err.response?.data.toString());
+        }
+        if (err.response?.data['message'] is String) {
+          return (null, err.response?.data['message'].toString());
+        }
+        return (null, null);
+      }
+      return (null, null);
     }
-    return UnknownException('Unknown error occurred');
+    return (null, null);
   }
 }
 
@@ -250,47 +197,6 @@ class _ResponseInterceptor extends Interceptor {
     }
     return super.onResponse(response, handler);
   }
-}
-
-// Custom Exceptions
-class TimeoutException implements Exception {
-  final String message;
-  TimeoutException(this.message);
-}
-
-class BadRequestException implements Exception {
-  final String message;
-  BadRequestException(this.message);
-}
-
-class UnauthorizedException implements Exception {
-  final String message;
-  UnauthorizedException(this.message);
-}
-
-class NotFoundException implements Exception {
-  final String message;
-  NotFoundException(this.message);
-}
-
-class ServerException implements Exception {
-  final String message;
-  ServerException(this.message);
-}
-
-class NetworkException implements Exception {
-  final String message;
-  NetworkException(this.message);
-}
-
-class UnknownException implements Exception {
-  final String message;
-  UnknownException(this.message);
-}
-
-class RequestCancelledException implements Exception {
-  final String message;
-  RequestCancelledException(this.message);
 }
 
 class TokenInterceptor extends Interceptor {
