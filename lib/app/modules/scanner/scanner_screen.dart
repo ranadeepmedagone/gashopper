@@ -29,6 +29,7 @@ class ScanerScreen extends StatelessWidget {
       appBar: const CustomAppBar(
         isTitleCentered: true,
         title: 'Business Unit',
+        showBackButton: false,
       ),
       body: GetBuilder<ScannerController>(builder: (controller) {
         return Padding(

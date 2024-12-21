@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 
 class ApiEndPoints {
   static const productionBaseUrl = "https://gashopper.com";
-  static const developmentBaseUrl = 'http://192.168.14.192:5555';
+  static const developmentBaseUrl = 'http://3.85.243.55:5555';
 
   static const gashopperAPIEndpoint = '/api/v1';
 

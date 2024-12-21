@@ -37,8 +37,8 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color:
-            customBackgroundColor ?? (isDisable ? Colors.grey[300] : GashopperTheme.appYellow),
+        color: customBackgroundColor ??
+            ((isDisable || isLoading) ? Colors.grey[300] : GashopperTheme.appYellow),
         borderRadius: BorderRadius.circular(borderRadius),
         border: customBorderSide ?? Border.all(color: Colors.transparent),
       ),
@@ -46,7 +46,7 @@ class CustomButton extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(borderRadius),
-          onTap: isDisable ? null : onPressed,
+          onTap: isDisable || isLoading ? null : onPressed,
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
             child: Row(

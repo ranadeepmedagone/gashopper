@@ -13,6 +13,8 @@ import '../modules/screens/create_screen.dart';
 import '../modules/screens/home_screen.dart';
 import '../modules/screens/list_screen.dart';
 import '../modules/screens/no_data_screen.dart';
+import '../modules/splash/splash_binding.dart';
+import '../modules/splash/splash_screen.dart';
 
 //  `RouteGenerator` is a class that generates routes for the application.
 class RouteGenerator {
@@ -20,11 +22,19 @@ class RouteGenerator {
     RouteSettings settings,
   ) {
     switch (settings.name) {
+      case Routes.splashScreen:
+        return GetPageRoute(
+          routeName: Routes.splashScreen,
+          binding: SplashBinding(),
+          page: () => const SplashScreen(),
+          settings: settings,
+        );
+
       case Routes.registrationScreen:
         return GetPageRoute(
           routeName: Routes.registrationScreen,
           binding: RegistrationBindings(),
-          page: () => RegistrationScreen(),
+          page: () => const RegistrationScreen(),
           settings: settings,
         );
 

@@ -4,14 +4,17 @@ import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:get/get.dart';
 
 import 'app/bindings/initial_bindings.dart';
+import 'app/data/services/auth_service.dart';
 import 'app/modules/registration/registration_controller.dart';
-import 'app/modules/registration/registration_screen.dart';
+import 'app/modules/splash/splash_screen.dart';
 import 'app/routes/app_routes.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Get.lazyPut(() => RegistrationController(), fenix: true);
+  Get.lazyPut(() => AuthService(), fenix: true);
+  await Get.putAsync(() => AuthService().init());
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -41,7 +44,7 @@ class MyApp extends StatelessWidget {
           child: child,
         );
       },
-      home: RegistrationScreen(),
+      home: const SplashScreen(),
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

@@ -314,6 +314,24 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "hive",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/hive-2.2.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "hive_flutter",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/hive_flutter-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "hive_generator",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/hive_generator-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "http",
       "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/http-1.2.2",
       "packageUri": "lib/",
@@ -866,7 +884,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-12-21T03:55:43.026077Z",
+  "generated": "2024-12-21T06:37:07.692841Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/ranadeepmedagone/flutter",

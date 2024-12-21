@@ -1,3 +1,4 @@
+import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part "login_otp_request.g.dart";
@@ -19,17 +20,20 @@ class LoginOTPRequest {
 }
 
 @JsonSerializable()
-class Token {
-  @JsonKey(name: "token")
+@HiveType(typeId: 0)
+class Token extends HiveObject {
+  @HiveField(0)
   final String? token;
 
   Token({
-    this.token,
+    required this.token,
   });
 
-  factory Token.fromJson(Map<String, dynamic> json) {
-    return _$TokenFromJson(json);
-  }
+  factory Token.fromJson(Map<String, dynamic> json) => Token(
+        token: json['token'] as String,
+      );
 
-  Map<String, dynamic> toJson() => _$TokenToJson(this);
+  Map<String, dynamic> toJson() => {
+        'token': token,
+      };
 }

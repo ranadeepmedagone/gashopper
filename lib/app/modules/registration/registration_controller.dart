@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/data/models/login_otp_request.dart';
-import 'package:gashopper/app/data/services/dialog_services.dart';
+import 'package:gashopper/app/data/services/dialog_service.dart';
 import 'package:get/get.dart';
 
 import '../../data/api/dio_helpers.dart';
+import '../../data/services/auth_service.dart';
 import '../scanner/scanner_screen.dart';
 
 class RegistrationController extends GetxController {
   // Dependencies
   final DioHelper _dioHelper = Get.find<DioHelper>();
   final DialogService _dialogService = Get.find<DialogService>();
+  final _authService = Get.find<AuthService>();
 
   // Controllers
   final emailTextEditingController = TextEditingController();
@@ -28,6 +30,7 @@ class RegistrationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     // Add listeners to controllers
     emailTextEditingController.addListener(_onEmailChanged);
     otpController.addListener(_onOtpChanged);
@@ -49,6 +52,11 @@ class RegistrationController extends GetxController {
   // This method is called when user clicks on enter email button
   Future<void> enterEmail() async {
     if (!isEmailValid) return;
+
+    if (emailTextEditingController.text.contains('@') == false) {
+      await _showError('Please enter a valid email');
+      return;
+    }
 
     try {
       isEnterEmailLoading = true;
@@ -75,6 +83,11 @@ class RegistrationController extends GetxController {
   Future<void> verifyOtp() async {
     if (!isOtpValid) return;
 
+    if (int.parse(otpController.text.trim()) < 6) {
+      await _showError('Please enter a valid OTP');
+      return;
+    }
+
     try {
       isVerifyOTPLoading = true;
       update();
@@ -91,7 +104,11 @@ class RegistrationController extends GetxController {
       }
 
       token = Token.fromJson(response.data);
-      Get.to(() => ScanerScreen());
+
+      if (token == null) return;
+
+      await _authService.saveToken(token!);
+      Get.offAll(() => ScanerScreen());
     } catch (e) {
       await _showError(e.toString());
     } finally {
@@ -102,7 +119,7 @@ class RegistrationController extends GetxController {
 
   Future<void> _showError(String message) async {
     await _dialogService.showErrorDialog(
-      title: 'Error',
+      title: 'Erro',
       description: message,
       buttonText: 'OK',
     );

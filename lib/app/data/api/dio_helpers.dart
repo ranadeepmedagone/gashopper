@@ -8,7 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:gashopper/app/data/api/api_end_points.dart';
 import 'package:get/get.dart';
 
-import '../services/dialog_services.dart';
+import '../services/auth_service.dart';
+import '../services/dialog_service.dart';
 
 class DioHelper extends GetxController {
   // Singleton pattern
@@ -19,6 +20,8 @@ class DioHelper extends GetxController {
   DioHelper._internal();
 
   static DioHelper get instance => Get.find<DioHelper>();
+
+  String? authToken;
 
   final dio.Dio _dio = dio.Dio(
     dio.BaseOptions(
@@ -39,7 +42,6 @@ class DioHelper extends GetxController {
   }
 
   void _initializeDio() {
-    // For handling certificate issues in debug
     if (!kReleaseMode) {
       (_dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
         final client = HttpClient(
@@ -51,10 +53,11 @@ class DioHelper extends GetxController {
     }
 
     _dio.interceptors.addAll([
+      TokenInterceptor(),
       _LoggerInterceptor(),
       _ErrorInterceptor(),
-      _RequestInterceptor(),
       _ResponseInterceptor(),
+      _RequestInterceptor()
     ]);
   }
 
@@ -287,4 +290,23 @@ class UnknownException implements Exception {
 class RequestCancelledException implements Exception {
   final String message;
   RequestCancelledException(this.message);
+}
+
+class TokenInterceptor extends Interceptor {
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    final token = Get.find<AuthService>().authToken;
+    if (token != null) {
+      options.headers['Authorization'] = 'Bearer $token';
+    }
+    return super.onRequest(options, handler);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    if (err.response?.statusCode == 401) {
+      Get.find<AuthService>().logout();
+    }
+    return super.onError(err, handler);
+  }
 }

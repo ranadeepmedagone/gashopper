@@ -2,6 +2,7 @@
 
 /// `Routes` is a custom class that contains all the routes of the application.
 abstract class Routes {
+  static const String splashScreen = '/splash';
   static const String registrationScreen = '/registration';
   static const String landingScreen = '/landing';
   static const String homeScreen = '/home';
