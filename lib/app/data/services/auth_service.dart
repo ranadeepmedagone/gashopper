@@ -1,5 +1,5 @@
 // lib/core/services/auth_service.dart
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -10,29 +10,45 @@ class AuthService extends GetxService {
   static const String _tokenKey = 'authToken';
   Box<Token>? _tokenBox;
 
-  Future<AuthService> init() async {
+  // Track initialization state
+  final _isInitialized = false.obs;
+  bool get isInitialized => _isInitialized.value;
+
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    await _initializeBox();
+  }
+
+  Future<void> _initializeBox() async {
     try {
-      await Hive.initFlutter();
-
-      // Register adapter only if not registered
-      if (!Hive.isAdapterRegistered(0)) {
-        Hive.registerAdapter(TokenAdapter());
+      if (_tokenBox == null || !(_tokenBox?.isOpen ?? false)) {
+        _tokenBox = await Hive.openBox<Token>(_tokenBoxName);
+        _isInitialized.value = true;
+        debugPrint('Token box initialized successfully');
       }
-
-      _tokenBox = await Hive.openBox<Token>(_tokenBoxName);
-      debugPrint('AuthService initialized successfully');
-      return this;
     } catch (e) {
-      debugPrint('Error initializing AuthService: $e');
-      rethrow;
+      debugPrint('Error initializing token box: $e');
+      _isInitialized.value = false;
     }
   }
 
-  // Token Management
+  Future<AuthService> init() async {
+    await _initializeBox();
+    return this;
+  }
+
   Future<void> saveToken(Token token) async {
     try {
+      await _initializeBox();
+
+      debugPrint('Attempting to save token: ${token.token}');
+      await _tokenBox?.clear();
       await _tokenBox?.put(_tokenKey, token);
-      debugPrint('Token saved successfully');
+
+      // Verify save
+      final savedToken = getToken();
+      debugPrint('Token saved and verified: ${savedToken?.token}');
     } catch (e) {
       debugPrint('Error saving token: $e');
       rethrow;
@@ -41,8 +57,13 @@ class AuthService extends GetxService {
 
   Token? getToken() {
     try {
+      if (!isInitialized || _tokenBox == null || !_tokenBox!.isOpen) {
+        debugPrint('Token box not initialized or not open');
+        return null;
+      }
+
       final token = _tokenBox?.get(_tokenKey);
-      debugPrint('Token retrieved: ${token?.token != null}');
+      debugPrint('Retrieved token: ${token?.token}');
       return token;
     } catch (e) {
       debugPrint('Error getting token: $e');
@@ -51,32 +72,63 @@ class AuthService extends GetxService {
   }
 
   bool get hasToken {
-    final token = getToken()?.token;
-    final isValid = token != null && token.isNotEmpty;
-    debugPrint('Has valid token: $isValid');
-    return isValid;
+    if (!isInitialized) {
+      debugPrint('Auth service not initialized');
+      return false;
+    }
+
+    try {
+      final token = getToken()?.token;
+      final isValid = token != null && token.isNotEmpty;
+      debugPrint('Token check - exists: ${token != null}, valid: $isValid');
+      return isValid;
+    } catch (e) {
+      debugPrint('Error checking token: $e');
+      return false;
+    }
   }
 
-  String? get authToken => getToken()?.token;
+  String? get authToken {
+    if (!isInitialized) return null;
+    return getToken()?.token;
+  }
 
   Future<void> clearToken() async {
     try {
+      await _initializeBox();
       await _tokenBox?.clear();
       debugPrint('Token cleared successfully');
     } catch (e) {
       debugPrint('Error clearing token: $e');
-      rethrow;
     }
   }
 
   Future<void> logout() async {
-    await clearToken();
-    Get.offAllNamed('/login');
+    try {
+      await clearToken();
+      Get.offAllNamed('/registration');
+    } catch (e) {
+      debugPrint('Error during logout: $e');
+    }
   }
 
   @override
   void onClose() {
-    _tokenBox?.close();
+    try {
+      if (_tokenBox?.isOpen ?? false) {
+        _tokenBox?.close();
+        debugPrint('Token box closed successfully');
+      }
+    } catch (e) {
+      debugPrint('Error closing token box: $e');
+    }
     super.onClose();
+  }
+
+  // Helper method to check box status
+  bool get isBoxReady {
+    final isReady = _tokenBox != null && _tokenBox!.isOpen;
+    debugPrint('Box status check - initialized: $isInitialized, box ready: $isReady');
+    return isReady;
   }
 }

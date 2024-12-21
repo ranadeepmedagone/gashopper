@@ -20,20 +20,20 @@ class LoginOTPRequest {
 }
 
 @JsonSerializable()
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 class Token extends HiveObject {
   @HiveField(0)
+  @JsonKey(name: "token")
   final String? token;
 
-  Token({
-    required this.token,
-  });
+  Token({this.token});
 
-  factory Token.fromJson(Map<String, dynamic> json) => Token(
-        token: json['token'] as String,
-      );
+  factory Token.fromJson(Map<String, dynamic> json) {
+    return Token(token: json['token'] as String?);
+  }
 
-  Map<String, dynamic> toJson() => {
-        'token': token,
-      };
+  Map<String, dynamic> toJson() => {'token': token};
+
+  @override
+  String toString() => 'Token(token: $token)';
 }

@@ -6,7 +6,7 @@ import '../registration/registration_screen.dart';
 import '../scanner/scanner_screen.dart';
 
 class SplashController extends GetxController {
-  final _authService = Get.find<AuthService>();
+  final authService = Get.find<AuthService>();
 
   @override
   void onInit() {
@@ -16,18 +16,24 @@ class SplashController extends GetxController {
 
   Future<void> _checkAuth() async {
     try {
+      // Add initial delay for animation if needed
       await Future.delayed(const Duration(seconds: 2));
 
-      final hasValidToken = _authService.hasToken;
-      debugPrint('Checking auth - Has valid token: $hasValidToken');
+      // Wait for service to be ready
+      while (!authService.isInitialized || !authService.isBoxReady) {
+        await Future.delayed(const Duration(milliseconds: 100));
+      }
 
-      if (hasValidToken) {
+      if (authService.hasToken) {
+        debugPrint('Valid token found, navigating to home');
         Get.offAll(() => ScanerScreen());
       } else {
+        debugPrint('No valid token, navigating to registration');
         Get.offAll(() => const RegistrationScreen());
       }
     } catch (e) {
-      debugPrint('Error in auth check: $e');
+      debugPrint('Error during auth check: $e');
+      // On error, safely navigate to registration
       Get.offAll(() => const RegistrationScreen());
     }
   }

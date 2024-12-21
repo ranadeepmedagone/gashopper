@@ -8,7 +8,7 @@ part of 'login_otp_request.dart';
 
 class TokenAdapter extends TypeAdapter<Token> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Token read(BinaryReader reader) {
