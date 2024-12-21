@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
-import '../../core/utils/widgets/custom_elevation_button.dart';
+import '../../core/utils/widgets/custom_button.dart';
 import '../controllers/main_controller.dart';
 import 'create_screen.dart';
 
@@ -40,7 +40,7 @@ class SalesListScreen extends StatelessWidget {
                     color: GashopperTheme.black,
                   ),
                 ).ltrbPadding(0, 0, 0, 8),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Create',
                   customTextStyle: const TextStyle(
                     fontSize: 20,
@@ -49,7 +49,7 @@ class SalesListScreen extends StatelessWidget {
                     color: GashopperTheme.black,
                   ),
                   customBackgroundColor: GashopperTheme.appBackGrounColor,
-                  customBorderSide: const BorderSide(
+                  customBorderSide: Border.all(
                     color: GashopperTheme.black,
                     width: 1.5,
                   ),

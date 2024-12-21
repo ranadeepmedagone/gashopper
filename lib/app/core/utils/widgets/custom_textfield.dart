@@ -13,6 +13,8 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final Function()? onTap;
+  final Function(String)? onChanged;
+  final FocusNode? focusNode;
 
   const CustomTextField({
     super.key,
@@ -30,15 +32,19 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.onTap,
+    this.onChanged,
+    this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       onTap: onTap,
+      onChanged: onChanged,
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
+      focusNode: focusNode,
       decoration: InputDecoration(
         fillColor: GashopperTheme.appBackGrounColor,
         hintText: hintText,

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
-import '../../core/utils/widgets/custom_elevation_button.dart';
+import '../../core/utils/widgets/custom_button.dart';
 import '../controllers/shift_update_controller.dart';
 import '../scanner/scanner_screen.dart';
 
@@ -66,13 +66,13 @@ class _ShiftUpdateScreenState extends State<ShiftUpdateScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  CustomElevatedButton(
+                  CustomButton(
                     title: 'End Shift',
                     onPressed: () {
                       Get.to(() => ScanerScreen());
                     },
                   ).ltrbPadding(0, 0, 0, 16),
-                  CustomElevatedButton(
+                  CustomButton(
                     title: 'Go Back',
                     onPressed: () {
                       Get.back();
@@ -275,14 +275,14 @@ class _ShiftUpdateScreenState extends State<ShiftUpdateScreen> {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomElevatedButton(
+                      child: CustomButton(
                         title: 'Save',
                         onPressed: () => c.saveCurrentShift(),
                       ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
-                      child: CustomElevatedButton(
+                      child: CustomButton(
                         customBackgroundColor: GashopperTheme.grey2,
                         title: 'Cancel',
                         onPressed: () => c.cancelCurrentShift(),

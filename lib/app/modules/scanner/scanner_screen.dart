@@ -7,7 +7,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
-import '../../core/utils/widgets/custom_elevation_button.dart';
+import '../../core/utils/widgets/custom_button.dart';
 import '../../core/values/constants.dart';
 import '../screens/home_screen.dart';
 import 'scanner_controller.dart';
@@ -16,7 +16,7 @@ class ScanerScreen extends StatelessWidget {
   ScanerScreen({super.key});
 
   /// Initializes the [LandingController] controller.
-  final landingController = Get.find<ScannerController>();
+  final scannerController = Get.find<ScannerController>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -158,7 +158,7 @@ class ScanerScreen extends StatelessWidget {
                     ),
                   const SizedBox(height: 16),
                   // if (controller.hasValidQR)
-                  CustomElevatedButton(
+                  CustomButton(
                     title: 'Begin Shift',
                     onPressed: () {
                       Get.to(() => HomeScreen());
@@ -170,7 +170,7 @@ class ScanerScreen extends StatelessWidget {
                     ).ltrbPadding(8, 0, 24, 0),
                   ),
                   const SizedBox(height: 16),
-                  CustomElevatedButton(
+                  CustomButton(
                     title: 'Back',
                     onPressed: () => Get.back(),
                     customBackgroundColor: GashopperTheme.appBackGrounColor,

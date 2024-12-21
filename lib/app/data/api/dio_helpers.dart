@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 import '../services/dialog_services.dart';
 
-class DioHelper extends GetxService {
+class DioHelper extends GetxController {
   // Singleton pattern
   static final DioHelper _instance = DioHelper._internal();
 
@@ -59,6 +59,7 @@ class DioHelper extends GetxService {
   }
 
   // Auth APIs
+  // Request OTP
   Future<dio.Response> requestOtp(String email) async {
     try {
       final response = await _dio.post(
@@ -72,6 +73,7 @@ class DioHelper extends GetxService {
     }
   }
 
+  // Verify OTP
   Future<dio.Response> verifyOtp({
     required String? email,
     required int otp,

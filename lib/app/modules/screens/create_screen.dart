@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
+import '../../core/utils/widgets/custom_button.dart';
 import '../../core/utils/widgets/custom_dropdown.dart';
-import '../../core/utils/widgets/custom_elevation_button.dart';
 import '../controllers/main_controller.dart';
 
 class CreateScreen extends StatelessWidget {
@@ -15,7 +15,7 @@ class CreateScreen extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final MainController homeController = Get.find();
+  final homeController = Get.find<MainController>();
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +45,10 @@ class CreateScreen extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: CustomElevatedButton(
+                child: CustomButton(
                   title: 'Cancel',
                   customBackgroundColor: GashopperTheme.appBackGrounColor,
-                  customBorderSide: const BorderSide(
+                  customBorderSide: Border.all(
                     color: GashopperTheme.black,
                     width: 1.5,
                   ),
@@ -57,7 +57,7 @@ class CreateScreen extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: CustomElevatedButton(
+                child: CustomButton(
                   title: c.isOnPressRequest
                       ? 'Submit'
                       : c.isOnPressCashDrop
@@ -236,7 +236,7 @@ class CreateScreen extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: CustomElevatedButton(
+                        child: CustomButton(
                           title: 'Camera / Gallery',
                           onPressed: () {},
                           leftIcon: const Icon(

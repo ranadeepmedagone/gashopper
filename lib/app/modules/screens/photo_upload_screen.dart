@@ -8,7 +8,7 @@ import 'package:path/path.dart' as path;
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
-import '../../core/utils/widgets/custom_elevation_button.dart';
+import '../../core/utils/widgets/custom_button.dart';
 import '../controllers/photo_upload_controller.dart';
 
 class PhotoUploadScreen extends StatelessWidget {
@@ -50,12 +50,12 @@ class PhotoUploadScreen extends StatelessWidget {
             child: Column(
               children: [
                 if (controller.selectedImageFile != null)
-                  CustomElevatedButton(
+                  CustomButton(
                     title: 'Upload Photo',
                     onPressed: () {},
                   ).ltrbPadding(0, 0, 0, 16),
                 if (controller.selectedImageFile == null)
-                  CustomElevatedButton(
+                  CustomButton(
                     title: 'Take Photo',
                     onPressed: () {
                       controller.isAttachmentUpload ? null : controller.onCaptureImage();
@@ -73,7 +73,7 @@ class PhotoUploadScreen extends StatelessWidget {
                     isLeftIcon: true,
                     isRightIconEnd: true,
                   ).ltrbPadding(0, 0, 0, 16),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Go Back',
                   onPressed: () {
                     Get.back();

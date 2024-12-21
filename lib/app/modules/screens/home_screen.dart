@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
-import 'package:gashopper/app/core/utils/widgets/custom_elevation_button.dart';
+import 'package:gashopper/app/core/utils/widgets/custom_button.dart';
 import 'package:gashopper/app/modules/screens/photo_upload_screen.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -20,8 +20,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MainController>(initState: (state) {
-      homeController.resetValues();
-      homeController.update();
+      // homeController.resetValues();
+      // homeController.update();
     }, builder: (c) {
       return Scaffold(
         key: _scaffoldKey,
@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
               spreadRadius: 0,
             ),
           ]),
-          child: CustomElevatedButton(
+          child: CustomButton(
             title: 'Close Day',
             customTextColor: GashopperTheme.appBackGrounColor,
             customBackgroundColor: GashopperTheme.black,
@@ -70,28 +70,28 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 const DateNavigator().ltrbPadding(0, 0, 0, 16),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Sales',
                   customBackgroundColor: GashopperTheme.appBackGrounColor,
-                  customBorderSide: const BorderSide(
+                  customBorderSide: Border.all(
                     color: GashopperTheme.black,
                     width: 1.5,
                   ),
                   onPressed: c.onPressSales,
                 ).ltrbPadding(0, 0, 0, 16),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Expenses',
                   customBackgroundColor: GashopperTheme.appBackGrounColor,
-                  customBorderSide: const BorderSide(
+                  customBorderSide: Border.all(
                     color: GashopperTheme.black,
                     width: 1.5,
                   ),
                   onPressed: c.onPressExpenses,
                 ).ltrbPadding(0, 0, 0, 16),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Cash drop',
                   customBackgroundColor: GashopperTheme.appBackGrounColor,
-                  customBorderSide: const BorderSide(
+                  customBorderSide: Border.all(
                     color: GashopperTheme.black,
                     width: 1.5,
                   ),
@@ -100,10 +100,10 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: CustomElevatedButton(
+                      child: CustomButton(
                         title: 'Request',
                         customBackgroundColor: GashopperTheme.appBackGrounColor,
-                        customBorderSide: const BorderSide(
+                        customBorderSide: Border.all(
                           color: GashopperTheme.black,
                           width: 1.5,
                         ),
@@ -112,10 +112,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 16),
                     Expanded(
-                      child: CustomElevatedButton(
+                      child: CustomButton(
                         title: 'Report',
                         customBackgroundColor: GashopperTheme.appBackGrounColor,
-                        customBorderSide: const BorderSide(
+                        customBorderSide: Border.all(
                           color: GashopperTheme.black,
                           width: 1.5,
                         ),
@@ -128,7 +128,7 @@ class HomeScreen extends StatelessWidget {
                   color: GashopperTheme.grey1.withOpacity(0.3),
                   thickness: 1,
                 ).ltrbPadding(0, 0, 0, 16),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Veeder root',
                   onPressed: () {
                     Get.to(() => PhotoUploadScreen());
@@ -146,7 +146,7 @@ class HomeScreen extends StatelessWidget {
                   isLeftIcon: true,
                   isRightIconEnd: true,
                 ).ltrbPadding(0, 0, 0, 16),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Ruby report',
                   onPressed: () {
                     Get.to(() => PhotoUploadScreen());
@@ -164,7 +164,7 @@ class HomeScreen extends StatelessWidget {
                   isLeftIcon: true,
                   isRightIconEnd: true,
                 ).ltrbPadding(0, 0, 0, 16),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Rate board',
                   onPressed: () {
                     Get.to(() => PhotoUploadScreen());
@@ -182,7 +182,7 @@ class HomeScreen extends StatelessWidget {
                   isLeftIcon: true,
                   isRightIconEnd: true,
                 ).ltrbPadding(0, 0, 0, 16),
-                CustomElevatedButton(
+                CustomButton(
                   title: 'Change Price',
                   onPressed: () {
                     Get.to(() => PhotoUploadScreen());

@@ -63,14 +63,14 @@ class MainController extends GetxController {
     update();
   }
 
-  void resetValues() {
-    isOnPressCashDrop = false;
-    isOnPressExpenses = false;
-    isOnPressReports = false;
-    isOnPressRequest = false;
-    isOnPressSales = false;
-    update();
-  }
+  // void resetValues() {
+  //   isOnPressCashDrop = false;
+  //   isOnPressExpenses = false;
+  //   isOnPressReports = false;
+  //   isOnPressRequest = false;
+  //   isOnPressSales = false;
+  //   update();
+  // }
 
   String getTypeNmae() {
     if (isOnPressSales) return 'Sales';

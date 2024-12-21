@@ -4,7 +4,7 @@ import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
-import '../../core/utils/widgets/custom_elevation_button.dart';
+import '../../core/utils/widgets/custom_button.dart';
 import '../../core/values/constants.dart';
 import '../registration/registration_screen.dart';
 
@@ -247,7 +247,7 @@ class SplashScreenContent extends StatelessWidget {
       bottom: 60 + animations.buttonSlide.value,
       child: Opacity(
         opacity: animations.buttonFade.value,
-        child: CustomElevatedButton(
+        child: CustomButton(
           title: "Lets Start",
           rightIcon: const Icon(
             Icons.keyboard_arrow_right_rounded,
