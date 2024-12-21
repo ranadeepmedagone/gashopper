@@ -75,15 +75,19 @@ class RegistrationScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: LoginFlow(
-                        isEmailFlow: controller.isEmailFlow,
                         enterMobileNumber: controller.toggleEmailFlow,
-                        emailTextEditingController: controller.emailTextEditingController,
-                        otpController: controller.otpController,
                         enterEmail: controller.enterEmail,
                         verifyOtp: controller.verifyOtp,
+                        resendOtp: controller.resendOtp,
+                        isEmailFlow: controller.isEmailFlow,
+                        emailTextEditingController: controller.emailTextEditingController,
+                        otpController: controller.otpController,
                         isEmailLoading: controller.isEnterEmailLoading,
                         isOtpLoading: controller.isVerifyOTPLoading,
                         emailFocusNode: controller.emailFocusNode,
+                        otpError: controller.otpError,
+                        otpTimer: controller.otpTimer,
+                        isResendOTPLoading: controller.isResendOTPLoading,
                       ),
                     ),
                   ),
@@ -165,14 +169,18 @@ class _BackgroundImages extends StatelessWidget {
 // Login Flow Widget
 class LoginFlow extends StatelessWidget {
   final bool isEmailFlow;
-  final Function()? enterMobileNumber;
   final TextEditingController emailTextEditingController;
   final TextEditingController otpController;
+  final Function()? enterMobileNumber;
   final Function()? enterEmail;
   final Function()? verifyOtp;
+  final Function()? resendOtp;
   final bool isEmailLoading;
   final bool isOtpLoading;
   final FocusNode? emailFocusNode;
+  final String? otpError;
+  final int? otpTimer;
+  final bool isResendOTPLoading;
 
   const LoginFlow({
     super.key,
@@ -182,9 +190,13 @@ class LoginFlow extends StatelessWidget {
     required this.otpController,
     this.enterEmail,
     this.verifyOtp,
+    this.resendOtp,
     this.isEmailLoading = false,
     this.isOtpLoading = false,
+    this.isResendOTPLoading = false,
     this.emailFocusNode,
+    this.otpError,
+    this.otpTimer,
   });
 
   @override
@@ -262,19 +274,24 @@ class LoginFlow extends StatelessWidget {
 
   Widget _buildOtpFlow() {
     return OtpFlow(
-      onSubmit: (code) {},
+      onSubmit: (code) {
+        otpController.text = code ?? '';
+        if (code?.length == 6 && verifyOtp != null) {
+          verifyOtp!();
+        }
+      },
       onResendOtp: () {
-        // Handle resend OTP
+        if (otpTimer == 0 && resendOtp != null) {
+          resendOtp!();
+        }
       },
       otpController: otpController,
-      isResendLoading: false,
+      isResendLoading: isResendOTPLoading,
       phoneNumber: emailTextEditingController.text,
-      error: null,
-      seconds: 30,
-      onVerifyPressed: () {
-        verifyOtp?.call();
-      },
-      isVerifyLoading: false,
+      error: otpError,
+      seconds: otpTimer,
+      onVerifyPressed: verifyOtp,
+      isVerifyLoading: isResendOTPLoading,
     );
   }
 
@@ -321,7 +338,6 @@ class OtpFlow extends StatelessWidget {
 
   OtpFlow({
     required this.onSubmit,
-    required this.isResendLoading,
     required this.onResendOtp,
     required this.otpController,
     this.phoneNumber,
@@ -330,6 +346,7 @@ class OtpFlow extends StatelessWidget {
     this.seconds,
     this.onVerifyPressed,
     this.isVerifyLoading = false,
+    this.isResendLoading = false,
   });
 
   final controller = Get.put(OtpFieldController());
@@ -348,7 +365,7 @@ class OtpFlow extends StatelessWidget {
           const SizedBox(height: 4),
           _buildErrorText(context),
         ],
-        _buildResendOtp().ltrbPadding(0, 20, 0, 24),
+        _buildResendOtp().ltrbPadding(0, 8, 0, 16),
       ],
     );
   }
@@ -476,7 +493,7 @@ class OtpFlow extends StatelessWidget {
     if (isResent) {
       return const Icon(
         Icons.check,
-        color: GashopperTheme.appYellow,
+        color: GashopperTheme.black,
         size: 18,
         weight: 30.0,
       );
@@ -488,14 +505,14 @@ class OtpFlow extends StatelessWidget {
         height: 18,
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: GashopperTheme.appYellow,
+          color: GashopperTheme.black,
         ),
       );
     }
 
     return const Icon(
       Icons.sms_outlined,
-      color: GashopperTheme.appYellow,
+      color: GashopperTheme.black,
       size: 18,
       weight: 10.0,
     );
@@ -526,19 +543,19 @@ class OtpStatusInfoContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: GashopperTheme.appYellow.withOpacity(0.1),
+        color: GashopperTheme.appYellow,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          infoIcon ?? const Icon(Icons.sms, color: GashopperTheme.appYellow),
+          infoIcon ?? const Icon(Icons.sms, color: GashopperTheme.black),
           if (infoText?.isNotEmpty ?? false) ...[
             const SizedBox(width: 8),
             Text(
               infoText!,
               style: TextStyle(
-                color: otpError ? Colors.red : GashopperTheme.appYellow,
+                color: otpError ? Colors.red : GashopperTheme.black,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

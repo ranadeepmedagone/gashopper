@@ -120,7 +120,7 @@ class ListCard extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8),
       decoration: BoxDecoration(
         color: isPending ? GashopperTheme.grey1.withOpacity(0.5) : GashopperTheme.black,
-        borderRadius: const BorderRadius.all(Radius.circular(14)),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
