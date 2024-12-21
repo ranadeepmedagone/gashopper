@@ -24,68 +24,72 @@ class RegistrationScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           backgroundColor: GashopperTheme.appBackGrounColor,
-          body: Stack(
-            children: [
-              // Background SVGs
-              _BackgroundImages(),
+          body: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Stack(
+              children: [
+                // Background SVGs
+                _BackgroundImages(),
 
-              // Header with Logo
-              Positioned(
-                top: 24,
-                right: 0,
-                left: 0,
-                child: Padding(
-                  padding: EdgeInsets.only(top: mQ.height / 14.2),
-                  child: controller.isEmailFlow
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            _buildLogo(textTheme),
-                          ],
-                        )
-                      : Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                controller.isEmailFlow = true;
-                                controller.update();
-                              },
-                              icon: const Icon(Icons.arrow_back_ios),
-                            ).ltrbPadding(24, 0, 0, 0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                _buildLogo(textTheme),
-                              ],
-                            ).ltrbPadding(Get.width / 29, 0, 0, 0),
-                          ],
-                        ),
-                ),
-              ),
-
-              // Main Content
-              Positioned(
-                bottom: 0,
-                right: 0,
-                left: 0,
-                child: SingleChildScrollView(
+                // Header with Logo
+                Positioned(
+                  top: 24,
+                  right: 0,
+                  left: 0,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: LoginFlow(
-                      isEmailFlow: controller.isEmailFlow,
-                      enterMobileNumber: controller.toggleEmailFlow,
-                      emailTextEditingController: controller.emailTextEditingController,
-                      otpController: controller.otpController,
-                      enterEmail: controller.enterEmail,
-                      verifyOtp: controller.verifyOtp,
-                      isEmailLoading: controller.isEnterEmailLoading,
-                      isOtpLoading: controller.isVerifyOTPLoading,
-                    ),
+                    padding: EdgeInsets.only(top: mQ.height / 14.2),
+                    child: controller.isEmailFlow
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              _buildLogo(textTheme),
+                            ],
+                          )
+                        : Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  controller.isEmailFlow = true;
+                                  controller.update();
+                                },
+                                icon: const Icon(Icons.arrow_back_ios),
+                              ).ltrbPadding(24, 0, 0, 0),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  _buildLogo(textTheme),
+                                ],
+                              ).ltrbPadding(Get.width / 29, 0, 0, 0),
+                            ],
+                          ),
                   ),
                 ),
-              )
-            ],
+
+                // Main Content
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: LoginFlow(
+                        isEmailFlow: controller.isEmailFlow,
+                        enterMobileNumber: controller.toggleEmailFlow,
+                        emailTextEditingController: controller.emailTextEditingController,
+                        otpController: controller.otpController,
+                        enterEmail: controller.enterEmail,
+                        verifyOtp: controller.verifyOtp,
+                        isEmailLoading: controller.isEnterEmailLoading,
+                        isOtpLoading: controller.isVerifyOTPLoading,
+                        emailFocusNode: controller.emailFocusNode,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
@@ -107,7 +111,7 @@ class RegistrationScreen extends StatelessWidget {
             ),
           ),
           TextSpan(
-            text: 'hopper',
+            text: 'opper',
             style: GashopperTheme.fontWeightApplier(
               FontWeight.w700,
               textTheme.bodyMedium!.copyWith(
@@ -245,18 +249,20 @@ class LoginFlow extends StatelessWidget {
       focusedBorderColor: GashopperTheme.appYellow,
       borderWidth: 1.5,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-      controller: emailTextEditingController,
+      controller: isEmailLoading ? null : emailTextEditingController,
       keyboardType: TextInputType.emailAddress,
-      onChanged: (value) {},
+      onChanged: (value) {
+        if (isEmailLoading) {
+          emailFocusNode?.unfocus();
+        }
+      },
       focusNode: emailFocusNode,
     ).ltrbPadding(0, 0, 0, 16);
   }
 
   Widget _buildOtpFlow() {
     return OtpFlow(
-      onSubmit: (code) {
-        // Handle OTP submission
-      },
+      onSubmit: (code) {},
       onResendOtp: () {
         // Handle resend OTP
       },
@@ -266,7 +272,7 @@ class LoginFlow extends StatelessWidget {
       error: null,
       seconds: 30,
       onVerifyPressed: () {
-        // Handle verify button press
+        verifyOtp?.call();
       },
       isVerifyLoading: false,
     );
@@ -288,7 +294,10 @@ class LoginFlow extends StatelessWidget {
                 title: isEmailFlow ? 'Enter' : 'Verify OTP',
                 onPressed: isDisabled
                     ? null
-                    : () => isEmailFlow ? enterEmail?.call() : verifyOtp?.call(),
+                    : () {
+                        emailFocusNode?.unfocus();
+                        isEmailFlow ? enterEmail?.call() : verifyOtp?.call();
+                      },
               ).ltrbPadding(0, 16, 0, mQ.height / 15.4);
             },
           ),

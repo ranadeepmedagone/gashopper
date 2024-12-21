@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gashopper/app/data/api/api_end_points.dart';
+import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 import '../services/auth_service.dart';
@@ -141,7 +142,7 @@ class DioHelper extends GetxController {
               );
             case 401:
               // Handle unauthorized
-              Get.offAllNamed('/login');
+              Get.offAllNamed(Routes.registrationScreen);
               return UnauthorizedException(
                 error.response?.data['message'] ?? 'Unauthorized',
               );

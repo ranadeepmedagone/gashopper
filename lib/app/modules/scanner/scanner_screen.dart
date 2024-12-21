@@ -9,7 +9,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
 import '../../core/values/constants.dart';
-import '../screens/home_screen.dart';
+import '../../routes/app_pages.dart';
 import 'scanner_controller.dart';
 
 class ScanerScreen extends StatelessWidget {
@@ -162,7 +162,7 @@ class ScanerScreen extends StatelessWidget {
                   CustomButton(
                     title: 'Begin Shift',
                     onPressed: () {
-                      Get.to(() => HomeScreen());
+                      Get.toNamed(Routes.homeScreen);
                     },
                     leftIcon: const Icon(
                       Icons.play_arrow_rounded,

@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
+import '../../routes/app_pages.dart';
 import '../controllers/main_controller.dart';
-import 'create_screen.dart';
 
 class SalesListScreen extends StatelessWidget {
   SalesListScreen({super.key});
@@ -59,7 +59,7 @@ class SalesListScreen extends StatelessWidget {
                     size: 28,
                   ),
                   onPressed: () {
-                    Get.to(() => CreateScreen());
+                    Get.toNamed(Routes.createScreen);
                   },
                 ).ltrbPadding(0, 0, 0, 16),
                 const Row(

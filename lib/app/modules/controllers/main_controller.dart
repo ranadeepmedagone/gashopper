@@ -1,8 +1,11 @@
+import 'package:gashopper/app/data/services/auth_service.dart';
 import 'package:get/get.dart';
 
 import '../../routes/app_pages.dart';
 
 class MainController extends GetxController {
+  final authService = Get.find<AuthService>();
+
   bool isOnPressSales = false;
 
   bool isOnPressExpenses = false;

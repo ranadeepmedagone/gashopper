@@ -9,6 +9,7 @@ import 'app/data/models/login_otp_request.dart';
 import 'app/data/services/auth_service.dart';
 import 'app/modules/registration/registration_controller.dart';
 import 'app/modules/splash/splash_screen.dart';
+import 'app/routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         );
       },
       home: const SplashScreen(),
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

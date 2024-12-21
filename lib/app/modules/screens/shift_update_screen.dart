@@ -7,8 +7,8 @@ import 'package:get/get.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
+import '../../routes/app_pages.dart';
 import '../controllers/shift_update_controller.dart';
-import '../scanner/scanner_screen.dart';
 
 // shift_update_screen.dart
 
@@ -69,7 +69,7 @@ class _ShiftUpdateScreenState extends State<ShiftUpdateScreen> {
                   CustomButton(
                     title: 'End Shift',
                     onPressed: () {
-                      Get.to(() => ScanerScreen());
+                      Get.toNamed(Routes.scannerScreen);
                     },
                   ).ltrbPadding(0, 0, 0, 16),
                   CustomButton(

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../data/services/auth_service.dart';
-import '../registration/registration_screen.dart';
-import '../scanner/scanner_screen.dart';
+import '../../routes/app_pages.dart';
 
 class SplashController extends GetxController {
   final authService = Get.find<AuthService>();
@@ -26,15 +25,15 @@ class SplashController extends GetxController {
 
       if (authService.hasToken) {
         debugPrint('Valid token found, navigating to home');
-        Get.offAll(() => ScanerScreen());
+        Get.offAllNamed(Routes.scannerScreen);
       } else {
         debugPrint('No valid token, navigating to registration');
-        Get.offAll(() => const RegistrationScreen());
+        Get.offAllNamed(Routes.registrationScreen);
       }
     } catch (e) {
       debugPrint('Error during auth check: $e');
       // On error, safely navigate to registration
-      Get.offAll(() => const RegistrationScreen());
+      Get.offAllNamed(Routes.registrationScreen);
     }
   }
 }

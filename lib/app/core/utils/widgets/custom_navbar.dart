@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
 
-import '../../../modules/screens/shift_update_screen.dart';
+import '../../../routes/app_pages.dart';
 import '../../theme/app_theme.dart';
 import 'custom_profile.dart';
 
 class NavDrawer extends StatelessWidget {
-  const NavDrawer({super.key});
+  final Function()? onLogout;
+  const NavDrawer({
+    super.key,
+    this.onLogout,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +54,18 @@ class NavDrawer extends StatelessWidget {
               Get.back();
             }),
             _buildDrawerItem('Shift', Icons.work_history_outlined, () {
-              Get.to(() => ShiftUpdateScreen());
+              Get.toNamed(Routes.shiftUpdateScreen);
             }),
             _buildDrawerItem('Reports', Icons.edit_document, () {}),
             _buildDrawerItem('Request / Reports', Icons.business, () {}),
             _buildDrawerItem('Settings', Icons.settings, () {}),
             _buildDrawerItem('About', Icons.info, () {}),
             const Spacer(),
-            _buildDrawerItem('Logout', Icons.logout, () {}),
+            _buildDrawerItem('Logout', Icons.logout, () {
+              if (onLogout != null) {
+                onLogout?.call();
+              }
+            }),
           ],
         ),
       ),

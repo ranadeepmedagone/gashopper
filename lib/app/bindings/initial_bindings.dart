@@ -5,6 +5,7 @@ import '../data/services/auth_service.dart';
 import '../data/services/dialog_service.dart';
 import '../modules/controllers/main_controller.dart';
 import '../modules/controllers/photo_upload_controller.dart';
+import '../modules/controllers/shift_update_controller.dart';
 import '../modules/scanner/scanner_controller.dart';
 import '../modules/splash/splash_controller.dart';
 
@@ -19,5 +20,6 @@ class InitialBindings extends Bindings {
     Get.lazyPut(() => ScannerController(), fenix: true);
     Get.lazyPut(() => PhotoUploadController(), fenix: true);
     Get.lazyPut(() => SplashController(), fenix: true);
+    Get.lazyPut(() => ShiftUpdateController(), fenix: true);
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/data/models/login_otp_request.dart';
 import 'package:gashopper/app/data/services/dialog_service.dart';
+import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 import '../../data/api/dio_helpers.dart';
 import '../../data/services/auth_service.dart';
-import '../scanner/scanner_screen.dart';
 
 class RegistrationController extends GetxController {
   // Dependencies
@@ -23,6 +23,7 @@ class RegistrationController extends GetxController {
   bool isVerifyOTPLoading = false;
   LoginOTPRequest? loginOTPRequest;
   Token? token;
+  FocusNode? emailFocusNode = FocusNode();
 
   bool get isEmailValid => emailTextEditingController.text.trim().isNotEmpty;
   bool get isOtpValid => otpController.text.trim().isNotEmpty;
@@ -51,6 +52,8 @@ class RegistrationController extends GetxController {
 
   // This method is called when user clicks on enter email button
   Future<void> enterEmail() async {
+    emailFocusNode?.unfocus();
+
     if (!isEmailValid) return;
 
     if (emailTextEditingController.text.contains('@') == false) {
@@ -108,7 +111,8 @@ class RegistrationController extends GetxController {
       if (token == null) return;
 
       await _authService.saveToken(token!);
-      Get.offAll(() => ScanerScreen());
+
+      Get.offAllNamed(Routes.scannerScreen);
     } catch (e) {
       await _showError(e.toString());
     } finally {

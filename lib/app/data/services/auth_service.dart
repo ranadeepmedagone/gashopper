@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../routes/app_pages.dart';
 import '../models/login_otp_request.dart';
 
 class AuthService extends GetxService {
@@ -106,7 +107,7 @@ class AuthService extends GetxService {
   Future<void> logout() async {
     try {
       await clearToken();
-      Get.offAllNamed('/registration');
+      Get.offAllNamed(Routes.registrationScreen);
     } catch (e) {
       debugPrint('Error during logout: $e');
     }

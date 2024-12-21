@@ -38,42 +38,51 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onTap: onTap,
-      onChanged: onChanged,
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      focusNode: focusNode,
-      decoration: InputDecoration(
-        fillColor: GashopperTheme.appBackGrounColor,
-        hintText: hintText,
-        hintStyle: hintStyle ??
-            const TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
+    return GestureDetector(
+      onTap: () {
+        focusNode?.requestFocus();
+      },
+      child: TextField(
+        onTap: onTap,
+        onChanged: (value) {
+          if (onChanged != null) {
+            onChanged!(value);
+          }
+        },
+        controller: controller,
+        keyboardType: keyboardType,
+        obscureText: obscureText,
+        focusNode: focusNode,
+        decoration: InputDecoration(
+          fillColor: GashopperTheme.appBackGrounColor,
+          hintText: hintText,
+          hintStyle: hintStyle ??
+              const TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+              ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+            borderSide: BorderSide(
+              color: borderColor,
             ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: borderColor,
           ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: borderColor,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+            borderSide: BorderSide(
+              color: borderColor,
+            ),
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(
-            color: focusedBorderColor,
-            width: borderWidth,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+            borderSide: BorderSide(
+              color: focusedBorderColor,
+              width: borderWidth,
+            ),
           ),
+          contentPadding: contentPadding,
         ),
-        contentPadding: contentPadding,
       ),
     );
   }

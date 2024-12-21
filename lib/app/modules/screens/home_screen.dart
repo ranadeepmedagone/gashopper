@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_button.dart';
-import 'package:gashopper/app/modules/screens/photo_upload_screen.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_navbar.dart';
+import '../../routes/app_pages.dart';
 import '../controllers/main_controller.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -63,7 +63,9 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {},
           ).ltrbPadding(8, 8, 8, 8),
         ),
-        drawer: const NavDrawer(),
+        drawer: NavDrawer(
+          onLogout: c.authService.logout,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
@@ -131,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                 CustomButton(
                   title: 'Veeder root',
                   onPressed: () {
-                    Get.to(() => PhotoUploadScreen());
+                    Get.toNamed(Routes.photoUploadScreen);
                   },
                   leftIcon: const Icon(
                     Icons.camera_alt_outlined,
@@ -149,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                 CustomButton(
                   title: 'Ruby report',
                   onPressed: () {
-                    Get.to(() => PhotoUploadScreen());
+                    Get.toNamed(Routes.photoUploadScreen);
                   },
                   leftIcon: const Icon(
                     Icons.camera_alt_outlined,
@@ -167,7 +169,7 @@ class HomeScreen extends StatelessWidget {
                 CustomButton(
                   title: 'Rate board',
                   onPressed: () {
-                    Get.to(() => PhotoUploadScreen());
+                    Get.toNamed(Routes.photoUploadScreen);
                   },
                   leftIcon: const Icon(
                     Icons.camera_alt_outlined,
@@ -185,7 +187,7 @@ class HomeScreen extends StatelessWidget {
                 CustomButton(
                   title: 'Change Price',
                   onPressed: () {
-                    Get.to(() => PhotoUploadScreen());
+                    Get.toNamed(Routes.photoUploadScreen);
                   },
                   leftIcon: const Icon(
                     Icons.camera_alt_outlined,
