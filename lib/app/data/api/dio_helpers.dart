@@ -46,30 +46,15 @@ class DioHelper extends GetxController {
       };
     }
 
-    _dio.interceptors.addAll([
-      TokenInterceptor(),
-      _LoggerInterceptor(),
-      _ErrorInterceptor(),
-      _ResponseInterceptor(),
-      _RequestInterceptor()
-    ]);
-  }
-
-  // Extract error messages from dio response.
-  String? _extractErrorMessage(dynamic error) {
-    if (error is dio.DioException) {
-      if (error.response?.data is String) {
-        return error.response?.data.toString();
-      }
-      if (error.response?.data is Map) {
-        final map = error.response?.data as Map;
-        return map['message']?.toString() ??
-            map['error']?.toString() ??
-            map['error_message']?.toString();
-      }
-      return error.message;
-    }
-    return error.toString();
+    _dio.interceptors.addAll(
+      [
+        TokenInterceptor(),
+        _LoggerInterceptor(),
+        _ErrorInterceptor(),
+        _ResponseInterceptor(),
+        _RequestInterceptor()
+      ],
+    );
   }
 
   // Handle request
@@ -79,17 +64,51 @@ class DioHelper extends GetxController {
     try {
       final response = await request();
       return (response, null);
-    } catch (error) {
-      return (null, _extractErrorMessage(error));
+    } catch (err) {
+      if (err is dio.DioException) {
+        // First check if there's a server error message
+        final responseData = err.response?.data;
+        if (responseData != null) {
+          if (responseData is Map && responseData['message'] != null) {
+            return (null, responseData['message'].toString());
+          }
+          if (responseData is String && responseData.isNotEmpty) {
+            return (null, responseData);
+          }
+        }
+
+        // If no server message, use status code based messages
+        switch (err.response?.statusCode) {
+          case 400:
+            return (null, 'Bad request. Please check your input.');
+          // case 401:
+          //   return (null, 'Unauthorized. Please login again.');
+          case 403:
+            return (null, 'Access forbidden. You don\'t have permission.');
+          case 404:
+            return (null, 'Data not found');
+          case 500:
+            return (null, 'Internal server error. Please try again later.');
+          case 502:
+            return (null, 'Server is currently unavailable. Please try again later.');
+          case 503:
+            return (null, 'Service unavailable. Please try again later.');
+          default:
+            return (null, 'Server error occurred (${err.response?.statusCode})');
+        }
+      }
+      return (null, err.toString());
     }
   }
 
   // Request OTP
   Future<(dio.Response?, String?)> requestOtp(String email) async {
-    return _handleRequest(() => _dio.post(
-          ApiEndPoints.requestOtp,
-          data: {'email': email},
-        ));
+    return _handleRequest(
+      () => _dio.post(
+        ApiEndPoints.requestOtpEndpoint,
+        data: {'email': email},
+      ),
+    );
   }
 
   // Verify OTP
@@ -98,20 +117,35 @@ class DioHelper extends GetxController {
     required int otp,
     required String? referenceNumber,
   }) async {
-    return _handleRequest(() => _dio.post(
-          ApiEndPoints.verifyOtp,
-          data: {
-            'email': email,
-            'otp': otp,
-            'reference_number': referenceNumber,
-            'password': '',
-          },
-        ));
+    return _handleRequest(
+      () => _dio.post(
+        ApiEndPoints.verifyOtpEndpoint,
+        data: {
+          'email': email,
+          'otp': otp,
+          'reference_number': referenceNumber,
+          'password': '',
+        },
+      ),
+    );
   }
 
   // Get app inputs
   Future<(dio.Response?, String?)> appInputs() async {
-    return _handleRequest(() => _dio.get(''));
+    return _handleRequest(
+      () => _dio.get(
+        ApiEndPoints.appInputsEndpoint,
+      ),
+    );
+  }
+
+  // Get all gas stations
+  Future<(dio.Response?, String?)> getAllGasStations() async {
+    return _handleRequest(
+      () => _dio.get(
+        ApiEndPoints.gasStationAPIEndpoint,
+      ),
+    );
   }
 }
 
@@ -156,8 +190,10 @@ class _ErrorInterceptor extends dio.Interceptor {
 class _RequestInterceptor extends dio.Interceptor {
   @override
   void onRequest(dio.RequestOptions options, dio.RequestInterceptorHandler handler) {
-    const token = '';
-    options.headers['Authorization'] = 'Bearer $token';
+    final token = Get.find<AuthService>().authToken;
+    if (token != null) {
+      options.headers['Authorization'] = 'Bearer $token';
+    }
 
     options.queryParameters.addAll({
       'app_version': '1.0.0',

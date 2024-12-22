@@ -1,11 +1,23 @@
+import 'package:gashopper/app/data/models/app_inputs.dart';
 import 'package:gashopper/app/data/services/auth_service.dart';
 import 'package:get/get.dart';
 
+import '../../data/api/dio_helpers.dart';
+import '../../data/models/gas_station.dart';
+import '../../data/services/dialog_service.dart';
 import '../../routes/app_pages.dart';
 
 class MainController extends GetxController {
+  // Dependencies
+  final DioHelper _dioHelper = Get.find<DioHelper>();
+  final DialogService _dialogService = Get.find<DialogService>();
   final authService = Get.find<AuthService>();
 
+  // Model
+  AppInputs? appInputs;
+  List<GasStation> gasStations = [];
+
+  // State variables
   bool isOnPressSales = false;
 
   bool isOnPressExpenses = false;
@@ -15,6 +27,18 @@ class MainController extends GetxController {
   bool isOnPressRequest = false;
 
   bool isOnPressReports = false;
+
+  bool isAppInputsLoading = false;
+
+  bool isGasStationsLoading = false;
+
+  @override
+  void onInit() async {
+    super.onInit();
+    // TODO FOR NOW WE HAVE ADDED HERE FOR TESTING PURPOSES
+    await getAppInputs();
+    await getGasStations();
+  }
 
   void onPressSales() {
     isOnPressSales = true;
@@ -82,5 +106,89 @@ class MainController extends GetxController {
     if (isOnPressRequest) return 'Request';
     if (isOnPressReports) return 'Reports';
     return '';
+  }
+
+  // Get app inputs when user enter into the home screen
+  Future<void> getAppInputs() async {
+    try {
+      isAppInputsLoading = true;
+      update();
+
+      final (response, error) = await _dioHelper.appInputs();
+
+      if (error != null || response?.data == null) {
+        isAppInputsLoading = false;
+        update();
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: error.toString(),
+          buttonText: 'OK',
+        );
+        isAppInputsLoading = false;
+        update();
+        return;
+      }
+      appInputs = AppInputs.fromJson(response?.data);
+    } catch (e) {
+      await _dialogService.showErrorDialog(
+        title: 'Error',
+        description: e.toString(),
+        buttonText: 'OK',
+      );
+    } finally {
+      isAppInputsLoading = false;
+      update();
+    }
+  }
+
+  // Get gas stations when user enter into the home screen
+  Future<void> getGasStations() async {
+    try {
+      isGasStationsLoading = true;
+      update();
+
+      final (response, error) = await _dioHelper.getAllGasStations();
+
+      if (error != null || response?.data == null) {
+        isGasStationsLoading = false;
+        update();
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: error ?? 'No data received',
+          buttonText: 'OK',
+        );
+        isGasStationsLoading = false;
+        update();
+        return;
+      }
+
+      if (response!.data is List) {
+        try {
+          gasStations = (response.data as List)
+              .map((item) => GasStation.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } catch (e) {
+          isGasStationsLoading = false;
+          update();
+          await _dialogService.showErrorDialog(
+            title: 'Error',
+            description: 'Failed to process gas stations data',
+            buttonText: 'OK',
+          );
+          isGasStationsLoading = false;
+          update();
+          return;
+        }
+      }
+    } catch (e) {
+      await _dialogService.showErrorDialog(
+        title: 'Error',
+        description: e.toString(),
+        buttonText: 'OK',
+      );
+    } finally {
+      isGasStationsLoading = false;
+      update();
+    }
   }
 }
