@@ -81,8 +81,8 @@ class DioHelper extends GetxController {
         switch (err.response?.statusCode) {
           case 400:
             return (null, 'Bad request. Please check your input.');
-          // case 401:
-          //   return (null, 'Unauthorized. Please login again.');
+          case 401:
+            return (null, 'Unauthorized. Please login again.');
           case 403:
             return (null, 'Access forbidden. You don\'t have permission.');
           case 404:
