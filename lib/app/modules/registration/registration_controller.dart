@@ -1,98 +1,96 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:gashopper/app/data/models/login_otp_request.dart';
-import 'package:gashopper/app/data/services/dialog_service.dart';
-import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 import '../../data/api/dio_helpers.dart';
+import '../../data/models/login_otp_request.dart';
 import '../../data/services/auth_service.dart';
+import '../../data/services/dialog_service.dart';
+import '../../routes/app_pages.dart';
 
 class RegistrationController extends GetxController {
   // Dependencies
   final DioHelper _dioHelper = Get.find<DioHelper>();
   final DialogService _dialogService = Get.find<DialogService>();
-  final _authService = Get.find<AuthService>();
+  final AuthService _authService = Get.find<AuthService>();
 
   // Controllers
   final emailTextEditingController = TextEditingController();
   final otpController = TextEditingController();
+  final emailFocusNode = FocusNode();
 
   // State variables
   bool isEmailFlow = true;
   bool isEnterEmailLoading = false;
   bool isVerifyOTPLoading = false;
   bool isResendOTPLoading = false;
+
   LoginOTPRequest? loginOTPRequest;
   Token? token;
-  FocusNode? emailFocusNode = FocusNode();
 
-  bool get isEmailValid => emailTextEditingController.text.trim().isNotEmpty;
-  bool get isOtpValid => otpController.text.trim().isNotEmpty;
-
-  // Add these variables for otp timer
+  // Timer variables
   int otpTimer = 45;
   Timer? timer;
+  bool canResendOtp = false;
+
+  // Error messages
   String? otpError;
   String? emailErrorMessage;
-  bool canResendOtp = false;
+
+  // Getters
+  bool get isEmailValid => emailTextEditingController.text.trim().isNotEmpty;
+  bool get isOtpValid => otpController.text.trim().isNotEmpty;
 
   @override
   void onInit() {
     super.onInit();
+    _setupListeners();
+  }
+
+  // Setup listeners fopr email and otp.
+  void _setupListeners() {
     emailTextEditingController.addListener(_onEmailChanged);
     otpController.addListener(_onOtpChanged);
-    startOtpTimer();
   }
 
-  void _onEmailChanged() {
-    update(); // Trigger UI update when email changes
-  }
+  // On email changed
+  void _onEmailChanged() => update();
+  // On otp changed
+  void _onOtpChanged() => update();
 
-  void _onOtpChanged() {
-    update(); // Trigger UI update when OTP changes
-  }
-
+  // Toggle email flow or otp flow.
   void toggleEmailFlow() {
     isEmailFlow = false;
     startOtpTimer();
     update();
   }
 
-  // This method is called when user clicks on enter email button
+  // Enter email
   Future<(bool, String?)> enterEmail() async {
-    emailFocusNode?.unfocus();
-
+    emailFocusNode.unfocus();
     emailErrorMessage = null;
     update();
 
-    if (!isEmailValid) {
-      emailErrorMessage = 'Email is required';
-      update();
-      return (false, 'Email is required');
-    }
-
-    if (!emailTextEditingController.text.contains('@')) {
-      emailErrorMessage = 'Please enter a valid email';
-      update();
-      return (false, 'Invalid email format');
+    // Validate email
+    if (!_validateEmail()) {
+      return (false, emailErrorMessage);
     }
 
     try {
       isEnterEmailLoading = true;
       update();
 
-      final (response, errorMessage) =
+      final (response, error) =
           await _dioHelper.requestOtp(emailTextEditingController.text.trim());
 
-      if (errorMessage != null || response?.data == null) {
-        emailErrorMessage = errorMessage ?? 'Failed to send OTP. Please try again.';
+      if (error != null || response?.data == null) {
+        emailErrorMessage = error ?? 'Failed to send OTP. Please try again.';
         update();
-        return (false, errorMessage ?? 'Failed to send OTP. Please try again.');
+        return (false, emailErrorMessage);
       }
 
-      loginOTPRequest = LoginOTPRequest.fromJson(response.data);
+      loginOTPRequest = LoginOTPRequest.fromJson(response!.data);
       isEmailFlow = false;
       startOtpTimer();
 
@@ -106,7 +104,23 @@ class RegistrationController extends GetxController {
     }
   }
 
-  // This method is called when user clicks on verify otp button
+  // Validations for email.
+  bool _validateEmail() {
+    final email = emailTextEditingController.text.trim();
+    if (email.isEmpty) {
+      emailErrorMessage = 'Email is required';
+      update();
+      return false;
+    }
+    if (!email.contains('@')) {
+      emailErrorMessage = 'Please enter a valid email';
+      update();
+      return false;
+    }
+    return true;
+  }
+
+  // Verify otp.
   Future<void> verifyOtp() async {
     if (!isOtpValid) return;
 
@@ -121,23 +135,22 @@ class RegistrationController extends GetxController {
 
     try {
       isVerifyOTPLoading = true;
-      otpError = null;
       update();
 
-      final (response, errorMessage) = await _dioHelper.verifyOtp(
+      final (response, error) = await _dioHelper.verifyOtp(
         email: emailTextEditingController.text.trim(),
         otp: int.parse(otpController.text.trim()),
         referenceNumber: loginOTPRequest?.referenceNumber ?? '',
       );
 
-      if (errorMessage != null || response?.data == null) {
-        otpError = errorMessage ?? 'Error verifying OTP';
+      if (error != null || response?.data == null) {
+        otpError = error ?? 'Error verifying OTP';
         update();
         return;
       }
 
       try {
-        token = Token.fromJson(response);
+        token = Token.fromJson(response!.data);
 
         if (token == null) {
           otpError = 'Invalid response from server';
@@ -146,7 +159,6 @@ class RegistrationController extends GetxController {
         }
 
         await _authService.saveToken(token!);
-
         Get.offAllNamed(Routes.scannerScreen);
       } catch (e) {
         otpError = 'Invalid token format';
@@ -161,16 +173,43 @@ class RegistrationController extends GetxController {
     }
   }
 
-  Future<void> _showError(String message) async {
-    await _dialogService.showErrorDialog(
-      title: 'Erro',
-      description: message,
-      buttonText: 'OK',
-    );
+  // Resend otp.
+  Future<void> resendOtp() async {
+    if (!canResendOtp) return;
+
+    try {
+      isResendOTPLoading = true;
+      update();
+
+      final (response, error) =
+          await _dioHelper.requestOtp(emailTextEditingController.text.trim());
+
+      if (error != null) {
+        otpTimer = -2;
+        otpError = error;
+        update();
+        return;
+      }
+
+      if (response?.data == null) {
+        otpTimer = -2;
+        otpError = 'Failed to resend OTP';
+        update();
+        return;
+      }
+
+      loginOTPRequest = LoginOTPRequest.fromJson(response!.data);
+      startOtpTimer();
+    } catch (e) {
+      otpTimer = -2;
+      await _showError(e.toString());
+    } finally {
+      isResendOTPLoading = false;
+      update();
+    }
   }
 
-  // Add timer functionality
-  // Add this method for timer control
+  // Start otp timer.
   void startOtpTimer() {
     otpTimer = 45;
     canResendOtp = false;
@@ -188,49 +227,23 @@ class RegistrationController extends GetxController {
     });
   }
 
-  // Add resend OTP functionality
-  Future<void> resendOtp() async {
-    if (!canResendOtp) return;
-
-    try {
-      isResendOTPLoading = true;
-      update();
-
-      final (response, errorMessage) =
-          await _dioHelper.requestOtp(emailTextEditingController.text.trim());
-
-      if (errorMessage != null) {
-        otpTimer = -2; // Error state
-        otpError = errorMessage;
-        update();
-        return;
-      }
-
-      if (response?.data == null) {
-        otpTimer = -2;
-        otpError = 'Failed to resend OTP';
-        update();
-        return;
-      }
-
-      loginOTPRequest = LoginOTPRequest.fromJson(response.data);
-      startOtpTimer(); // Restart timer after successful resend
-    } catch (e) {
-      otpTimer = -2;
-      await _showError(e.toString());
-    } finally {
-      isResendOTPLoading = false;
-      update();
-    }
+  // Show error dialog.
+  Future<void> _showError(String message) async {
+    await _dialogService.showErrorDialog(
+      title: 'Error',
+      description: message,
+      buttonText: 'OK',
+    );
   }
 
   @override
   void onClose() {
-    timer?.cancel(); // Cancel timer when controller is disposed
+    timer?.cancel();
     emailTextEditingController.removeListener(_onEmailChanged);
     otpController.removeListener(_onOtpChanged);
     emailTextEditingController.dispose();
     otpController.dispose();
+    emailFocusNode.dispose();
     super.onClose();
   }
 }

@@ -288,7 +288,7 @@ class _DateNavigatorState extends State<DateNavigator> {
                 color: GashopperTheme.black,
               ),
               Text(
-                DateFormat('dd-MM-yyyy').format(_selectedDate),
+                DateFormat('MM-dd-yyyy').format(_selectedDate),
                 style: GashopperTheme.fontWeightApplier(
                   FontWeight.w700,
                   textTheme.bodyMedium!.copyWith(
