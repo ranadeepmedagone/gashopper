@@ -8,9 +8,11 @@ import 'custom_profile.dart';
 
 class NavDrawer extends StatelessWidget {
   final Function()? onLogout;
+  final String? loginUserEmail;
   const NavDrawer({
     super.key,
     this.onLogout,
+    this.loginUserEmail,
   });
 
   @override
@@ -27,16 +29,17 @@ class NavDrawer extends StatelessWidget {
                   'https://static.langimg.com/photo/imgsize-29734,msid-63682163/navbharat-times.jpg',
               size: 80,
             ).ltrbPadding(0, 0, 0, 4),
-            Text(
-              'ranadeepmedagone@gmail.com',
-              style: GashopperTheme.fontWeightApplier(
-                FontWeight.w600,
-                textTheme.bodyMedium!.copyWith(
-                  color: GashopperTheme.black,
-                  fontSize: 14,
+            if (loginUserEmail != null)
+              Text(
+                loginUserEmail!,
+                style: GashopperTheme.fontWeightApplier(
+                  FontWeight.w600,
+                  textTheme.bodyMedium!.copyWith(
+                    color: GashopperTheme.black,
+                    fontSize: 14,
+                  ),
                 ),
               ),
-            ),
             Text(
               '91+ 8074635315',
               style: GashopperTheme.fontWeightApplier(

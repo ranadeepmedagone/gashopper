@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
+import 'package:gashopper/app/modules/controllers/list_controller.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
@@ -17,7 +18,7 @@ class SalesListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MainController>(builder: (c) {
+    return GetBuilder<ListController>(builder: (c) {
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: GashopperTheme.appBackGrounColor,
@@ -32,7 +33,7 @@ class SalesListScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  c.getTypeNmae(),
+                  c.mainController.getTypeNmae(),
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -84,12 +85,13 @@ class SalesListScreen extends StatelessWidget {
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 10,
+                  itemCount: c.cashDropsList.length,
                   itemBuilder: (context, index) {
+                    final cashDrop = c.cashDropsList[index];
                     return ListCard(
-                      isPending: (index == 1 || index == 3 || index == 5 || index == 6),
-                      title: 'CBZ Trucking',
-                      value: '280.37',
+                      isPending: false,
+                      title: cashDrop.description ?? '',
+                      value: '\$ ${cashDrop.amount}',
                     ).ltrbPadding(0, 0, 0, 16);
                   },
                 ),

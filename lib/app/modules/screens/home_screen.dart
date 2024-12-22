@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/utils/widgets/custom_appbar.dart';
+import '../../core/utils/widgets/custom_loader.dart';
 import '../../core/utils/widgets/custom_navbar.dart';
 import '../../routes/app_pages.dart';
 import '../controllers/main_controller.dart';
@@ -71,9 +72,10 @@ class HomeScreen extends StatelessWidget {
                 ? null
                 : NavDrawer(
                     onLogout: c.authService.logout,
+                    loginUserEmail: c.registrationController.emailTextEditingController.text,
                   ),
             body: c.isAppInputsLoading
-                ? const CircularProgressIndicator()
+                ? const Center(child: CustomLoader())
                 : SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),

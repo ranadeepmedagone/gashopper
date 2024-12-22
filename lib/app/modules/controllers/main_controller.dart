@@ -6,12 +6,14 @@ import '../../data/api/dio_helpers.dart';
 import '../../data/models/gas_station.dart';
 import '../../data/services/dialog_service.dart';
 import '../../routes/app_pages.dart';
+import '../registration/registration_controller.dart';
 
 class MainController extends GetxController {
   // Dependencies
   final DioHelper _dioHelper = Get.find<DioHelper>();
   final DialogService _dialogService = Get.find<DialogService>();
   final authService = Get.find<AuthService>();
+  final registrationController = Get.put(RegistrationController());
 
   // Model
   AppInputs? appInputs;

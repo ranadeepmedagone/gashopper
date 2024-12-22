@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/app_theme.dart';
+import 'custom_loader.dart';
 
 class CustomButton extends StatelessWidget {
   final String title;
@@ -69,12 +70,10 @@ class CustomButton extends StatelessWidget {
                 ),
                 if (isLoading) const SizedBox(width: 8),
                 if (isLoading)
-                  const SizedBox(
-                    height: 16,
-                    width: 16,
-                    child: CircularProgressIndicator(
-                      color: GashopperTheme.black,
-                      strokeWidth: 2,
+                  const Center(
+                    child: CustomLoader(
+                      size: 16,
+                      customStrokeWidth: 2,
                     ),
                   ),
                 if (isRightIconEnd) const Spacer(),

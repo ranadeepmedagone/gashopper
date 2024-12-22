@@ -8,6 +8,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
+import '../../core/utils/widgets/custom_loader.dart';
 import '../../core/values/constants.dart';
 import '../../routes/app_pages.dart';
 import 'scanner_controller.dart';
@@ -64,15 +65,7 @@ class ScanerScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      if (controller.isLoading)
-                        Container(
-                          color: Colors.black54,
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              color: GashopperTheme.appYellow,
-                            ),
-                          ),
-                        ),
+                      if (controller.isLoading) const Center(child: CustomLoader()),
                       if (controller.hasValidQR)
                         Container(
                           color: Colors.black54,

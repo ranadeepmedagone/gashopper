@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../core/utils/widgets/custom_button.dart';
+import '../../core/utils/widgets/custom_loader.dart';
 import '../../core/utils/widgets/custom_richtext.dart';
 import '../../core/utils/widgets/custom_textfield.dart';
 import '../../core/values/constants.dart';
@@ -504,12 +505,10 @@ class OtpFlow extends StatelessWidget {
     }
 
     if (isResendLoading) {
-      return const SizedBox(
-        width: 18,
-        height: 18,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          color: GashopperTheme.black,
+      return const Center(
+        child: CustomLoader(
+          size: 18,
+          customStrokeWidth: 2,
         ),
       );
     }

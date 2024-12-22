@@ -147,6 +147,31 @@ class DioHelper extends GetxController {
       ),
     );
   }
+
+  // Get all cash drops
+  Future<(dio.Response?, String?)> getAllCashDrops() async {
+    return _handleRequest(
+      () => _dio.get(
+        ApiEndPoints.cashDropAPIEndpoint,
+      ),
+    );
+  }
+
+  // Create cash drop
+  Future<(dio.Response?, String?)> createCashDrop({
+    required String? description,
+    required int amount,
+  }) async {
+    return _handleRequest(
+      () => _dio.post(
+        ApiEndPoints.cashDropAPIEndpoint,
+        data: {
+          'amount': amount,
+          'description': description,
+        },
+      ),
+    );
+  }
 }
 
 // Interceptors

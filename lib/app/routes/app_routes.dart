@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gashopper/app/modules/bindings/create_bindings.dart';
 import 'package:gashopper/app/modules/bindings/photo_upload_bindings.dart';
 import 'package:gashopper/app/modules/bindings/shift_update_bindings.dart';
 import 'package:gashopper/app/modules/screens/photo_upload_screen.dart';
@@ -6,6 +7,7 @@ import 'package:gashopper/app/modules/screens/shift_update_screen.dart';
 import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
+import '../modules/bindings/list_bindings.dart';
 import '../modules/bindings/main_bindings.dart';
 import '../modules/registration/registration_bindings.dart';
 import '../modules/registration/registration_screen.dart';
@@ -59,7 +61,7 @@ class RouteGenerator {
       case Routes.listScreen:
         return GetPageRoute(
           routeName: Routes.listScreen,
-          binding: MainBindings(),
+          binding: ListBindings(),
           page: () => SalesListScreen(),
           settings: settings,
         );
@@ -67,7 +69,7 @@ class RouteGenerator {
       case Routes.createScreen:
         return GetPageRoute(
           routeName: Routes.createScreen,
-          binding: MainBindings(),
+          binding: CreateBindings(),
           page: () => CreateScreen(),
           settings: settings,
         );

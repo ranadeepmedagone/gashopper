@@ -13,6 +13,7 @@ class ApiEndPoints {
   // Base url
   static const baseUrl = serverAddress + gashopperAPIEndpoint;
 
+  // Gas Station API
   static const gasStationAPIEndpoint = '$baseUrl/gas_station';
 
   // Auth APIs
@@ -21,4 +22,7 @@ class ApiEndPoints {
 
   // App inputs
   static const appInputsEndpoint = '$gasStationAPIEndpoint/module_inputs';
+
+  // Cash drop API
+  static const cashDropAPIEndpoint = '$baseUrl/cash_drop';
 }
