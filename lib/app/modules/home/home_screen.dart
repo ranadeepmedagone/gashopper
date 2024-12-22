@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
-import 'package:gashopper/app/core/utils/widgets/custom_button.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
+import '../../core/utils/widgets/custom_button.dart';
 import '../../core/utils/widgets/custom_loader.dart';
 import '../../core/utils/widgets/custom_navbar.dart';
 import '../../routes/app_pages.dart';

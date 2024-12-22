@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
-import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
+import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_button.dart';
 import '../../core/utils/widgets/custom_loader.dart';
 import '../../core/utils/widgets/custom_richtext.dart';
 import '../../core/utils/widgets/custom_textfield.dart';
 import '../../core/values/constants.dart';
+import 'registration_controller.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({super.key});

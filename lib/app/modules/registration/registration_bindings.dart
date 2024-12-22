@@ -1,5 +1,6 @@
-import 'package:gashopper/app/modules/registration/registration_controller.dart';
 import 'package:get/get.dart';
+
+import 'registration_controller.dart';
 
 class RegistrationBindings extends Bindings {
   @override

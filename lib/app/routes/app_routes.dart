@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:gashopper/app/modules/create/create_bindings.dart';
-import 'package:gashopper/app/modules/photo_upload/photo_upload_bindings.dart';
-import 'package:gashopper/app/modules/photo_upload/photo_upload_screen.dart';
-import 'package:gashopper/app/modules/shift_update/shift_update_bindings.dart';
-import 'package:gashopper/app/modules/shift_update/shift_update_screen.dart';
-import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
+import '../modules/create/create_bindings.dart';
 import '../modules/create/create_screen.dart';
 import '../modules/home/home_bindings.dart';
 import '../modules/home/home_screen.dart';
 import '../modules/list/list_bindings.dart';
 import '../modules/list/list_screen.dart';
 import '../modules/no_data_screen.dart';
+import '../modules/photo_upload/photo_upload_bindings.dart';
+import '../modules/photo_upload/photo_upload_screen.dart';
 import '../modules/registration/registration_bindings.dart';
 import '../modules/registration/registration_screen.dart';
 import '../modules/scanner/scanner_bindings.dart';
 import '../modules/scanner/scanner_screen.dart';
+import '../modules/shift_update/shift_update_bindings.dart';
+import '../modules/shift_update/shift_update_screen.dart';
 import '../modules/splash/splash_binding.dart';
 import '../modules/splash/splash_screen.dart';
+import 'app_pages.dart';
 
 //  `RouteGenerator` is a class that generates routes for the application.
 class RouteGenerator {

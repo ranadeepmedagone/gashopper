@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
-import 'package:gashopper/app/modules/list/list_controller.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
@@ -9,6 +8,7 @@ import '../../core/utils/widgets/custom_button.dart';
 import '../../core/utils/widgets/custom_loader.dart';
 import '../../routes/app_pages.dart';
 import '../home/home_controller.dart';
+import 'list_controller.dart';
 
 class SalesListScreen extends StatelessWidget {
   SalesListScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:get/get.dart';
 
+import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_loader.dart';
 import 'splash_controller.dart';
 

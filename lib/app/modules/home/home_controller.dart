@@ -1,9 +1,9 @@
-import 'package:gashopper/app/data/models/app_inputs.dart';
-import 'package:gashopper/app/data/services/auth_service.dart';
 import 'package:get/get.dart';
 
 import '../../data/api/dio_helpers.dart';
+import '../../data/models/app_inputs.dart';
 import '../../data/models/gas_station.dart';
+import '../../data/services/auth_service.dart';
 import '../../data/services/dialog_service.dart';
 import '../../routes/app_pages.dart';
 import '../registration/registration_controller.dart';
