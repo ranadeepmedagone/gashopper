@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:gashopper/app/modules/bindings/create_bindings.dart';
-import 'package:gashopper/app/modules/bindings/photo_upload_bindings.dart';
-import 'package:gashopper/app/modules/bindings/shift_update_bindings.dart';
-import 'package:gashopper/app/modules/screens/photo_upload_screen.dart';
-import 'package:gashopper/app/modules/screens/shift_update_screen.dart';
+import 'package:gashopper/app/modules/create/create_bindings.dart';
+import 'package:gashopper/app/modules/photo_upload/photo_upload_bindings.dart';
+import 'package:gashopper/app/modules/photo_upload/photo_upload_screen.dart';
+import 'package:gashopper/app/modules/shift_update/shift_update_bindings.dart';
+import 'package:gashopper/app/modules/shift_update/shift_update_screen.dart';
 import 'package:gashopper/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
-import '../modules/bindings/list_bindings.dart';
-import '../modules/bindings/main_bindings.dart';
+import '../modules/create/create_screen.dart';
+import '../modules/home/home_bindings.dart';
+import '../modules/home/home_screen.dart';
+import '../modules/list/list_bindings.dart';
+import '../modules/list/list_screen.dart';
+import '../modules/no_data_screen.dart';
 import '../modules/registration/registration_bindings.dart';
 import '../modules/registration/registration_screen.dart';
 import '../modules/scanner/scanner_bindings.dart';
 import '../modules/scanner/scanner_screen.dart';
-import '../modules/screens/create_screen.dart';
-import '../modules/screens/home_screen.dart';
-import '../modules/screens/list_screen.dart';
-import '../modules/screens/no_data_screen.dart';
 import '../modules/splash/splash_binding.dart';
 import '../modules/splash/splash_screen.dart';
 
@@ -53,7 +53,7 @@ class RouteGenerator {
       case Routes.homeScreen:
         return GetPageRoute(
           routeName: Routes.homeScreen,
-          binding: MainBindings(),
+          binding: HomeBindings(),
           page: () => HomeScreen(),
           settings: settings,
         );

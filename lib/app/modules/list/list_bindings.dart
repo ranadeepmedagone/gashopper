@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../controllers/list_controller.dart';
+import 'list_controller.dart';
 
 class ListBindings extends Bindings {
   @override

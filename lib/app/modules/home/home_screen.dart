@@ -9,18 +9,18 @@ import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_loader.dart';
 import '../../core/utils/widgets/custom_navbar.dart';
 import '../../routes/app_pages.dart';
-import '../controllers/main_controller.dart';
+import 'home_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final homeController = Get.find<MainController>();
+  final homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MainController>(
+    return GetBuilder<HomeController>(
         initState: (state) {},
         builder: (c) {
           return Scaffold(

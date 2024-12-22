@@ -8,7 +8,7 @@ import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
 import '../../routes/app_pages.dart';
-import '../controllers/shift_update_controller.dart';
+import 'shift_update_controller.dart';
 
 // shift_update_screen.dart
 

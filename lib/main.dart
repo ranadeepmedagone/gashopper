@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'app/bindings/initial_bindings.dart';
 import 'app/core/theme/app_theme.dart';
 import 'app/data/models/login_otp_request.dart';
 import 'app/data/services/auth_service.dart';
+import 'app/initial_bindings/initial_bindings.dart';
 import 'app/modules/registration/registration_controller.dart';
 import 'app/modules/splash/splash_screen.dart';
 import 'app/routes/app_routes.dart';

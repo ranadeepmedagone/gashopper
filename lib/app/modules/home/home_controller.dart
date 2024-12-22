@@ -8,7 +8,7 @@ import '../../data/services/dialog_service.dart';
 import '../../routes/app_pages.dart';
 import '../registration/registration_controller.dart';
 
-class MainController extends GetxController {
+class HomeController extends GetxController {
   // Dependencies
   final DioHelper _dioHelper = Get.find<DioHelper>();
   final DialogService _dialogService = Get.find<DialogService>();

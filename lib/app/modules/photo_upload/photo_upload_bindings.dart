@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../controllers/photo_upload_controller.dart';
+import 'photo_upload_controller.dart';
 
 class PhotoUploadBindings extends Bindings {
   @override

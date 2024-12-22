@@ -3,21 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_loader.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_textfield.dart';
-import 'package:gashopper/app/modules/controllers/create_controller.dart';
+import 'package:gashopper/app/modules/create/create_controller.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
 import '../../core/utils/widgets/custom_dropdown.dart';
-import '../controllers/main_controller.dart';
+import '../home/home_controller.dart';
 
 class CreateScreen extends StatelessWidget {
   CreateScreen({super.key});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final homeController = Get.find<MainController>();
+  final homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@ import 'package:path/path.dart' as path;
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
-import '../controllers/photo_upload_controller.dart';
+import 'photo_upload_controller.dart';
 
 class PhotoUploadScreen extends StatelessWidget {
   PhotoUploadScreen({super.key});

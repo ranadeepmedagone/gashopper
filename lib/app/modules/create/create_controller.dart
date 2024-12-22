@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 
 import '../../data/api/dio_helpers.dart';
 import '../../data/services/dialog_service.dart';
-import 'main_controller.dart';
+import '../home/home_controller.dart';
 
 class CreateController extends GetxController {
 // Dependencies
-  final mainController = Get.find<MainController>();
+  final mainController = Get.find<HomeController>();
   final _dioHelper = Get.find<DioHelper>();
   final _dialogService = Get.find<DialogService>();
 
