@@ -14,7 +14,9 @@ class ListController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getAllCashDrops();
+    if (mainController.isOnPressCashDrop) {
+      await getAllCashDrops();
+    }
     update();
   }
 

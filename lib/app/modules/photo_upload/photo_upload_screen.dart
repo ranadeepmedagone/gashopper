@@ -31,57 +31,58 @@ class PhotoUploadScreen extends StatelessWidget {
           title: 'Business Unit',
         ),
         bottomNavigationBar: Container(
-          margin: MediaQuery.of(context).padding.bottom > 12.0
-              ? EdgeInsets.only(
-                  bottom: MediaQuery.of(context).padding.bottom - 12.0,
-                )
-              : null,
-          height: mQ.size.height / 6,
-          decoration: BoxDecoration(color: GashopperTheme.appBackGrounColor, boxShadow: [
-            BoxShadow(
-              color: GashopperTheme.grey1.withOpacity(0.6),
-              offset: const Offset(0, 4),
-              blurRadius: 8,
-              spreadRadius: 0,
-            ),
-          ]),
+          decoration: BoxDecoration(
+            color: GashopperTheme.appBackGrounColor,
+            boxShadow: [
+              BoxShadow(
+                color: GashopperTheme.grey1.withOpacity(0.6),
+                offset: const Offset(0, 4),
+                blurRadius: 8,
+                spreadRadius: 0,
+              ),
+            ],
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                if (controller.selectedImageFile != null)
-                  CustomButton(
+            child: controller.selectedImageFile != null
+                ? CustomButton(
                     title: 'Upload Photo',
                     onPressed: () {},
-                  ).ltrbPadding(0, 0, 0, 16),
-                if (controller.selectedImageFile == null)
-                  CustomButton(
-                    title: 'Take Photo',
-                    onPressed: () {
-                      controller.isAttachmentUpload ? null : controller.onCaptureImage();
-                    },
-                    leftIcon: const Icon(
-                      Icons.camera_alt_outlined,
-                      color: GashopperTheme.black,
-                      size: 26,
-                    ).ltrbPadding(8, 0, 24, 0),
-                    rightIcon: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: GashopperTheme.black,
-                      size: 18,
-                    ),
-                    isLeftIcon: true,
-                    isRightIconEnd: true,
-                  ).ltrbPadding(0, 0, 0, 16),
-                CustomButton(
-                  title: 'Go Back',
-                  onPressed: () {
-                    Get.back();
-                  },
-                  customBackgroundColor: GashopperTheme.appBackGrounColor,
-                ).ltrbPadding(0, 0, 0, 8),
-              ],
-            ),
+                  ).ltrbPadding(0, 0, 0, 16)
+                : Row(
+                    children: [
+                      CustomButton(
+                        title: 'Go Back',
+                        onPressed: () {
+                          Get.back();
+                        },
+                        customBackgroundColor: GashopperTheme.appBackGrounColor,
+                      ).ltrbPadding(0, 0, 0, 16),
+                      if (controller.selectedImageFile == null)
+                        Expanded(
+                          child: CustomButton(
+                            title: 'Take Photo',
+                            onPressed: () {
+                              controller.isAttachmentUpload
+                                  ? null
+                                  : controller.onCaptureImage();
+                            },
+                            leftIcon: const Icon(
+                              Icons.camera_alt_outlined,
+                              color: GashopperTheme.black,
+                              size: 26,
+                            ).ltrbPadding(8, 0, 24, 0),
+                            rightIcon: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: GashopperTheme.black,
+                              size: 18,
+                            ),
+                            isLeftIcon: true,
+                            isRightIconEnd: true,
+                          ).ltrbPadding(0, 0, 0, 16),
+                        ),
+                    ],
+                  ),
           ),
         ),
         body: SingleChildScrollView(
