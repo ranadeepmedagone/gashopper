@@ -35,6 +35,10 @@
 	<key>UISupportedInterfaceOrientations</key>
     <key>NSCameraUsageDescription</key>
     <string>This app needs camera access to scan QR codes</string>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>UIFileSharingEnabled</key> 
+    <true/>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

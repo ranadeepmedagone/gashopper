@@ -1,4 +1,4 @@
-package com.example.gashopper
+package com.gasopper.app
 
 import io.flutter.embedding.android.FlutterActivity
 

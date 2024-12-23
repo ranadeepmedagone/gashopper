@@ -28,6 +28,7 @@ class HomeScreen extends StatelessWidget {
             backgroundColor: GashopperTheme.appBackGrounColor,
             appBar: CustomAppBar(
               isTitleCentered: true,
+              showBackButton: false,
               title: 'Business Unit',
               customLeadingWidget: c.isAppInputsLoading
                   ? null

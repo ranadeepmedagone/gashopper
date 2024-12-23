@@ -9,4 +9,5 @@ abstract class Routes {
   static const String shiftUpdateScreen = '/shift_update';
   static const String photoUploadScreen = '/photo_upload';
   static const String noDataScreen = '/no_data';
+  static const String pdfViewewScreen = '/pdf_viewer';
 }

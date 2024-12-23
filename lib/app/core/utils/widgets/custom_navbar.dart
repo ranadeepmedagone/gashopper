@@ -59,7 +59,9 @@ class NavDrawer extends StatelessWidget {
             _buildDrawerItem('Shift', Icons.work_history_outlined, () {
               Get.toNamed(Routes.shiftUpdateScreen);
             }),
-            _buildDrawerItem('DSR', Icons.edit_document, () {}),
+            _buildDrawerItem('DSR', Icons.edit_document, () {
+              Get.toNamed(Routes.pdfViewewScreen);
+            }),
             _buildDrawerItem('Request / Reports', Icons.business, () {}),
             // _buildDrawerItem('Settings', Icons.settings, () {}),
             _buildDrawerItem('About', Icons.info, () {}),
