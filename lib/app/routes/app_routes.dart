@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 
 import '../modules/create/create_bindings.dart';
 import '../modules/create/create_screen.dart';
-import '../modules/dsr/pdf_viewer_bindings.dart';
-import '../modules/dsr/pdf_viewer_screen.dart';
 import '../modules/home/home_bindings.dart';
 import '../modules/home/home_screen.dart';
 import '../modules/list/list_bindings.dart';
@@ -92,13 +90,13 @@ class RouteGenerator {
           settings: settings,
         );
 
-      case Routes.pdfViewewScreen:
-        return GetPageRoute(
-          routeName: Routes.pdfViewewScreen,
-          binding: PDFViewerBindings(),
-          page: () => PDFViewerScreen(),
-          settings: settings,
-        );
+      // case Routes.pdfViewewScreen:
+      //   return GetPageRoute(
+      //     routeName: Routes.pdfViewewScreen,
+      //     binding: PDFViewerBindings(),
+      //     page: () => Pdf(),
+      //     settings: settings,
+      //   );
 
       default:
         return GetPageRoute(

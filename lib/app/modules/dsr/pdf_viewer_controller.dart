@@ -46,7 +46,7 @@ class PDFViewerController extends GetxController {
         Get.toNamed(
           Routes.pdfViewewScreen,
           arguments: {
-            'url': file.path,
+            'filePath': file.path, // Change 'url' to 'filePath'
             'title': 'Gas Station Details',
             'fileName': 'gas_station_${station.id}.pdf',
           },

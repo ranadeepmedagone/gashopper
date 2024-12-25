@@ -13,6 +13,16 @@ class GasStationPDFGenerator {
     PdfPageFormat format,
     GasStation station,
   ) async {
+    station = GasStation(
+        id: 1,
+        name: 'Test Station',
+        address: '123 Test Street',
+        contactNumber: 1234567890,
+        operatingHours: 24,
+        latitude: 12.345,
+        longitude: 67.890,
+        createdByUserName: 'Test User');
+
     final doc = pw.Document(pageMode: PdfPageMode.fullscreen);
     const title = 'Gas Station Details';
 

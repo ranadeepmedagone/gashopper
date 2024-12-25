@@ -68,7 +68,7 @@ class CreateScreen extends StatelessWidget {
                           ? 'Drop'
                           : 'Create',
                   onPressed: () {
-                    if (c.mainController.isOnPressCashDrop) {
+                    if (c.mainController.isOnPressCashDrop && !c.isCashDropsCreating) {
                       if (c.cashDropDesController.text.trim().isNotEmpty &&
                           c.cashDropAmountController.text.trim().isNotEmpty) {
                         c.createCashDrop();
@@ -88,8 +88,7 @@ class CreateScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (!c.mainController.isOnPressRequest &&
-                          !c.mainController.isOnPressCashDrop)
+                      if (c.mainController.isOnPressSales) ...[
                         CustomDropdownButton<List<String>>(
                           value: const ['Level 01'],
                           items: const [
@@ -127,6 +126,80 @@ class CreateScreen extends StatelessWidget {
                             blurRadius: 16,
                           ),
                         ).ltrbPadding(0, 0, 0, 16),
+                        const Text(
+                          'Amout',
+                          style: TextStyle(
+                            fontSize: 14,
+                            letterSpacing: 0.5,
+                            fontWeight: FontWeight.w700,
+                            color: GashopperTheme.black,
+                          ),
+                        ).ltrbPadding(0, 0, 0, 8),
+                        CustomTextField(
+                          hintText: 'Enter amount',
+                          hintStyle: GashopperTheme.fontWeightApplier(
+                            FontWeight.w600,
+                            textTheme.bodyMedium!.copyWith(
+                              color: GashopperTheme.grey1,
+                              fontSize: 14,
+                            ),
+                          ),
+                          borderRadius: 12,
+                          borderColor: Colors.grey[400]!,
+                          focusedBorderColor: GashopperTheme.appYellow,
+                          borderWidth: 1.5,
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          controller: c.cashDropAmountController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {},
+                        ).ltrbPadding(0, 0, 0, 16),
+                        const Text(
+                          'Payment type',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.black),
+                        ).ltrbPadding(0, 0, 0, 8),
+                        CustomDropdownButton<List<String>>(
+                          value: const ['Level 01'],
+                          items: const [
+                            DropdownMenuItem(
+                              value: ['Level 01'],
+                              child: Text(
+                                'Empire Trucking',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ),
+                          ],
+                          hintText: 'Select',
+                          onChanged: (value) {
+                            // Handle selection change
+                          },
+                          onSaved: (value) {
+                            // Handle value save
+                          },
+                          borderRadius: BorderRadius.circular(12),
+                          borderColor: Colors.black,
+                          borderWidth: 1.5,
+                          padding: const EdgeInsets.all(8),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.grey,
+                          ),
+                          dropdownShadow: BoxShadow(
+                            color: Colors.grey.withOpacity(0.4),
+                            offset: const Offset(0, 4),
+                            blurRadius: 16,
+                          ),
+                        ).ltrbPadding(0, 0, 0, 16),
+                      ],
                       if (c.mainController.isOnPressCashDrop) ...[
                         const Text(
                           'Description',
@@ -185,55 +258,6 @@ class CreateScreen extends StatelessWidget {
                           onChanged: (value) {},
                         ).ltrbPadding(0, 0, 0, 16),
                       ],
-                      if (!c.mainController.isOnPressCashDrop &&
-                          !c.mainController.isOnPressRequest)
-                        const Text(
-                          'Payment type',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 0.5,
-                              color: GashopperTheme.black),
-                        ).ltrbPadding(0, 0, 0, 8),
-                      if (!c.mainController.isOnPressCashDrop &&
-                          !c.mainController.isOnPressRequest)
-                        CustomDropdownButton<List<String>>(
-                          value: const ['Level 01'],
-                          items: const [
-                            DropdownMenuItem(
-                              value: ['Level 01'],
-                              child: Text(
-                                'Empire Trucking',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                            ),
-                          ],
-                          hintText: 'Select',
-                          onChanged: (value) {
-                            // Handle selection change
-                          },
-                          onSaved: (value) {
-                            // Handle value save
-                          },
-                          borderRadius: BorderRadius.circular(12),
-                          borderColor: Colors.black,
-                          borderWidth: 1.5,
-                          padding: const EdgeInsets.all(8),
-                          icon: const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Colors.grey,
-                          ),
-                          dropdownShadow: BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
-                            offset: const Offset(0, 4),
-                            blurRadius: 16,
-                          ),
-                        ).ltrbPadding(0, 0, 0, 16),
                       if (c.mainController.isOnPressRequest)
                         Text(
                           'Describe',

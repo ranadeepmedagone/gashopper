@@ -99,7 +99,7 @@
     },
     {
       "name": "built_value",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/built_value-8.9.2",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/built_value-8.9.3",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -260,6 +260,54 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "flutter_inappwebview",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_inappwebview-6.1.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "flutter_inappwebview_android",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_inappwebview_android-1.1.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "flutter_inappwebview_internal_annotations",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_inappwebview_internal_annotations-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_inappwebview_ios",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_inappwebview_ios-1.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "flutter_inappwebview_macos",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_inappwebview_macos-1.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "flutter_inappwebview_platform_interface",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_inappwebview_platform_interface-1.3.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "flutter_inappwebview_web",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_inappwebview_web-1.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "flutter_inappwebview_windows",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_inappwebview_windows-0.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
       "name": "flutter_launcher_icons",
       "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.13.1",
       "packageUri": "lib/",
@@ -351,9 +399,9 @@
     },
     {
       "name": "http_multi_server",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/http_multi_server-3.2.1",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/http_multi_server-3.2.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.2"
     },
     {
       "name": "http_parser",
@@ -375,7 +423,7 @@
     },
     {
       "name": "image_picker_android",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+18",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+19",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -435,15 +483,15 @@
     },
     {
       "name": "io",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/io-1.0.4",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/io-1.0.5",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "js",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/js-0.6.7",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/js-0.7.1",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.1"
     },
     {
       "name": "json_annotation",
@@ -537,9 +585,9 @@
     },
     {
       "name": "package_config",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/package_config-2.1.0",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/package_config-2.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "path",
@@ -561,15 +609,15 @@
     },
     {
       "name": "path_provider_android",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/path_provider_android-2.2.14",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/path_provider_android-2.2.15",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "path_provider_foundation",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/path_provider_foundation-2.4.0",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/path_provider_foundation-2.4.1",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.3"
     },
     {
       "name": "path_provider_linux",
@@ -663,15 +711,15 @@
     },
     {
       "name": "pub_semver",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/pub_semver-2.1.4",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/pub_semver-2.1.5",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.4"
     },
     {
       "name": "pubspec_parse",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/pubspec_parse-1.3.0",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/pubspec_parse-1.4.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "qr",
@@ -735,9 +783,9 @@
     },
     {
       "name": "source_helper",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/source_helper-1.3.4",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/source_helper-1.3.5",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.4"
     },
     {
       "name": "source_span",
@@ -795,9 +843,9 @@
     },
     {
       "name": "stream_transform",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/stream_transform-2.1.0",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/stream_transform-2.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.1"
     },
     {
       "name": "string_scanner",
@@ -825,9 +873,9 @@
     },
     {
       "name": "timing",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/timing-1.0.1",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/timing-1.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.4"
     },
     {
       "name": "typed_data",
@@ -897,9 +945,9 @@
     },
     {
       "name": "watcher",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/watcher-1.1.0",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/watcher-1.1.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.1"
     },
     {
       "name": "web",
@@ -939,9 +987,9 @@
     },
     {
       "name": "yaml",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/yaml-3.1.2",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/yaml-3.1.3",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.4"
     },
     {
       "name": "gashopper",
@@ -950,7 +998,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-12-23T07:49:49.660210Z",
+  "generated": "2024-12-25T04:13:57.229143Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/ranadeepmedagone/flutter",
