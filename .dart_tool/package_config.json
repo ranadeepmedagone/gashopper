@@ -57,39 +57,39 @@
     },
     {
       "name": "build",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build-2.4.1",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build-2.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.19"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_config",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_config-1.1.1",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_config-1.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.14"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_daemon",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_daemon-4.0.2",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_daemon-4.0.3",
       "packageUri": "lib/",
-      "languageVersion": "3.4"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_resolvers",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_resolvers-2.4.2",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_resolvers-2.4.3",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_runner",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_runner-2.4.13",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_runner-2.4.14",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "build_runner_core",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_runner_core-7.3.2",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/build_runner_core-8.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "built_collection",
@@ -405,9 +405,9 @@
     },
     {
       "name": "http_parser",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/http_parser-4.1.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.4"
     },
     {
       "name": "image",
@@ -573,9 +573,9 @@
     },
     {
       "name": "mockito",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/mockito-5.4.4",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/mockito-5.4.5",
       "packageUri": "lib/",
-      "languageVersion": "3.1"
+      "languageVersion": "3.6"
     },
     {
       "name": "octo_image",
@@ -747,9 +747,9 @@
     },
     {
       "name": "shelf",
-      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/shelf-1.4.1",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/shelf-1.4.2",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.4"
     },
     {
       "name": "shelf_web_socket",
@@ -998,7 +998,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-12-26T10:11:39.220651Z",
+  "generated": "2024-12-26T18:22:28.669013Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/ranadeepmedagone/flutter",

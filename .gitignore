@@ -31,6 +31,3 @@ ios/Podfile.lock
 
 .fvm/flutter_sdk
 *.jks
-.flutter-plugins
-.flutter-plugins-dependencies
-.dart_tool
