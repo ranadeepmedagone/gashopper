@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:gashopper/app/core/utils/helpers.dart';
 
 class CustomDropdownButton<T> extends StatelessWidget {
   final T? value;
@@ -16,6 +17,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
   final Widget? icon;
   final double iconSize;
   final BoxShadow? dropdownShadow;
+  final String? errorMessage;
 
   const CustomDropdownButton({
     super.key,
@@ -33,15 +35,21 @@ class CustomDropdownButton<T> extends StatelessWidget {
     this.icon,
     this.iconSize = 24,
     this.dropdownShadow,
+    this.errorMessage,
   });
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField2<T>(
+      validator: (value) {
+        if (value == null) {
+          return errorMessage;
+        }
+        return null;
+      },
       value: value,
       isExpanded: true,
       decoration: InputDecoration(
-        contentPadding: padding ?? const EdgeInsets.all(0),
         border: OutlineInputBorder(
           borderRadius: borderRadius ?? BorderRadius.circular(12),
           borderSide: BorderSide(
@@ -55,9 +63,6 @@ class CustomDropdownButton<T> extends StatelessWidget {
       items: items,
       onChanged: onChanged,
       onSaved: onSaved,
-      buttonStyleData: const ButtonStyleData(
-        padding: EdgeInsets.only(right: 8),
-      ),
       iconStyleData: IconStyleData(
         icon: icon ?? const Icon(Icons.keyboard_arrow_down),
         iconSize: iconSize,
@@ -69,14 +74,14 @@ class CustomDropdownButton<T> extends StatelessWidget {
               ? [dropdownShadow!]
               : [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
+                    color: Colors.grey.withAlphaOpacity(0.4),
                     offset: const Offset(0, 4),
                     blurRadius: 16,
                   ),
                 ],
         ),
       ),
-      menuItemStyleData: const MenuItemStyleData(height: 40),
+      menuItemStyleData: const MenuItemStyleData(height: 50),
     );
   }
 }

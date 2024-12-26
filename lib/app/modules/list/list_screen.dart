@@ -27,7 +27,7 @@ class SalesListScreen extends StatelessWidget {
           isTitleCentered: true,
           title: c.mainController.getTypeNmae(),
         ),
-        body: c.isCashDropsLoading
+        body: (c.isCashDropsLoading || c.isStationRequestsLoading)
             ? const Center(child: CustomLoader())
             : SingleChildScrollView(
                 child: Padding(
@@ -76,19 +76,34 @@ class SalesListScreen extends StatelessWidget {
                           ),
                         ],
                       ).ltrbPadding(0, 0, 0, 16),
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: c.cashDropsList.length,
-                        itemBuilder: (context, index) {
-                          final cashDrop = c.cashDropsList[index];
-                          return ListCard(
-                            isPending: false,
-                            title: cashDrop.description ?? '',
-                            value: '\$ ${cashDrop.amount}',
-                          ).ltrbPadding(0, 0, 0, 16);
-                        },
-                      ),
+                      if (c.mainController.isOnPressCashDrop && c.cashDropsList.isNotEmpty)
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: c.cashDropsList.length,
+                          itemBuilder: (context, index) {
+                            final cashDrop = c.cashDropsList[index];
+                            return ListCard(
+                              isPending: false,
+                              title: cashDrop.description ?? '',
+                              value: '${cashDrop.amount}',
+                            ).ltrbPadding(0, 0, 0, 16);
+                          },
+                        ),
+                      if (c.mainController.isOnPressRequest && c.stationRequestsList.isNotEmpty)
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: c.stationRequestsList.length,
+                          itemBuilder: (context, index) {
+                            final stationRequest = c.stationRequestsList[index];
+                            return ListCard(
+                              isPending: false,
+                              title: stationRequest.description ?? '',
+                              value: '${stationRequest.requestTypeName}',
+                            ).ltrbPadding(0, 0, 0, 16);
+                          },
+                        ),
                     ],
                   ),
                 ),
@@ -115,29 +130,38 @@ class ListCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 8),
       decoration: BoxDecoration(
-        color: isPending ? GashopperTheme.grey1.withOpacity(0.5) : GashopperTheme.black,
+        color:
+            isPending ? GashopperTheme.grey1.withAlphaOpacity(0.5) : GashopperTheme.appYellow,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         decoration: BoxDecoration(
-          color: isPending ? GashopperTheme.grey2 : GashopperTheme.appYellow,
+          color: isPending ? GashopperTheme.grey2 : GashopperTheme.grey2,
           borderRadius: const BorderRadius.all(Radius.circular(12)),
+          border: Border.all(
+            color: isPending ? GashopperTheme.grey1 : GashopperTheme.appYellow,
+            width: 1.5,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: GashopperTheme.fontWeightApplier(
-                FontWeight.w700,
-                const TextStyle(
-                  fontSize: 16,
-                  letterSpacing: 0.5,
-                  color: GashopperTheme.black,
+            Expanded(
+              child: Text(
+                title,
+                style: GashopperTheme.fontWeightApplier(
+                  FontWeight.w700,
+                  const TextStyle(
+                    fontSize: 16,
+                    letterSpacing: 0.5,
+                    color: GashopperTheme.black,
+                  ),
                 ),
               ),
             ),
+            const SizedBox(width: 8),
             Text(
               '\$ $value',
               style: GashopperTheme.fontWeightApplier(

@@ -1,4 +1,4 @@
-  import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 extension WidgetPaddings on Widget {
   Widget symPadding(double hPadding, double vPadding) {
@@ -20,5 +20,12 @@ extension WidgetPaddings on Widget {
       padding: EdgeInsets.only(left: left, top: top, right: right, bottom: bottom),
       child: this,
     );
+  }
+}
+
+extension ColorOpacity on Color {
+  Color withAlphaOpacity(double opacity) {
+    assert(opacity >= 0.0 && opacity <= 1.0);
+    return withValues(alpha: opacity);
   }
 }

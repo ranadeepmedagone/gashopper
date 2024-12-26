@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                     decoration:
                         BoxDecoration(color: GashopperTheme.appBackGrounColor, boxShadow: [
                       BoxShadow(
-                        color: GashopperTheme.grey1.withOpacity(0.6),
+                        color: GashopperTheme.grey1.withAlphaOpacity(0.6),
                         offset: const Offset(0, 4),
                         blurRadius: 8,
                         spreadRadius: 0,
@@ -138,7 +138,7 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ).ltrbPadding(0, 0, 0, 16),
                           Divider(
-                            color: GashopperTheme.grey1.withOpacity(0.3),
+                            color: GashopperTheme.grey1.withAlphaOpacity(0.3),
                             thickness: 1,
                           ).ltrbPadding(0, 0, 0, 16),
                           CustomButton(
@@ -312,7 +312,9 @@ class _DateNavigatorState extends State<DateNavigator> {
                 icon: Icon(
                   Icons.keyboard_arrow_right_outlined,
                   size: 28,
-                  color: isToday ? GashopperTheme.grey1.withOpacity(0.4) : GashopperTheme.black,
+                  color: isToday
+                      ? GashopperTheme.grey1.withAlphaOpacity(0.4)
+                      : GashopperTheme.black,
                 ),
                 onPressed: () {
                   if (!isToday) _goToNextDay();

@@ -56,7 +56,7 @@ class _ShiftUpdateScreenState extends State<ShiftUpdateScreen> {
             height: mQ.size.height / 6,
             decoration: BoxDecoration(color: GashopperTheme.appBackGrounColor, boxShadow: [
               BoxShadow(
-                color: GashopperTheme.grey1.withOpacity(0.6),
+                color: GashopperTheme.grey1.withAlphaOpacity(0.6),
                 offset: const Offset(0, 4),
                 blurRadius: 8,
                 spreadRadius: 0,
@@ -120,7 +120,7 @@ class _ShiftUpdateScreenState extends State<ShiftUpdateScreen> {
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
                   headingRowColor:
-                      WidgetStateProperty.all(GashopperTheme.black.withOpacity(0.3)),
+                      WidgetStateProperty.all(GashopperTheme.black.withAlphaOpacity(0.3)),
                   border: const TableBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     horizontalInside: BorderSide(color: GashopperTheme.grey1, width: 1),

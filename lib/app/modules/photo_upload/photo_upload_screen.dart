@@ -35,7 +35,7 @@ class PhotoUploadScreen extends StatelessWidget {
             color: GashopperTheme.appBackGrounColor,
             boxShadow: [
               BoxShadow(
-                color: GashopperTheme.grey1.withOpacity(0.6),
+                color: GashopperTheme.grey1.withAlphaOpacity(0.6),
                 offset: const Offset(0, 4),
                 blurRadius: 8,
                 spreadRadius: 0,

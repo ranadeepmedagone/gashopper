@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
+import 'package:gashopper/app/data/models/app_inputs.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
@@ -40,7 +41,7 @@ class CreateScreen extends StatelessWidget {
           height: 80,
           decoration: BoxDecoration(color: GashopperTheme.appBackGrounColor, boxShadow: [
             BoxShadow(
-              color: GashopperTheme.grey1.withOpacity(0.6),
+              color: GashopperTheme.grey1.withAlphaOpacity(0.6),
               offset: const Offset(0, 4),
               blurRadius: 8,
               spreadRadius: 0,
@@ -68,10 +69,16 @@ class CreateScreen extends StatelessWidget {
                           ? 'Drop'
                           : 'Create',
                   onPressed: () {
+                    // TODO REFACTOR THIS
                     if (c.mainController.isOnPressCashDrop && !c.isCashDropsCreating) {
                       if (c.cashDropDesController.text.trim().isNotEmpty &&
                           c.cashDropAmountController.text.trim().isNotEmpty) {
                         c.createCashDrop();
+                      }
+                    }
+                    if (c.mainController.isOnPressRequest && !c.isStationRequestsCreating) {
+                      if (c.stationRequestDesController.text.trim().isNotEmpty) {
+                        c.createStationRequest();
                       }
                     }
                   },
@@ -80,7 +87,7 @@ class CreateScreen extends StatelessWidget {
             ],
           ).ltrbPadding(16, 16, 16, 16),
         ),
-        body: c.isCashDropsCreating
+        body: c.isCashDropsCreating || c.isStationRequestsCreating
             ? const Center(child: CustomLoader())
             : SingleChildScrollView(
                 child: Padding(
@@ -88,6 +95,9 @@ class CreateScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // ------------------------------ Sales ------------------------------
+                      // ------------------------------ Sales ------------------------------
+                      // ------------------------------ Sales ------------------------------
                       if (c.mainController.isOnPressSales) ...[
                         CustomDropdownButton<List<String>>(
                           value: const ['Level 01'],
@@ -121,7 +131,7 @@ class CreateScreen extends StatelessWidget {
                             color: Colors.grey,
                           ),
                           dropdownShadow: BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
+                            color: Colors.grey.withAlphaOpacity(0.4),
                             offset: const Offset(0, 4),
                             blurRadius: 16,
                           ),
@@ -194,12 +204,15 @@ class CreateScreen extends StatelessWidget {
                             color: Colors.grey,
                           ),
                           dropdownShadow: BoxShadow(
-                            color: Colors.grey.withOpacity(0.4),
+                            color: Colors.grey.withAlphaOpacity(0.4),
                             offset: const Offset(0, 4),
                             blurRadius: 16,
                           ),
                         ).ltrbPadding(0, 0, 0, 16),
                       ],
+                      // ------------------------------ Cash drops ------------------------------
+                      // ------------------------------ Cash drops ------------------------------
+                      // ------------------------------ Cash drops ------------------------------
                       if (c.mainController.isOnPressCashDrop) ...[
                         const Text(
                           'Description',
@@ -258,7 +271,73 @@ class CreateScreen extends StatelessWidget {
                           onChanged: (value) {},
                         ).ltrbPadding(0, 0, 0, 16),
                       ],
-                      if (c.mainController.isOnPressRequest)
+                      // ------------------------------ Request ------------------------------
+                      // ------------------------------ Request ------------------------------
+                      // ------------------------------ Request ------------------------------
+                      if (c.mainController.isOnPressRequest) ...[
+                        Text(
+                          'Request Type',
+                          style: GashopperTheme.fontWeightApplier(
+                            FontWeight.w700,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.black,
+                            ),
+                          ),
+                        ).ltrbPadding(0, 0, 0, 8),
+                        CustomDropdownButton<IdNameRecord>(
+                          value: c.selectedRequest,
+                          items: c.requestTypes
+                              .map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(
+                                      e.name ?? '',
+                                      style: const TextStyle(
+                                        color: GashopperTheme.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                          hintText: 'Select request type',
+                          errorMessage: c.errorMessage,
+                          hintStyle: GashopperTheme.fontWeightApplier(
+                            FontWeight.w600,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.grey1,
+                            ),
+                          ),
+                          onChanged: (value) {
+                            // Handle selection change
+                            c.selectedRequest = value;
+                            c.update();
+                          },
+                          onSaved: (value) {
+                            // Handle value save
+                            c.selectedRequest = value;
+                            c.update();
+                          },
+                          borderRadius: BorderRadius.circular(12),
+                          borderColor: c.errorMessage != null
+                              ? GashopperTheme.red
+                              : GashopperTheme.black,
+                          borderWidth: 1.5,
+                          padding: const EdgeInsets.all(8),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.grey,
+                          ),
+                          dropdownShadow: BoxShadow(
+                            color: Colors.grey.withAlphaOpacity(0.4),
+                            offset: const Offset(0, 4),
+                            blurRadius: 16,
+                          ),
+                        ).ltrbPadding(0, 0, 0, 16),
                         Text(
                           'Describe',
                           style: GashopperTheme.fontWeightApplier(
@@ -270,22 +349,21 @@ class CreateScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (c.mainController.isOnPressRequest)
                         Container(
                           decoration: BoxDecoration(
-                            color: GashopperTheme.grey1.withOpacity(0.1),
+                            color: GashopperTheme.grey1.withAlphaOpacity(0.1),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: TextField(
-                            controller: TextEditingController(),
+                            controller: c.stationRequestDesController,
                             minLines: 3,
                             maxLines: 3,
                             keyboardType: TextInputType.text,
                             autocorrect: false,
                             maxLengthEnforcement: MaxLengthEnforcement.enforced,
                             style: const TextStyle(
-                              fontSize: 14,
-                              color: GashopperTheme.grey1,
+                              fontSize: 16,
+                              color: GashopperTheme.black,
                             ),
                             textInputAction: TextInputAction.done,
                             decoration: const InputDecoration(
@@ -307,7 +385,6 @@ class CreateScreen extends StatelessWidget {
                             ),
                           ),
                         ).ltrbPadding(0, 8, 0, 16),
-                      if (c.mainController.isOnPressRequest)
                         Text(
                           'Add photo',
                           style: GashopperTheme.fontWeightApplier(
@@ -319,7 +396,6 @@ class CreateScreen extends StatelessWidget {
                             ),
                           ),
                         ).ltrbPadding(0, 0, 0, 8),
-                      if (c.mainController.isOnPressRequest)
                         Row(
                           children: [
                             Expanded(
@@ -342,6 +418,7 @@ class CreateScreen extends StatelessWidget {
                             ),
                           ],
                         )
+                      ],
                     ],
                   ),
                 ),

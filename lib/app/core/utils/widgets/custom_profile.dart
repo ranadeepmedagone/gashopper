@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gashopper/app/core/utils/helpers.dart';
 
 import '../../values/constants.dart';
 
@@ -65,7 +66,7 @@ class ProfileImage extends StatelessWidget {
               BoxShadow(
                 blurRadius: 8,
                 offset: const Offset(0, 4),
-                color: Colors.grey[700]!.withOpacity(0.24),
+                color: Colors.grey[700]!.withAlphaOpacity(0.24),
               ),
           ],
         ),
