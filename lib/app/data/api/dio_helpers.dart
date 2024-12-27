@@ -183,7 +183,7 @@ class DioHelper extends GetxController {
   }
 
   // Station request create
-  Future<(dio.Response?, String?)> createStationRequest({
+  Future<(dio.Response?, String?)> createStationRequestOrReport({
     required int requestTypeId,
     required String? description,
   }) async {
@@ -193,6 +193,60 @@ class DioHelper extends GetxController {
         data: {
           'request_type_id': requestTypeId,
           'description': description,
+        },
+      ),
+    );
+  }
+
+  // Get all fuel sales
+  Future<(dio.Response?, String?)> getAllSales() async {
+    return _handleRequest(
+      () => _dio.get(
+        ApiEndPoints.saleAPIEndpoint,
+      ),
+    );
+  }
+
+  // Create fuel sale
+  Future<(dio.Response?, String?)> createSale({
+    required int fuelTypeId,
+    required int addedAmount,
+    required int paymentTypeId,
+  }) async {
+    return _handleRequest(
+      () => _dio.post(
+        ApiEndPoints.saleAPIEndpoint,
+        data: {
+          'fuel_type_id': fuelTypeId,
+          'added_amount': addedAmount,
+          'payment_type_id': paymentTypeId,
+        },
+      ),
+    );
+  }
+
+  // Get all expenses
+  Future<(dio.Response?, String?)> getAllExpenses() async {
+    return _handleRequest(
+      () => _dio.get(
+        ApiEndPoints.expensesAPIEndpoint,
+      ),
+    );
+  }
+
+  // Create expense
+  Future<(dio.Response?, String?)> createExpense({
+    required String? description,
+    required int addedAmount,
+    required int paymentTypeId,
+  }) async {
+    return _handleRequest(
+      () => _dio.post(
+        ApiEndPoints.expensesAPIEndpoint,
+        data: {
+          'description': description,
+          'added_amount': addedAmount,
+          'payment_type_id': paymentTypeId,
         },
       ),
     );

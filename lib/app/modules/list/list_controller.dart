@@ -1,7 +1,9 @@
+import 'package:gashopper/app/data/models/fuel_sale.dart';
 import 'package:get/get.dart';
 
 import '../../data/api/dio_helpers.dart';
 import '../../data/models/cash_drop.dart';
+import '../../data/models/expenses.dart';
 import '../../data/models/station_request.dart';
 import '../../data/services/dialog_service.dart';
 import '../home/home_controller.dart';
@@ -20,6 +22,12 @@ class ListController extends GetxController {
     }
     if (mainController.isOnPressRequest) {
       await getAllStationRequests();
+    }
+    if (mainController.isOnPressSales) {
+      await getAllSales();
+    }
+    if (mainController.isOnPressExpenses) {
+      await getAllExpenses();
     }
     update();
   }
@@ -96,6 +104,8 @@ class ListController extends GetxController {
   // Station requests list
   List<StationRequest> stationRequestsList = [];
 
+  List<StationRequest> stationReportsList = [];
+
   // Loding state
   bool isStationRequestsLoading = false;
 
@@ -125,6 +135,10 @@ class ListController extends GetxController {
           stationRequestsList = (response?.data as List)
               .map((item) => StationRequest.fromJson(item as Map<String, dynamic>))
               .toList();
+
+          stationRequestsList = stationRequestsList.where((e) => e.requestTypeId == 1).toList();
+          stationReportsList = stationRequestsList.where((e) => e.requestTypeId == 2).toList();
+          update();
         } catch (e) {
           isStationRequestsLoading = false;
           update();
@@ -148,6 +162,132 @@ class ListController extends GetxController {
       update();
     } finally {
       isStationRequestsLoading = false;
+      update();
+    }
+  }
+
+  // --------------------------------------------------------------
+  // ----------------------Fuel sale get list ---------------------
+  // --------------------------------------------------------------
+
+  // Fuel sales list
+  List<FuelSale> fuelSalesList = [];
+
+  // Loding state
+  bool isFuelSalesLoading = false;
+
+  // Get all station requests
+  Future<void> getAllSales() async {
+    try {
+      isFuelSalesLoading = true;
+      update();
+
+      final (response, error) = await _dioHelper.getAllSales();
+
+      if (error != null || response?.data == null) {
+        isFuelSalesLoading = false;
+        update();
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: error ?? 'No data received',
+          buttonText: 'OK',
+        );
+        isFuelSalesLoading = false;
+        update();
+        return;
+      }
+
+      if (response?.data is List) {
+        try {
+          fuelSalesList = (response?.data as List)
+              .map((item) => FuelSale.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } catch (e) {
+          isFuelSalesLoading = false;
+          update();
+          await _dialogService.showErrorDialog(
+            title: 'Error',
+            description: 'Failed to process cash drops data',
+            buttonText: 'OK',
+          );
+          isFuelSalesLoading = false;
+          update();
+          return;
+        }
+      }
+    } catch (e) {
+      await _dialogService.showErrorDialog(
+        title: 'Error',
+        description: e.toString(),
+        buttonText: 'OK',
+      );
+      isFuelSalesLoading = false;
+      update();
+    } finally {
+      isFuelSalesLoading = false;
+      update();
+    }
+  }
+
+  // --------------------------------------------------------------
+  // ----------------------Expenses get list ---------------------
+  // --------------------------------------------------------------
+
+  // Expenses list
+  List<Expenses> expensesList = [];
+
+  // Loding state
+  bool isExpensesLoading = false;
+
+  // Get all expenses
+  Future<void> getAllExpenses() async {
+    try {
+      isExpensesLoading = true;
+      update();
+
+      final (response, error) = await _dioHelper.getAllExpenses();
+
+      if (error != null || response?.data == null) {
+        isExpensesLoading = false;
+        update();
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: error ?? 'No data received',
+          buttonText: 'OK',
+        );
+        isExpensesLoading = false;
+        update();
+        return;
+      }
+
+      if (response?.data is List) {
+        try {
+          expensesList = (response?.data as List)
+              .map((item) => Expenses.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } catch (e) {
+          isExpensesLoading = false;
+          update();
+          await _dialogService.showErrorDialog(
+            title: 'Error',
+            description: 'Failed to process expenses data',
+            buttonText: 'OK',
+          );
+          isExpensesLoading = false;
+          update();
+          return;
+        }
+      }
+    } catch (e) {
+      await _dialogService.showErrorDialog(
+        title: 'Error',
+        description: e.toString(),
+        buttonText: 'OK',
+      );
+      isExpensesLoading = false;
+      update();
+    } finally {
+      isExpensesLoading = false;
       update();
     }
   }

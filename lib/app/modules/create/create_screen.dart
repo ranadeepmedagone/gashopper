@@ -76,9 +76,25 @@ class CreateScreen extends StatelessWidget {
                         c.createCashDrop();
                       }
                     }
-                    if (c.mainController.isOnPressRequest && !c.isStationRequestsCreating) {
-                      if (c.stationRequestDesController.text.trim().isNotEmpty) {
-                        c.createStationRequest();
+                    if ((c.mainController.isOnPressReports ||
+                            c.mainController.isOnPressRequest) &&
+                        !c.isStationRequestsOrReportsCreating) {
+                      if (c.stationRequestOrReportDesController.text.trim().isNotEmpty) {
+                        c.createStationRequestOrReport();
+                      }
+                    }
+                    if (c.mainController.isOnPressSales && !c.isSaleCreating) {
+                      if (c.selectedSalePayment != null &&
+                          c.selectedFuel != null &&
+                          c.saleAmountController.text.trim().isNotEmpty) {
+                        c.createSale();
+                      }
+                    }
+                    if (c.mainController.isOnPressExpenses && !c.isExpensesCreating) {
+                      if (c.selectedExpensePayment != null &&
+                          c.expensesDesController.text.trim().isNotEmpty &&
+                          c.expensesAmountController.text.trim().isNotEmpty) {
+                        c.createExpense();
                       }
                     }
                   },
@@ -87,7 +103,10 @@ class CreateScreen extends StatelessWidget {
             ],
           ).ltrbPadding(16, 16, 16, 16),
         ),
-        body: c.isCashDropsCreating || c.isStationRequestsCreating
+        body: c.isCashDropsCreating ||
+                c.isStationRequestsOrReportsCreating ||
+                c.isSaleCreating ||
+                c.isExpensesCreating
             ? const Center(child: CustomLoader())
             : SingleChildScrollView(
                 child: Padding(
@@ -99,31 +118,55 @@ class CreateScreen extends StatelessWidget {
                       // ------------------------------ Sales ------------------------------
                       // ------------------------------ Sales ------------------------------
                       if (c.mainController.isOnPressSales) ...[
-                        CustomDropdownButton<List<String>>(
-                          value: const ['Level 01'],
-                          items: const [
-                            DropdownMenuItem(
-                              value: ['Level 01'],
-                              child: Text(
-                                'Empire Trucking',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
+                        const Text(
+                          'Fuel type',
+                          style: TextStyle(
+                            fontSize: 14,
+                            letterSpacing: 0.5,
+                            fontWeight: FontWeight.w700,
+                            color: GashopperTheme.black,
+                          ),
+                        ).ltrbPadding(0, 0, 0, 8),
+                        CustomDropdownButton<IdNameRecord>(
+                          value: c.selectedFuel,
+                          items: c.fuelTypes
+                              .map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(
+                                      e.name ?? '',
+                                      style: const TextStyle(
+                                        color: GashopperTheme.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                          hintText: 'Select fuel type',
+                          errorMessage: c.errorMessage,
+                          hintStyle: GashopperTheme.fontWeightApplier(
+                            FontWeight.w600,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.grey1,
                             ),
-                          ],
-                          hintText: 'Select',
+                          ),
                           onChanged: (value) {
                             // Handle selection change
+                            c.selectedFuel = value;
+                            c.update();
                           },
                           onSaved: (value) {
                             // Handle value save
+                            c.selectedFuel = value;
+                            c.update();
                           },
                           borderRadius: BorderRadius.circular(12),
-                          borderColor: Colors.black,
+                          borderColor: c.errorMessage != null
+                              ? GashopperTheme.red
+                              : GashopperTheme.black,
                           borderWidth: 1.5,
                           padding: const EdgeInsets.all(8),
                           icon: const Icon(
@@ -160,43 +203,198 @@ class CreateScreen extends StatelessWidget {
                           borderWidth: 1.5,
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          controller: c.cashDropAmountController,
+                          controller: c.saleAmountController,
                           keyboardType: TextInputType.number,
                           onChanged: (value) {},
                         ).ltrbPadding(0, 0, 0, 16),
                         const Text(
                           'Payment type',
                           style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 0.5,
                               color: GashopperTheme.black),
                         ).ltrbPadding(0, 0, 0, 8),
-                        CustomDropdownButton<List<String>>(
-                          value: const ['Level 01'],
-                          items: const [
-                            DropdownMenuItem(
-                              value: ['Level 01'],
-                              child: Text(
-                                'Empire Trucking',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
+                        CustomDropdownButton<IdNameRecord>(
+                          value: c.selectedSalePayment,
+                          items: c.paymentTypes
+                              .map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(
+                                      e.name ?? '',
+                                      style: const TextStyle(
+                                        color: GashopperTheme.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                          hintText: 'Select payment type',
+                          errorMessage: c.errorMessage,
+                          hintStyle: GashopperTheme.fontWeightApplier(
+                            FontWeight.w600,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.grey1,
                             ),
-                          ],
-                          hintText: 'Select',
+                          ),
                           onChanged: (value) {
                             // Handle selection change
+                            c.selectedSalePayment = value;
+                            c.update();
                           },
                           onSaved: (value) {
                             // Handle value save
+                            c.selectedSalePayment = value;
+                            c.update();
                           },
                           borderRadius: BorderRadius.circular(12),
-                          borderColor: Colors.black,
+                          borderColor: c.errorMessage != null
+                              ? GashopperTheme.red
+                              : GashopperTheme.black,
+                          borderWidth: 1.5,
+                          padding: const EdgeInsets.all(8),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.grey,
+                          ),
+                          dropdownShadow: BoxShadow(
+                            color: Colors.grey.withAlphaOpacity(0.4),
+                            offset: const Offset(0, 4),
+                            blurRadius: 16,
+                          ),
+                        ).ltrbPadding(0, 0, 0, 16),
+                      ],
+                      // ------------------------------ Expenses ------------------------------
+                      // ------------------------------ Expenses ------------------------------
+                      // ------------------------------ Expenses ------------------------------
+                      if (c.mainController.isOnPressExpenses) ...[
+                        Text(
+                          'Describe',
+                          style: GashopperTheme.fontWeightApplier(
+                            FontWeight.w700,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.black,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: GashopperTheme.grey1.withAlphaOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextField(
+                            controller: c.expensesDesController,
+                            minLines: 3,
+                            maxLines: 3,
+                            keyboardType: TextInputType.text,
+                            autocorrect: false,
+                            maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: GashopperTheme.black,
+                            ),
+                            textInputAction: TextInputAction.done,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.transparent,
+                              hintText: 'Enter',
+                              hintStyle: TextStyle(
+                                color: GashopperTheme.grey1,
+                              ),
+                              alignLabelWithHint: true,
+                              counterText: '',
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                            ),
+                          ),
+                        ).ltrbPadding(0, 8, 0, 16),
+                        const Text(
+                          'Amout',
+                          style: TextStyle(
+                            fontSize: 14,
+                            letterSpacing: 0.5,
+                            fontWeight: FontWeight.w700,
+                            color: GashopperTheme.black,
+                          ),
+                        ).ltrbPadding(0, 0, 0, 8),
+                        CustomTextField(
+                          hintText: 'Enter amount',
+                          hintStyle: GashopperTheme.fontWeightApplier(
+                            FontWeight.w600,
+                            textTheme.bodyMedium!.copyWith(
+                              color: GashopperTheme.grey1,
+                              fontSize: 14,
+                            ),
+                          ),
+                          borderRadius: 12,
+                          borderColor: Colors.grey[400]!,
+                          focusedBorderColor: GashopperTheme.appYellow,
+                          borderWidth: 1.5,
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          controller: c.expensesAmountController,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {},
+                        ).ltrbPadding(0, 0, 0, 16),
+                        const Text(
+                          'Payment type',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.black),
+                        ).ltrbPadding(0, 0, 0, 8),
+                        CustomDropdownButton<IdNameRecord>(
+                          value: c.selectedExpensePayment,
+                          items: c.paymentTypes
+                              .map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(
+                                      e.name ?? '',
+                                      style: const TextStyle(
+                                        color: GashopperTheme.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                          hintText: 'Select payment type',
+                          errorMessage: c.errorMessage,
+                          hintStyle: GashopperTheme.fontWeightApplier(
+                            FontWeight.w600,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.grey1,
+                            ),
+                          ),
+                          onChanged: (value) {
+                            // Handle selection change
+                            c.selectedExpensePayment = value;
+                            c.update();
+                          },
+                          onSaved: (value) {
+                            // Handle value save
+                            c.selectedExpensePayment = value;
+                            c.update();
+                          },
+                          borderRadius: BorderRadius.circular(12),
+                          borderColor: c.errorMessage != null
+                              ? GashopperTheme.red
+                              : GashopperTheme.black,
                           borderWidth: 1.5,
                           padding: const EdgeInsets.all(8),
                           icon: const Icon(
@@ -214,34 +412,53 @@ class CreateScreen extends StatelessWidget {
                       // ------------------------------ Cash drops ------------------------------
                       // ------------------------------ Cash drops ------------------------------
                       if (c.mainController.isOnPressCashDrop) ...[
-                        const Text(
-                          'Description',
-                          style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w700,
-                            color: GashopperTheme.black,
-                          ),
-                        ).ltrbPadding(0, 0, 0, 8),
-                        CustomTextField(
-                          hintText: 'Enter description',
-                          hintStyle: GashopperTheme.fontWeightApplier(
-                            FontWeight.w600,
-                            textTheme.bodyMedium!.copyWith(
-                              color: GashopperTheme.grey1,
-                              fontSize: 14,
+                        Text(
+                          'Describe',
+                          style: GashopperTheme.fontWeightApplier(
+                            FontWeight.w700,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.black,
                             ),
                           ),
-                          borderRadius: 12,
-                          borderColor: Colors.grey[400]!,
-                          focusedBorderColor: GashopperTheme.appYellow,
-                          borderWidth: 1.5,
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                          controller: c.cashDropDesController,
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {},
-                        ).ltrbPadding(0, 0, 0, 16),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: GashopperTheme.grey1.withAlphaOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextField(
+                            controller: c.cashDropDesController,
+                            minLines: 3,
+                            maxLines: 3,
+                            keyboardType: TextInputType.text,
+                            autocorrect: false,
+                            maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: GashopperTheme.black,
+                            ),
+                            textInputAction: TextInputAction.done,
+                            decoration: const InputDecoration(
+                              fillColor: Colors.transparent,
+                              hintText: 'Enter',
+                              hintStyle: TextStyle(
+                                color: GashopperTheme.grey1,
+                              ),
+                              alignLabelWithHint: true,
+                              counterText: '',
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                            ),
+                          ),
+                        ).ltrbPadding(0, 8, 0, 16),
                         const Text(
                           'Amout',
                           style: TextStyle(
@@ -274,7 +491,8 @@ class CreateScreen extends StatelessWidget {
                       // ------------------------------ Request ------------------------------
                       // ------------------------------ Request ------------------------------
                       // ------------------------------ Request ------------------------------
-                      if (c.mainController.isOnPressRequest) ...[
+                      if (c.mainController.isOnPressRequest ||
+                          c.mainController.isOnPressReports) ...[
                         Text(
                           'Request Type',
                           style: GashopperTheme.fontWeightApplier(
@@ -287,7 +505,7 @@ class CreateScreen extends StatelessWidget {
                           ),
                         ).ltrbPadding(0, 0, 0, 8),
                         CustomDropdownButton<IdNameRecord>(
-                          value: c.selectedRequest,
+                          value: c.selectedRequestOrReport,
                           items: c.requestTypes
                               .map((e) => DropdownMenuItem(
                                     value: e,
@@ -314,12 +532,12 @@ class CreateScreen extends StatelessWidget {
                           ),
                           onChanged: (value) {
                             // Handle selection change
-                            c.selectedRequest = value;
+                            c.selectedRequestOrReport = value;
                             c.update();
                           },
                           onSaved: (value) {
                             // Handle value save
-                            c.selectedRequest = value;
+                            c.selectedRequestOrReport = value;
                             c.update();
                           },
                           borderRadius: BorderRadius.circular(12),
@@ -355,7 +573,7 @@ class CreateScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: TextField(
-                            controller: c.stationRequestDesController,
+                            controller: c.stationRequestOrReportDesController,
                             minLines: 3,
                             maxLines: 3,
                             keyboardType: TextInputType.text,

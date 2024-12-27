@@ -27,7 +27,10 @@ class SalesListScreen extends StatelessWidget {
           isTitleCentered: true,
           title: c.mainController.getTypeNmae(),
         ),
-        body: (c.isCashDropsLoading || c.isStationRequestsLoading)
+        body: (c.isCashDropsLoading ||
+                c.isStationRequestsLoading ||
+                c.isFuelSalesLoading ||
+                c.isExpensesLoading)
             ? const Center(child: CustomLoader())
             : SingleChildScrollView(
                 child: Padding(
@@ -76,6 +79,9 @@ class SalesListScreen extends StatelessWidget {
                           ),
                         ],
                       ).ltrbPadding(0, 0, 0, 16),
+                      // ------------------------------ Cash drops ------------------------------
+                      // ------------------------------ Cash drops ------------------------------
+                      // ------------------------------ Cash drops ------------------------------
                       if (c.mainController.isOnPressCashDrop && c.cashDropsList.isNotEmpty)
                         ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
@@ -90,6 +96,9 @@ class SalesListScreen extends StatelessWidget {
                             ).ltrbPadding(0, 0, 0, 16);
                           },
                         ),
+                      // ------------------------------ Station Requests ------------------------------
+                      // ------------------------------ Station Requests ------------------------------
+                      // ------------------------------ Station Requests ------------------------------
                       if (c.mainController.isOnPressRequest && c.stationRequestsList.isNotEmpty)
                         ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
@@ -101,6 +110,57 @@ class SalesListScreen extends StatelessWidget {
                               isPending: false,
                               title: stationRequest.description ?? '',
                               value: '${stationRequest.requestTypeName}',
+                            ).ltrbPadding(0, 0, 0, 16);
+                          },
+                        ),
+                      // ------------------------------ Station Reports ------------------------------
+                      // ------------------------------ Station Reports ------------------------------
+                      // ------------------------------ Station Reports ------------------------------
+                      if (c.mainController.isOnPressReports && c.stationReportsList.isNotEmpty)
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: c.stationRequestsList.length,
+                          itemBuilder: (context, index) {
+                            final stationReport = c.stationReportsList[index];
+                            return ListCard(
+                              isPending: false,
+                              title: stationReport.description ?? '',
+                              value: '${stationReport.requestTypeName}',
+                            ).ltrbPadding(0, 0, 0, 16);
+                          },
+                        ),
+                      // ------------------------------Fuel Sales ------------------------------
+                      // ------------------------------Fuel Sales ------------------------------
+                      // ------------------------------Fuel Sales ------------------------------
+                      if (c.mainController.isOnPressSales && c.fuelSalesList.isNotEmpty)
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: c.fuelSalesList.length,
+                          itemBuilder: (context, index) {
+                            final fuelSale = c.fuelSalesList[index];
+                            return ListCard(
+                              isPending: false,
+                              title: fuelSale.fuelTypeId.toString(), // TODO: FUEL NAME
+                              value: '${fuelSale.addedAmount}',
+                            ).ltrbPadding(0, 0, 0, 16);
+                          },
+                        ),
+                      // ------------------------------ Expenses ------------------------------
+                      // ------------------------------ Expenses ------------------------------
+                      // ------------------------------ Expenses ------------------------------
+                      if (c.mainController.isOnPressExpenses && c.expensesList.isNotEmpty)
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: c.expensesList.length,
+                          itemBuilder: (context, index) {
+                            final expenses = c.expensesList[index];
+                            return ListCard(
+                              isPending: false,
+                              title: expenses.description ?? '',
+                              value: '${expenses.addedAmount}',
                             ).ltrbPadding(0, 0, 0, 16);
                           },
                         ),
