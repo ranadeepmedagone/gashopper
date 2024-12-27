@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 
 import '../../core/theme/app_theme.dart';
@@ -27,7 +28,6 @@ class PhotoUploadScreen extends StatelessWidget {
         key: _scaffoldKey,
         backgroundColor: GashopperTheme.appBackGrounColor,
         appBar: const CustomAppBar(
-          isTitleCentered: true,
           title: 'Business Unit',
         ),
         bottomNavigationBar: Container(
@@ -251,6 +251,8 @@ class ImageChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final fileName = path.basename(imageFile.path);
 
+    final mQ = MediaQuery.of(context).size;
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
@@ -258,22 +260,34 @@ class ImageChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey[300]!),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: Column(
         children: [
-          // Image thumbnail
-          ClipRRect(
-            borderRadius: const BorderRadius.horizontal(left: Radius.circular(8)),
-            child: Image.file(
-              imageFile,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-            ),
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(8), right: Radius.circular(8)),
+                child: SizedBox(
+                  height: mQ.height / 1.4,
+                  width: mQ.width / 1.1,
+                  child: Image.file(
+                    imageFile,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.close, size: 28),
+                onPressed: onDelete,
+                color: GashopperTheme.black,
+                padding: const EdgeInsets.all(8),
+                constraints: const BoxConstraints(),
+              ).ltrbPadding(0, 8, 12, 0),
+            ],
           ),
-          const SizedBox(width: 12),
-          // File name
-          Expanded(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               fileName,
               style: const TextStyle(
@@ -284,16 +298,6 @@ class ImageChip extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          // Delete button
-          IconButton(
-            icon: const Icon(Icons.close, size: 20),
-            onPressed: onDelete,
-            color: Colors.grey[600],
-            padding: const EdgeInsets.all(8),
-            constraints: const BoxConstraints(),
-            splashRadius: 24,
-          ),
-          const SizedBox(width: 8),
         ],
       ),
     );

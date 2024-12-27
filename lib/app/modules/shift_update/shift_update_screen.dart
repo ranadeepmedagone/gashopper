@@ -45,7 +45,6 @@ class _ShiftUpdateScreenState extends State<ShiftUpdateScreen> {
         return Scaffold(
           appBar: const CustomAppBar(
             title: 'Business Unit',
-            isTitleCentered: true,
           ),
           bottomNavigationBar: Container(
             margin: MediaQuery.of(context).padding.bottom > 12.0

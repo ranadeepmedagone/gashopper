@@ -27,22 +27,19 @@ class HomeScreen extends StatelessWidget {
             key: _scaffoldKey,
             backgroundColor: GashopperTheme.appBackGrounColor,
             appBar: CustomAppBar(
-              isTitleCentered: true,
               showBackButton: false,
               title: 'Business Unit',
-              customLeadingWidget: c.isAppInputsLoading
-                  ? null
-                  : IconButton(
-                      color: GashopperTheme.black,
-                      tooltip: 'Menu',
-                      onPressed: () {
-                        _scaffoldKey.currentState?.openDrawer();
-                      },
-                      icon: const Icon(
-                        Icons.menu,
-                        size: 28,
-                      ),
-                    ).ltrbPadding(8, 0, 0, 0),
+              customLeadingWidget: IconButton(
+                color: GashopperTheme.black,
+                tooltip: 'Menu',
+                onPressed: () {
+                  _scaffoldKey.currentState?.openDrawer();
+                },
+                icon: const Icon(
+                  Icons.menu,
+                  size: 28,
+                ),
+              ).ltrbPadding(8, 0, 0, 0),
             ),
             bottomNavigationBar: c.isAppInputsLoading
                 ? null

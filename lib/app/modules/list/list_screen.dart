@@ -24,7 +24,6 @@ class SalesListScreen extends StatelessWidget {
         key: _scaffoldKey,
         backgroundColor: GashopperTheme.appBackGrounColor,
         appBar: CustomAppBar(
-          isTitleCentered: true,
           title: c.mainController.getTypeNmae(),
         ),
         body: (c.isCashDropsLoading ||
@@ -177,12 +176,16 @@ class ListCard extends StatelessWidget {
   final String title;
   final String value;
   final bool isPending;
+  final Color? customValueTextColor;
+  final Function()? onTap;
 
   const ListCard({
     super.key,
     required this.title,
     required this.value,
     this.isPending = false,
+    this.customValueTextColor,
+    this.onTap,
   });
 
   @override
@@ -194,46 +197,53 @@ class ListCard extends StatelessWidget {
             isPending ? GashopperTheme.grey1.withAlphaOpacity(0.5) : GashopperTheme.appYellow,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        decoration: BoxDecoration(
-          color: isPending ? GashopperTheme.grey2 : GashopperTheme.grey2,
+      child: Material(
+        color: GashopperTheme.grey2,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
-          border: Border.all(
-            color: isPending ? GashopperTheme.grey1 : GashopperTheme.appYellow,
-            width: 1.5,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Text(
-                title,
-                style: GashopperTheme.fontWeightApplier(
-                  FontWeight.w700,
-                  const TextStyle(
-                    fontSize: 16,
-                    letterSpacing: 0.5,
-                    color: GashopperTheme.black,
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: isPending ? GashopperTheme.grey1 : GashopperTheme.appYellow,
+                width: 1.5,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    style: GashopperTheme.fontWeightApplier(
+                      FontWeight.w700,
+                      const TextStyle(
+                        fontSize: 16,
+                        letterSpacing: 0.5,
+                        color: GashopperTheme.black,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              '\$ $value',
-              style: GashopperTheme.fontWeightApplier(
-                FontWeight.w700,
-                const TextStyle(
-                  fontSize: 16,
-                  letterSpacing: 0.5,
-                  color: GashopperTheme.black,
+                const SizedBox(width: 8),
+                Text(
+                  value,
+                  style: GashopperTheme.fontWeightApplier(
+                    FontWeight.w700,
+                    TextStyle(
+                      fontSize: 16,
+                      letterSpacing: 0.5,
+                      color: customValueTextColor ?? GashopperTheme.black,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

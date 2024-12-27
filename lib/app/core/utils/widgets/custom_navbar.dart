@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
 
-import '../../../data/models/gas_station.dart';
-import '../../../modules/dsr/pdf_viewer_controller.dart';
 import '../../../routes/app_pages.dart';
 import '../../theme/app_theme.dart';
 import 'custom_profile.dart';
@@ -62,21 +60,9 @@ class NavDrawer extends StatelessWidget {
               Get.toNamed(Routes.shiftUpdateScreen);
             }),
             _buildDrawerItem('DSR', Icons.edit_document, () {
-              GasStation testStation = GasStation(
-                id: 123,
-                name: "Test Gas Station",
-                address: "123 Test Lane, Test City",
-                contactNumber: 1234567890,
-                operatingHours: 24,
-                latitude: 37.7749,
-                longitude: -122.4194,
-                createdByUserName: "Admin User",
-                // createdAt: DateTime.now(),
-                // updatedAt: DateTime.now(),
+              Get.toNamed(
+                Routes.pdfViewewScreen,
               );
-              final controller = Get.find<PDFViewerController>();
-              controller.viewGasStationPDF(testStation);
-              controller.update();
             }),
             _buildDrawerItem('Request / Reports', Icons.business, () {}),
             // _buildDrawerItem('Settings', Icons.settings, () {}),

@@ -29,7 +29,6 @@ class CreateScreen extends StatelessWidget {
         key: _scaffoldKey,
         backgroundColor: GashopperTheme.appBackGrounColor,
         appBar: CustomAppBar(
-          isTitleCentered: true,
           title: 'Create ${c.mainController.getTypeNmae()}',
         ),
         bottomNavigationBar: Container(
