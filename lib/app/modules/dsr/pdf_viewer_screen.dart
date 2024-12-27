@@ -5,6 +5,7 @@ import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_appbar.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_loader.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../list/list_screen.dart';
 import 'pdf_viewer_controller.dart';
@@ -32,33 +33,60 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       return _buildErrorScreen('No PDF file specified');
     }
 
-    return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Pdf View',
-        actionWidget: Row(
-          children: [],
+    return GetBuilder<PDFViewerController>(builder: (c) {
+      return Scaffold(
+        appBar: CustomAppBar(
+          title: 'Pdf View',
+          actionWidget: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                tooltip: 'Share',
+                onPressed: c.sharePdf,
+                icon: const Icon(
+                  Icons.share,
+                  color: GashopperTheme.black,
+                ),
+              ),
+              IconButton(
+                tooltip: 'Download',
+                onPressed: () async {
+                  final status = await Permission.storage.request();
+                  if (status.isGranted) {
+                    await c.downloadPdf();
+                    await c.showSnackBar('PDF downloaded successfully', false);
+                  }
+                },
+                icon: const Icon(
+                  Icons.download_rounded,
+                  color: GashopperTheme.black,
+                  size: 30,
+                ),
+              ).ltrbPadding(0, 4, 0, 0),
+            ],
+          ).ltrbPadding(0, 0, 16, 0),
         ),
-      ),
-      body: Stack(
-        children: [
-          if (!_hasError)
-            PDFView(
-              filePath: widget.filePath,
-              enableSwipe: true,
-              swipeHorizontal: true,
-              autoSpacing: false,
-              pageFling: false,
-              onError: _handleError,
-              onPageError: _handlePageError,
-              onViewCreated: _handleViewCreated,
-              onPageChanged: _handlePageChanged,
-            ),
-          if (_isLoading) const Center(child: CircularProgressIndicator()),
-          if (_hasError) _buildErrorScreen(_errorMessage),
-        ],
-      ),
-      floatingActionButton: _buildNavigationButtons(),
-    );
+        body: Stack(
+          children: [
+            if (!_hasError)
+              PDFView(
+                filePath: widget.filePath,
+                enableSwipe: true,
+                swipeHorizontal: true,
+                autoSpacing: false,
+                pageFling: false,
+                onError: _handleError,
+                onPageError: _handlePageError,
+                onViewCreated: _handleViewCreated,
+                onPageChanged: _handlePageChanged,
+              ),
+            if (_isLoading) const Center(child: CircularProgressIndicator()),
+            if (_hasError) _buildErrorScreen(_errorMessage),
+          ],
+        ),
+        floatingActionButton: _buildNavigationButtons(),
+      );
+    });
   }
 
   void _handleError(dynamic error) {
@@ -112,7 +140,10 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
           elevation: 0,
           heroTag: 'prev',
           onPressed: _currentPage > 0 ? () => _controller.setPage(_currentPage - 1) : null,
-          child: const Icon(Icons.navigate_before),
+          child: const Icon(
+            Icons.navigate_before,
+            color: GashopperTheme.black,
+          ),
         ),
         const SizedBox(width: 12),
         FloatingActionButton(
@@ -123,7 +154,10 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
           onPressed: _currentPage < (_totalPages! - 1)
               ? () => _controller.setPage(_currentPage + 1)
               : null,
-          child: const Icon(Icons.navigate_next),
+          child: const Icon(
+            Icons.navigate_next,
+            color: GashopperTheme.black,
+          ),
         ),
       ],
     );

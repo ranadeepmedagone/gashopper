@@ -1,21 +1,23 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:permission_handler/permission_handler.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'pdf_viewer_screen.dart';
 
 class PDFViewerController extends GetxController {
   final _pdf = Rx<pw.Document?>(null);
   final _isLoading = false.obs;
-  final _errorMessage = ''.obs;
   final _currentFilePath = ''.obs;
 
   bool get isLoading => _isLoading.value;
-  String get errorMessage => _errorMessage.value;
   String get currentFilePath => _currentFilePath.value;
   pw.Document? get pdf => _pdf.value;
 
@@ -33,8 +35,18 @@ class PDFViewerController extends GetxController {
 
   void _resetState() {
     _pdf.value = pw.Document();
-    _errorMessage.value = '';
     update();
+  }
+
+  Future<void> showSnackBar(String message, bool isError) async {
+    Get.snackbar(
+      isError ? 'Error' : 'Success',
+      message,
+      backgroundColor: isError ? GashopperTheme.red : GashopperTheme.appYellow,
+      colorText: GashopperTheme.black,
+      snackPosition: SnackPosition.TOP,
+      duration: const Duration(seconds: 3),
+    );
   }
 
   Future<void> writeOnPdf() async {
@@ -71,7 +83,7 @@ class PDFViewerController extends GetxController {
       );
       update();
     } catch (e) {
-      _errorMessage.value = 'Error generating PDF content: $e';
+      showSnackBar('Error generating PDF content: $e', true);
       update();
       throw Exception('Failed to generate PDF content: $e');
     }
@@ -131,7 +143,7 @@ class PDFViewerController extends GetxController {
       update();
       return filePath;
     } catch (e) {
-      _errorMessage.value = 'Error saving PDF: $e';
+      showSnackBar('Error saving PDF: $e', true);
       update();
       return '';
     }
@@ -151,10 +163,10 @@ class PDFViewerController extends GetxController {
         );
         _resetState();
       } else {
-        _errorMessage.value = 'Failed to generate PDF';
+        showSnackBar('Failed to generate PDF', true);
       }
     } catch (e) {
-      _errorMessage.value = 'Error: ${e.toString()}';
+      showSnackBar('Error: ${e.toString()}', true);
     } finally {
       _isLoading.value = false;
       update();
@@ -176,7 +188,64 @@ class PDFViewerController extends GetxController {
         }
       }
     } catch (e) {
-      print('Error cleaning up old files: $e');
+      showSnackBar('Error cleaning up old files: $e', true);
+    }
+  }
+
+  Future<void> sharePdf() async {
+    try {
+      if (_currentFilePath.value.isEmpty) return;
+
+      final file = File(_currentFilePath.value);
+      if (await file.exists()) {
+        await Share.shareXFiles(
+          [XFile(_currentFilePath.value)],
+          subject: 'Shared from the Gashopper app',
+          text: 'Check out this PDF file',
+        );
+      }
+    } catch (e) {
+      showSnackBar('Error sharing PDF: $e', true);
+      update();
+    }
+  }
+
+  Future<void> downloadPdf() async {
+    try {
+      if (_currentFilePath.value.isEmpty) return;
+
+      final status = await Permission.storage.request();
+      if (!status.isGranted) {
+        showSnackBar('Storage permission denied', true);
+        return;
+      }
+
+      Directory? downloadDir;
+      if (Platform.isAndroid) {
+        downloadDir = Directory('/storage/emulated/0/Download');
+      } else if (Platform.isIOS) {
+        downloadDir = await getApplicationDocumentsDirectory();
+      }
+
+      if (downloadDir == null) {
+        showSnackBar('Download directory not found', true);
+        return;
+      }
+
+      final sourceFile = File(_currentFilePath.value);
+      final fileName = 'gasshopper_${DateTime.now().millisecondsSinceEpoch}.pdf';
+      final targetPath = '${downloadDir.path}/$fileName';
+      final targetFile = await sourceFile.copy(targetPath);
+
+      showSnackBar('PDF downloaded successfully', false);
+
+      // Open the downloaded file
+      final result = await OpenFile.open(targetFile.path);
+      if (result.type != ResultType.done) {
+        showSnackBar('Error opening PDF: ${result.message}', true);
+      }
+    } catch (e) {
+      showSnackBar('Error downloading PDF: $e', true);
     }
   }
 
