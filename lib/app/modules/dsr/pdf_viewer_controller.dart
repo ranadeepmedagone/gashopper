@@ -81,6 +81,12 @@ class PDFViewerController extends GetxController {
       _isLoading.value = true;
       update();
 
+      setMetadata(
+        stationName: 'Exxon Station Name', // Replace with actual station name
+        date: DateTime.now().toString(), // Or your formatted date
+        reportType: 'DSR',
+      );
+
       // Generate PDF using the generator
       final pdfData = await PdfGenerator.generateDSRDocument();
 
@@ -129,20 +135,36 @@ class PDFViewerController extends GetxController {
     }
   }
 
-  Future<void> sharePdf() async {
+  Future<void> sharePdf({
+    required String stationName,
+    required String date,
+    String? reportType = 'DSR',
+  }) async {
     try {
-      if (_currentFilePath.value.isEmpty) return;
+      if (_currentFilePath.value.isEmpty) {
+        showSnackBar('No PDF file to share', true);
+        return;
+      }
 
       final file = File(_currentFilePath.value);
       if (await file.exists()) {
+        final shareTitle = '$reportType Report - $stationName';
+        final shareText = '''
+        $reportType Report from $stationName
+        Date: $date
+        Generated via Gashopper App''';
+
         await Share.shareXFiles(
           [XFile(_currentFilePath.value)],
-          subject: 'Shared from the Gashopper app',
-          text: 'Check out this PDF file',
+          subject: shareTitle,
+          text: shareText,
         );
+      } else {
+        showSnackBar('PDF file not found', true);
       }
     } catch (e) {
       showSnackBar('Error sharing PDF: $e', true);
+    } finally {
       update();
     }
   }
@@ -171,6 +193,21 @@ class PDFViewerController extends GetxController {
       showSnackBar('Error getting download path: $e', true);
       return null;
     }
+  }
+
+  final _stationName = ''.obs;
+  final _reportDate = ''.obs;
+  final _reportType = ''.obs;
+
+  void setMetadata({
+    required String stationName,
+    required String date,
+    String reportType = 'DSR',
+  }) {
+    _stationName.value = stationName;
+    _reportDate.value = date;
+    _reportType.value = reportType;
+    update();
   }
 
   Future<void> downloadPdf() async {

@@ -39,9 +39,11 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
             children: [
               IconButton(
                 tooltip: 'Share',
-                onPressed: () async {
-                  await c.sharePdf();
-                },
+                onPressed: () => c.sharePdf(
+                  stationName: 'Exxon Station Name', // Replace with actual station name
+                  date: DateTime.now().toString(), // Or your formatted date
+                  reportType: 'DSR', // Or whatever report type it is
+                ),
                 icon: const Icon(
                   Icons.share,
                   color: GashopperTheme.black,
