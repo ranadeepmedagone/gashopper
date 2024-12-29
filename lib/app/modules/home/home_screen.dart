@@ -49,7 +49,8 @@ class HomeScreen extends StatelessWidget {
                             bottom: MediaQuery.of(context).padding.bottom - 12.0,
                           )
                         : null,
-                    height: 80,
+                    height: 70,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     decoration:
                         BoxDecoration(color: GashopperTheme.appBackGrounColor, boxShadow: [
                       BoxShadow(
@@ -273,6 +274,7 @@ class _DateNavigatorState extends State<DateNavigator> {
         ),
         const SizedBox(height: 8),
         Container(
+          height: 55,
           decoration: BoxDecoration(
             border: Border.all(color: GashopperTheme.black, width: 1.5),
             borderRadius: BorderRadius.circular(12),

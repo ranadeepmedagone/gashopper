@@ -37,6 +37,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 55,
       decoration: BoxDecoration(
         color: customBackgroundColor ??
             ((isDisable || isLoading) ? Colors.grey[300] : GashopperTheme.appYellow),

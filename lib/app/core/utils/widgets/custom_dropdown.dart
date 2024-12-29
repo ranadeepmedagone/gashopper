@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 
 class CustomDropdownButton<T> extends StatelessWidget {
@@ -15,7 +16,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
   final double borderWidth;
   final Color borderColor;
   final Widget? icon;
-  final double iconSize;
+  final double? iconSize;
   final BoxShadow? dropdownShadow;
   final String? errorMessage;
 
@@ -33,7 +34,7 @@ class CustomDropdownButton<T> extends StatelessWidget {
     this.borderWidth = 1.5,
     this.borderColor = Colors.black,
     this.icon,
-    this.iconSize = 24,
+    this.iconSize,
     this.dropdownShadow,
     this.errorMessage,
   });
@@ -50,22 +51,37 @@ class CustomDropdownButton<T> extends StatelessWidget {
       value: value,
       isExpanded: true,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: borderRadius ?? BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: borderColor,
-            width: borderWidth,
+          fillColor: GashopperTheme.appBackGrounColor,
+          border: OutlineInputBorder(
+            borderRadius: borderRadius ?? BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: borderColor,
+              width: borderWidth,
+            ),
           ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: borderRadius ?? BorderRadius.circular(12),
+            borderSide: BorderSide(
+              color: GashopperTheme.appYellow,
+              width: borderWidth,
+            ),
+          ),
+          hintText: hintText,
+          hintStyle: hintStyle ?? const TextStyle(fontSize: 14),
+          contentPadding: const EdgeInsets.only(right: 8)),
+      hint: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          hintText,
+          style: hintStyle ?? const TextStyle(fontSize: 14),
+          textAlign: TextAlign.center,
         ),
-        hintText: hintText,
-        hintStyle: hintStyle ?? const TextStyle(fontSize: 14),
       ),
       items: items,
       onChanged: onChanged,
       onSaved: onSaved,
       iconStyleData: IconStyleData(
         icon: icon ?? const Icon(Icons.keyboard_arrow_down),
-        iconSize: iconSize,
       ),
       dropdownStyleData: DropdownStyleData(
         decoration: BoxDecoration(
