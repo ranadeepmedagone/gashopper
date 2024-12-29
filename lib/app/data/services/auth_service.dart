@@ -1,4 +1,3 @@
-// lib/core/services/auth_service.dart
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -26,10 +25,10 @@ class AuthService extends GetxService {
       if (_tokenBox == null || !(_tokenBox?.isOpen ?? false)) {
         _tokenBox = await Hive.openBox<Token>(_tokenBoxName);
         _isInitialized.value = true;
-        debugPrint('Token box initialized successfully');
+        // debugPrint('Token box initialized successfully');
       }
     } catch (e) {
-      debugPrint('Error initializing token box: $e');
+      // debugPrint('Error initializing token box: $e');
       _isInitialized.value = false;
     }
   }
@@ -48,10 +47,10 @@ class AuthService extends GetxService {
       await _tokenBox?.put(_tokenKey, token);
 
       // Verify save
-      final savedToken = getToken();
-      debugPrint('Token saved and verified: ${savedToken?.token}');
+      // final savedToken = getToken();
+      // debugPrint('Token saved and verified: ${savedToken?.token}');
     } catch (e) {
-      debugPrint('Error saving token: $e');
+      // debugPrint('Error saving token: $e');
       rethrow;
     }
   }
@@ -59,32 +58,32 @@ class AuthService extends GetxService {
   Token? getToken() {
     try {
       if (!isInitialized || _tokenBox == null || !_tokenBox!.isOpen) {
-        debugPrint('Token box not initialized or not open');
+        // debugPrint('Token box not initialized or not open');
         return null;
       }
 
       final token = _tokenBox?.get(_tokenKey);
-      debugPrint('Retrieved token: ${token?.token}');
+      // debugPrint('Retrieved token: ${token?.token}');
       return token;
     } catch (e) {
-      debugPrint('Error getting token: $e');
+      // debugPrint('Error getting token: $e');
       return null;
     }
   }
 
   bool get hasToken {
     if (!isInitialized) {
-      debugPrint('Auth service not initialized');
+      // debugPrint('Auth service not initialized');
       return false;
     }
 
     try {
       final token = getToken()?.token;
       final isValid = token != null && token.isNotEmpty;
-      debugPrint('Token check - exists: ${token != null}, valid: $isValid');
+      // debugPrint('Token check - exists: ${token != null}, valid: $isValid');
       return isValid;
     } catch (e) {
-      debugPrint('Error checking token: $e');
+      // debugPrint('Error checking token: $e');
       return false;
     }
   }
@@ -98,9 +97,9 @@ class AuthService extends GetxService {
     try {
       await _initializeBox();
       await _tokenBox?.clear();
-      debugPrint('Token cleared successfully');
+      // debugPrint('Token cleared successfully');
     } catch (e) {
-      debugPrint('Error clearing token: $e');
+      // debugPrint('Error clearing token: $e');
     }
   }
 
@@ -109,7 +108,7 @@ class AuthService extends GetxService {
       await clearToken();
       Get.offAllNamed(Routes.registrationScreen);
     } catch (e) {
-      debugPrint('Error during logout: $e');
+      // debugPrint('Error during logout: $e');
     }
   }
 
@@ -118,10 +117,10 @@ class AuthService extends GetxService {
     try {
       if (_tokenBox?.isOpen ?? false) {
         _tokenBox?.close();
-        debugPrint('Token box closed successfully');
+        // debugPrint('Token box closed successfully');
       }
     } catch (e) {
-      debugPrint('Error closing token box: $e');
+      // debugPrint('Error closing token box: $e');
     }
     super.onClose();
   }
@@ -129,7 +128,7 @@ class AuthService extends GetxService {
   // Helper method to check box status
   bool get isBoxReady {
     final isReady = _tokenBox != null && _tokenBox!.isOpen;
-    debugPrint('Box status check - initialized: $isInitialized, box ready: $isReady');
+    // debugPrint('Box status check - initialized: $isInitialized, box ready: $isReady');
     return isReady;
   }
 }

@@ -10,6 +10,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../core/utils/widgets/pdf_generator.dart';
 import 'pdf_viewer_screen.dart';
 
 class PDFViewerController extends GetxController {
@@ -254,19 +255,29 @@ class PDFViewerController extends GetxController {
       _isLoading.value = true;
       update();
 
-      await writeOnPdf();
-      String filePath = await savePdf();
+      // Generate PDF using the generator
+      final pdfData = await PdfGenerator.generateDSRDocument();
+
+      // Save PDF to file
+      Directory documentDirectory = await getApplicationDocumentsDirectory();
+      String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      String filePath = "${documentDirectory.path}/example_$timestamp.pdf";
+      File file = File(filePath);
+
+      await file.writeAsBytes(pdfData);
+      _currentFilePath.value = filePath;
 
       if (filePath.isNotEmpty) {
         await Get.to(
           () => PdfViewerScreen(filePath: filePath),
+          preventDuplicates: true,
+          // fullscreenDialog: true,
         );
-        _resetState();
       } else {
-        showSnackBar('Failed to generate PDF', true);
+        showSnackBar('Failed to generate PDF', false);
       }
     } catch (e) {
-      showSnackBar('Error: ${e.toString()}', true);
+      showSnackBar('Error: ${e.toString()}', false);
     } finally {
       _isLoading.value = false;
       update();

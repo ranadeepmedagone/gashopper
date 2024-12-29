@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../data/services/auth_service.dart';
@@ -24,14 +23,14 @@ class SplashController extends GetxController {
       }
 
       if (authService.hasToken) {
-        debugPrint('Valid token found, navigating to home');
+        // debugPrint('Valid token found, navigating to home');
         Get.offAllNamed(Routes.scannerScreen);
       } else {
-        debugPrint('No valid token, navigating to registration');
+        // debugPrint('No valid token, navigating to registration');
         Get.offAllNamed(Routes.registrationScreen);
       }
     } catch (e) {
-      debugPrint('Error during auth check: $e');
+      // debugPrint('Error during auth check: $e');
       // On error, safely navigate to registration
       Get.offAllNamed(Routes.registrationScreen);
     }

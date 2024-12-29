@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../../../data/services/dialog_service.dart';
 import '../../../routes/app_pages.dart';
 import '../../theme/app_theme.dart';
-import 'custom_profile.dart';
 
 class NavDrawer extends StatelessWidget {
   final Function()? onLogout;
@@ -27,11 +26,13 @@ class NavDrawer extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         child: Column(
           children: <Widget>[
-            const ProfileImage(
-              imagePath:
-                  'https://static.langimg.com/photo/imgsize-29734,msid-63682163/navbharat-times.jpg',
-              size: 80,
-            ).ltrbPadding(0, 0, 0, 4),
+            // TODO: Implement Profile Image
+            // TODO Resolve the terminal error
+            // const ProfileImage(
+            //   imagePath:
+            //       'https://static.langimg.com/photo/imgsize-29734,msid-63682163/navbharat-times.jpg',
+            //   size: 80,
+            // ).ltrbPadding(0, 0, 0, 4),
             if (loginUserEmail != null)
               Text(
                 loginUserEmail!,
