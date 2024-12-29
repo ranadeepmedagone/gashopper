@@ -5,7 +5,7 @@ class ApiEndPoints {
   static const developmentBaseUrl = 'http://3.85.243.55:5555';
 
   // ------------ Server Address ------------ //
-  static const serverAddress = kDebugMode ? developmentBaseUrl : productionBaseUrl;
+  static const serverAddress = kDebugMode ? developmentBaseUrl : developmentBaseUrl;
 
   // Gashopper API endpoint
   static const gashopperAPIEndpoint = '/api/v1';

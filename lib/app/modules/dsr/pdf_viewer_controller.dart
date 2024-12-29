@@ -5,7 +5,6 @@ import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -34,11 +33,6 @@ class PDFViewerController extends GetxController {
     update();
   }
 
-  void _resetState() {
-    _pdf.value = pw.Document();
-    update();
-  }
-
   Future<void> showSnackBar(String message, bool isError) async {
     Get.snackbar(
       isError ? 'Error' : 'Success',
@@ -47,174 +41,6 @@ class PDFViewerController extends GetxController {
       colorText: GashopperTheme.black,
       snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 3),
-    );
-  }
-
-  Future<void> writeOnPdf() async {
-    try {
-      _resetState();
-
-      _pdf.value?.addPage(
-        pw.MultiPage(
-          pageFormat: PdfPageFormat.a4,
-          margin: const pw.EdgeInsets.all(32),
-          build: (pw.Context context) {
-            return <pw.Widget>[
-              // Date and Company Info
-              pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  pw.Text(
-                    '11 Nov 2024',
-                    style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
-                  ),
-                  pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.end,
-                    children: [
-                      pw.Text(
-                        'Exxon',
-                        style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
-                      ),
-                      pw.Text('211 hanover st, newareton'),
-                      pw.Text('NJ 08068'),
-                    ],
-                  ),
-                ],
-              ),
-              pw.SizedBox(height: 40),
-
-              // Sales Section
-              pw.Text(
-                'Sales',
-                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
-              ),
-              pw.SizedBox(height: 10),
-              _buildSalesTable(context),
-              pw.SizedBox(height: 40),
-
-              // Payment Account Section
-              pw.Text(
-                'Payment Account',
-                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
-              ),
-              pw.SizedBox(height: 10),
-              _buildPaymentTable(context),
-            ];
-          },
-        ),
-      );
-      update();
-    } catch (e) {
-      showSnackBar('Error generating PDF content: $e', true);
-      update();
-      throw Exception('Failed to generate PDF content: $e');
-    }
-  }
-
-  pw.Widget _buildSalesTable(pw.Context context) {
-    return pw.Table(
-      border: pw.TableBorder.all(color: PdfColors.grey300),
-      children: [
-        // Header Row
-        pw.TableRow(
-          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
-          children: [
-            _buildCell('Gas Type'),
-            _buildCell('Open'),
-            _buildCell('Sold'),
-            _buildCell('Close'),
-            _buildCell('Ret.'),
-            _buildCell('\$', alignment: pw.Alignment.centerRight),
-          ],
-        ),
-        // Data Rows
-        _buildSalesRow('Regular', 11047, 1040, 9991, 2.1, 3069),
-        _buildSalesRow('Ultra', 4322, 218, 4096, 2.7, 817),
-        _buildSalesRow('Diesel', 5549, 1237, 4310, 3.0, 3959),
-        _buildSalesRow('D.e.f', 27, 9, 18, 12.0, 108),
-        _buildSalesRow('Paid in', null, null, null, null, 294.01),
-        // Total Row
-        pw.TableRow(
-          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
-          children: [
-            _buildCell('', colspan: 5),
-            _buildCell('', colspan: 5),
-            _buildCell('', colspan: 5),
-            _buildCell('', colspan: 5),
-            _buildCell('', colspan: 5),
-            _buildCell('8248', alignment: pw.Alignment.centerRight, isBold: true),
-          ],
-        ),
-      ],
-    );
-  }
-
-  pw.Widget _buildPaymentTable(pw.Context context) {
-    return pw.Table(
-      border: pw.TableBorder.all(color: PdfColors.grey300),
-      children: [
-        pw.TableRow(
-          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
-          children: [
-            _buildCell('Payment Type', alignment: pw.Alignment.centerLeft),
-            _buildCell('\$', alignment: pw.Alignment.centerRight),
-          ],
-        ),
-        _buildPaymentRow('Card', 5942),
-        _buildPaymentRow('Mobile', 0),
-        _buildPaymentRow('Cash', 1268),
-        _buildPaymentRow('House', 1038),
-        // Total Row
-        pw.TableRow(
-          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
-          children: [
-            _buildCell('', colspan: 1),
-            _buildCell('8248', alignment: pw.Alignment.centerRight, isBold: true),
-          ],
-        ),
-      ],
-    );
-  }
-
-  pw.TableRow _buildSalesRow(
-      String label, int? open, int? sold, int? close, double? ret, double amount) {
-    return pw.TableRow(
-      children: [
-        _buildCell(label),
-        _buildCell(open?.toString() ?? ''),
-        _buildCell(sold?.toString() ?? ''),
-        _buildCell(close?.toString() ?? ''),
-        _buildCell(ret?.toString() ?? ''),
-        _buildCell(amount.toString(), alignment: pw.Alignment.centerRight),
-      ],
-    );
-  }
-
-  pw.TableRow _buildPaymentRow(String label, num amount) {
-    return pw.TableRow(
-      children: [
-        _buildCell(label),
-        _buildCell(amount.toString(), alignment: pw.Alignment.centerRight),
-      ],
-    );
-  }
-
-  pw.Widget _buildCell(
-    String text, {
-    pw.Alignment alignment = pw.Alignment.centerLeft,
-    bool isBold = false,
-    int colspan = 1,
-  }) {
-    return pw.Container(
-      padding: const pw.EdgeInsets.all(5),
-      child: pw.Text(
-        text,
-        textAlign:
-            alignment == pw.Alignment.centerRight ? pw.TextAlign.right : pw.TextAlign.left,
-        style: pw.TextStyle(
-          fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.normal,
-        ),
-      ),
     );
   }
 
@@ -321,39 +147,66 @@ class PDFViewerController extends GetxController {
     }
   }
 
+  Future<bool> _requestStoragePermission() async {
+    if (Platform.isAndroid) {
+      final status = await Permission.photos.request();
+      return status.isGranted;
+    } else {
+      final status = await Permission.storage.request();
+      return status.isGranted;
+    }
+  }
+
+  Future<String?> _getDownloadPath() async {
+    try {
+      if (Platform.isAndroid) {
+        final directory = await getDownloadsDirectory();
+        return directory?.path;
+      } else {
+        // For iOS, use the Documents directory
+        final directory = await getApplicationDocumentsDirectory();
+        return directory.path;
+      }
+    } catch (e) {
+      showSnackBar('Error getting download path: $e', true);
+      return null;
+    }
+  }
+
   Future<void> downloadPdf() async {
     try {
-      if (_currentFilePath.value.isEmpty) return;
-
-      final status = await Permission.storage.request();
-      if (!status.isGranted) {
-        showSnackBar('Storage permission denied', true);
+      if (_currentFilePath.value.isEmpty) {
+        showSnackBar('No PDF file to download', true);
         return;
       }
 
-      Directory? downloadDir;
-      if (Platform.isAndroid) {
-        downloadDir = Directory('/storage/emulated/0/Download');
-      } else if (Platform.isIOS) {
-        downloadDir = await getApplicationDocumentsDirectory();
+      final hasPermission = await _requestStoragePermission();
+      if (!hasPermission) {
+        showSnackBar('Permission denied to access storage', true);
+        return;
       }
 
-      if (downloadDir == null) {
-        showSnackBar('Download directory not found', true);
+      final downloadPath = await _getDownloadPath();
+      if (downloadPath == null) {
+        showSnackBar('Could not access download directory', true);
         return;
       }
 
       final sourceFile = File(_currentFilePath.value);
       final fileName = 'gasshopper_${DateTime.now().millisecondsSinceEpoch}.pdf';
-      final targetPath = '${downloadDir.path}/$fileName';
+      final targetPath = '$downloadPath/$fileName';
       final targetFile = await sourceFile.copy(targetPath);
 
-      showSnackBar('PDF downloaded successfully', false);
+      showSnackBar('PDF downloaded to Downloads folder', false);
 
-      // Open the downloaded file
-      final result = await OpenFile.open(targetFile.path);
-      if (result.type != ResultType.done) {
-        showSnackBar('Error opening PDF: ${result.message}', true);
+      // Try to open the file
+      try {
+        final result = await OpenFile.open(targetFile.path);
+        if (result.type != ResultType.done) {
+          showSnackBar('PDF downloaded but could not be opened: ${result.message}', true);
+        }
+      } catch (e) {
+        showSnackBar('PDF downloaded but could not be opened', true);
       }
     } catch (e) {
       showSnackBar('Error downloading PDF: $e', true);

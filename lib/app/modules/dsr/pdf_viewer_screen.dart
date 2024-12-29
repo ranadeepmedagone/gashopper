@@ -4,7 +4,6 @@ import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'pdf_viewer_controller.dart';
 
@@ -40,7 +39,9 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
             children: [
               IconButton(
                 tooltip: 'Share',
-                onPressed: c.sharePdf,
+                onPressed: () async {
+                  await c.sharePdf();
+                },
                 icon: const Icon(
                   Icons.share,
                   color: GashopperTheme.black,
@@ -49,11 +50,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
               IconButton(
                 tooltip: 'Download',
                 onPressed: () async {
-                  final status = await Permission.storage.request();
-                  if (status.isGranted) {
-                    await c.downloadPdf();
-                    await c.showSnackBar('PDF downloaded successfully', false);
-                  }
+                  await c.downloadPdf();
                 },
                 icon: const Icon(
                   Icons.download_rounded,
