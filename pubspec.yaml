@@ -24,7 +24,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
 
   # UI Components
-  cached_network_image: ^3.3.0
+  cached_network_image: ^3.4.1
 
   flutter_svg: ^2.0.9
 

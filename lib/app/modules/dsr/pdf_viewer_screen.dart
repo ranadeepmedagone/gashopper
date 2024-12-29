@@ -3,11 +3,9 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_appbar.dart';
-import 'package:gashopper/app/core/utils/widgets/custom_loader.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../list/list_screen.dart';
 import 'pdf_viewer_controller.dart';
 
 class PdfViewerScreen extends StatefulWidget {
@@ -194,51 +192,5 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         _totalPages = total;
       });
     }
-  }
-}
-
-class PdfGeneratorView extends StatelessWidget {
-  const PdfGeneratorView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return GetBuilder<PDFViewerController>(
-      builder: (controller) {
-        return Scaffold(
-          appBar: const CustomAppBar(
-            title: 'DSR List',
-            actionWidget: Row(
-              children: [],
-            ),
-          ),
-          body: controller.isLoading
-              ? const Center(child: CustomLoader())
-              : SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return ListCard(
-                              customValueTextColor: Colors.green,
-                              isPending: false,
-                              title: 'Gasshopper PDF',
-                              value: 'open',
-                              onTap: controller.generateAndPreviewPdf,
-                            ).ltrbPadding(0, 0, 0, 16);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-        );
-      },
-    );
   }
 }

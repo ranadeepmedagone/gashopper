@@ -1,5 +1,6 @@
 // dialog_models.dart
 import 'package:flutter/material.dart';
+import 'package:gashopper/app/core/theme/app_theme.dart';
 import 'package:get/get.dart';
 
 class DialogRequest {
@@ -248,8 +249,8 @@ class DialogService extends GetxService {
   Future<DialogResponse?> showCustomDialog({
     required String title,
     required String description,
-    required String confirmText,
-    required String cancelText,
+    String? confirmText,
+    String? cancelText,
     Widget? customContent,
   }) async {
     final response = await Get.dialog(
@@ -286,33 +287,57 @@ class DialogService extends GetxService {
               // Buttons
               Row(
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                  if (cancelText != null)
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.back(result: DialogResponse(confirmed: false));
+                        },
+                        child: Text(
+                          cancelText,
+                          style: GashopperTheme.fontWeightApplier(
+                            FontWeight.w600,
+                            Get.textTheme.bodyMedium!.copyWith(
+                              color: GashopperTheme.black,
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
                       ),
-                      onPressed: () {
-                        Get.back(result: DialogResponse(confirmed: false));
-                      },
-                      child: Text(cancelText),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                  if (confirmText != null) const SizedBox(width: 16),
+                  if (confirmText != null)
+                    Expanded(
+                      child: SizedBox(
+                        height: 40,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: GashopperTheme.appYellow,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {
+                            Get.back(result: DialogResponse(confirmed: true));
+                          },
+                          child: Text(
+                            confirmText,
+                            style: GashopperTheme.fontWeightApplier(
+                              FontWeight.w600,
+                              Get.textTheme.bodyMedium!.copyWith(
+                                color: GashopperTheme.black,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      onPressed: () {
-                        Get.back(result: DialogResponse(confirmed: true));
-                      },
-                      child: Text(confirmText),
                     ),
-                  ),
                 ],
               ),
             ],

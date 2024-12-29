@@ -59,24 +59,45 @@ class PDFViewerController extends GetxController {
           margin: const pw.EdgeInsets.all(32),
           build: (pw.Context context) {
             return <pw.Widget>[
-              pw.Header(
-                level: 0,
-                child: pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                  children: <pw.Widget>[
-                    pw.Text('GeeksforGeeks', textScaleFactor: 2),
-                    pw.Text(DateTime.now().toString().split('.')[0]),
-                  ],
-                ),
+              // Date and Company Info
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text(
+                    '11 Nov 2024',
+                    style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.end,
+                    children: [
+                      pw.Text(
+                        'Exxon',
+                        style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
+                      ),
+                      pw.Text('211 hanover st, newareton'),
+                      pw.Text('NJ 08068'),
+                    ],
+                  ),
+                ],
               ),
-              pw.Header(level: 1, text: 'What is Lorem Ipsum?'),
-              pw.Paragraph(
-                text:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+              pw.SizedBox(height: 40),
+
+              // Sales Section
+              pw.Text(
+                'Sales',
+                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
               ),
-              pw.SizedBox(height: 20),
-              pw.Header(level: 1, text: 'Sample Table'),
-              _buildTable(context),
+              pw.SizedBox(height: 10),
+              _buildSalesTable(context),
+              pw.SizedBox(height: 40),
+
+              // Payment Account Section
+              pw.Text(
+                'Payment Account',
+                style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold),
+              ),
+              pw.SizedBox(height: 10),
+              _buildPaymentTable(context),
             ];
           },
         ),
@@ -89,31 +110,110 @@ class PDFViewerController extends GetxController {
     }
   }
 
-  pw.Table _buildTable(pw.Context context) {
-    return pw.TableHelper.fromTextArray(
-      context: context,
-      data: const <List<String>>[
-        <String>['Year', 'Sample'],
-        <String>['SN0', 'GFG1'],
-        <String>['SN1', 'GFG2'],
-        <String>['SN2', 'GFG3'],
+  pw.Widget _buildSalesTable(pw.Context context) {
+    return pw.Table(
+      border: pw.TableBorder.all(color: PdfColors.grey300),
+      children: [
+        // Header Row
+        pw.TableRow(
+          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+          children: [
+            _buildCell('Gas Type'),
+            _buildCell('Open'),
+            _buildCell('Sold'),
+            _buildCell('Close'),
+            _buildCell('Ret.'),
+            _buildCell('\$', alignment: pw.Alignment.centerRight),
+          ],
+        ),
+        // Data Rows
+        _buildSalesRow('Regular', 11047, 1040, 9991, 2.1, 3069),
+        _buildSalesRow('Ultra', 4322, 218, 4096, 2.7, 817),
+        _buildSalesRow('Diesel', 5549, 1237, 4310, 3.0, 3959),
+        _buildSalesRow('D.e.f', 27, 9, 18, 12.0, 108),
+        _buildSalesRow('Paid in', null, null, null, null, 294.01),
+        // Total Row
+        pw.TableRow(
+          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+          children: [
+            _buildCell('', colspan: 5),
+            _buildCell('', colspan: 5),
+            _buildCell('', colspan: 5),
+            _buildCell('', colspan: 5),
+            _buildCell('', colspan: 5),
+            _buildCell('8248', alignment: pw.Alignment.centerRight, isBold: true),
+          ],
+        ),
       ],
-      headerStyle: pw.TextStyle(
-        fontWeight: pw.FontWeight.bold,
-      ),
-      headerDecoration: const pw.BoxDecoration(
-        color: PdfColors.grey300,
-      ),
-      rowDecoration: const pw.BoxDecoration(
-        border: pw.Border(
-          bottom: pw.BorderSide(
-            color: PdfColors.grey300,
-            width: 0.5,
-          ),
+    );
+  }
+
+  pw.Widget _buildPaymentTable(pw.Context context) {
+    return pw.Table(
+      border: pw.TableBorder.all(color: PdfColors.grey300),
+      children: [
+        pw.TableRow(
+          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+          children: [
+            _buildCell('Payment Type', alignment: pw.Alignment.centerLeft),
+            _buildCell('\$', alignment: pw.Alignment.centerRight),
+          ],
+        ),
+        _buildPaymentRow('Card', 5942),
+        _buildPaymentRow('Mobile', 0),
+        _buildPaymentRow('Cash', 1268),
+        _buildPaymentRow('House', 1038),
+        // Total Row
+        pw.TableRow(
+          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+          children: [
+            _buildCell('', colspan: 1),
+            _buildCell('8248', alignment: pw.Alignment.centerRight, isBold: true),
+          ],
+        ),
+      ],
+    );
+  }
+
+  pw.TableRow _buildSalesRow(
+      String label, int? open, int? sold, int? close, double? ret, double amount) {
+    return pw.TableRow(
+      children: [
+        _buildCell(label),
+        _buildCell(open?.toString() ?? ''),
+        _buildCell(sold?.toString() ?? ''),
+        _buildCell(close?.toString() ?? ''),
+        _buildCell(ret?.toString() ?? ''),
+        _buildCell(amount.toString(), alignment: pw.Alignment.centerRight),
+      ],
+    );
+  }
+
+  pw.TableRow _buildPaymentRow(String label, num amount) {
+    return pw.TableRow(
+      children: [
+        _buildCell(label),
+        _buildCell(amount.toString(), alignment: pw.Alignment.centerRight),
+      ],
+    );
+  }
+
+  pw.Widget _buildCell(
+    String text, {
+    pw.Alignment alignment = pw.Alignment.centerLeft,
+    bool isBold = false,
+    int colspan = 1,
+  }) {
+    return pw.Container(
+      padding: const pw.EdgeInsets.all(5),
+      child: pw.Text(
+        text,
+        textAlign:
+            alignment == pw.Alignment.centerRight ? pw.TextAlign.right : pw.TextAlign.left,
+        style: pw.TextStyle(
+          fontWeight: isBold ? pw.FontWeight.bold : pw.FontWeight.normal,
         ),
       ),
-      cellAlignment: pw.Alignment.center,
-      cellPadding: const pw.EdgeInsets.all(5),
     );
   }
 
