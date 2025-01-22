@@ -7,6 +7,7 @@ import '../modules/create/create_controller.dart';
 import '../modules/dsr/pdf_viewer_controller.dart';
 import '../modules/home/home_controller.dart';
 import '../modules/list/list_controller.dart';
+import '../modules/maintenance/maintenance_controller.dart';
 import '../modules/photo_upload/photo_upload_controller.dart';
 import '../modules/scanner/scanner_controller.dart';
 import '../modules/shift_update/shift_update_controller.dart';
@@ -27,5 +28,6 @@ class InitialBindings extends Bindings {
     Get.lazyPut(() => ListController(), fenix: true);
     Get.lazyPut(() => CreateController(), fenix: true);
     Get.lazyPut(() => PDFViewerController(), fenix: true);
+    Get.lazyPut(() => MaintenanceController(), fenix: true);
   }
 }

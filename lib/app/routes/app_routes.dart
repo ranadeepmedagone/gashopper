@@ -9,6 +9,7 @@ import '../modules/home/home_bindings.dart';
 import '../modules/home/home_screen.dart';
 import '../modules/list/list_bindings.dart';
 import '../modules/list/list_screen.dart';
+import '../modules/maintenance/maintenance_main_screen.dart';
 import '../modules/no_data_screen.dart';
 import '../modules/photo_upload/photo_upload_bindings.dart';
 import '../modules/photo_upload/photo_upload_screen.dart';
@@ -97,6 +98,14 @@ class RouteGenerator {
           routeName: Routes.pdfViewewScreen,
           binding: PDFViewerBindings(),
           page: () => const PdfListView(),
+          settings: settings,
+        );
+
+      case Routes.maintenanceMainScreen:
+        return GetPageRoute(
+          routeName: Routes.maintenanceMainScreen,
+          binding: PDFViewerBindings(),
+          page: () => MaintenanceMainScreen(),
           settings: settings,
         );
 

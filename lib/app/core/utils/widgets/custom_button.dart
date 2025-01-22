@@ -17,6 +17,7 @@ class CustomButton extends StatelessWidget {
   final Color? customTextColor;
   final bool isDisable;
   final bool isLoading;
+  final double? customButtonHeight;
   const CustomButton({
     super.key,
     required this.title,
@@ -32,12 +33,13 @@ class CustomButton extends StatelessWidget {
     this.isDisable = false,
     required this.onPressed,
     this.isLoading = false,
+    this.customButtonHeight,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 55,
+      height: customButtonHeight ?? 55,
       decoration: BoxDecoration(
         color: customBackgroundColor ??
             ((isDisable || isLoading) ? Colors.grey[300] : GashopperTheme.appYellow),

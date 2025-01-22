@@ -153,16 +153,18 @@ class ShiftUpdateController extends GetxController {
   String? errorMessage;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     // Initialize the current week's data
-    generateWeekDays();
+    await generateWeekDays();
     // Load employees (you would typically fetch this from an API)
-    loadEmployees();
+    await loadEmployees();
+
+    selectedEmployee = employees.first;
   }
 
   // Generate week days for the current selected week
-  void generateWeekDays() {
+  Future<void> generateWeekDays() async {
     // Get the start of the week (Sunday)
     DateTime weekStart = currentWeekStart.subtract(
       Duration(days: currentWeekStart.weekday % 7),
@@ -205,11 +207,12 @@ class ShiftUpdateController extends GetxController {
   }
 
   // Load employees
-  void loadEmployees() async {
+  Future<void> loadEmployees() async {
     try {
       // Simulate API call
       await Future.delayed(const Duration(seconds: 1));
       employees = [
+        IdNameRecord(id: 0, name: 'All'),
         IdNameRecord(id: 1, name: 'John Doe'),
         IdNameRecord(id: 2, name: 'Jane Smith'),
         // Add more employees as needed
