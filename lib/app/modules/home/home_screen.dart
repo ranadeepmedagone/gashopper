@@ -108,33 +108,33 @@ class HomeScreen extends StatelessWidget {
                             ),
                             onPressed: c.onPressCashDrop,
                           ).ltrbPadding(0, 0, 0, 16),
-                          // Row(
-                          //   children: [
-                          //     Expanded(
-                          //       child: CustomButton(
-                          //         title: 'Request',
-                          //         customBackgroundColor: GashopperTheme.appBackGrounColor,
-                          //         customBorderSide: Border.all(
-                          //           color: GashopperTheme.black,
-                          //           width: 1.5,
-                          //         ),
-                          //         onPressed: c.onPressRequest,
-                          //       ),
-                          //     ),
-                          //     const SizedBox(width: 16),
-                          //     Expanded(
-                          //       child: CustomButton(
-                          //         title: 'Report',
-                          //         customBackgroundColor: GashopperTheme.appBackGrounColor,
-                          //         customBorderSide: Border.all(
-                          //           color: GashopperTheme.black,
-                          //           width: 1.5,
-                          //         ),
-                          //         onPressed: c.onPressReport,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ).ltrbPadding(0, 0, 0, 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CustomButton(
+                                  title: 'Request',
+                                  customBackgroundColor: GashopperTheme.appBackGrounColor,
+                                  customBorderSide: Border.all(
+                                    color: GashopperTheme.black,
+                                    width: 1.5,
+                                  ),
+                                  onPressed: c.onPressRequest,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: CustomButton(
+                                  title: 'Report',
+                                  customBackgroundColor: GashopperTheme.appBackGrounColor,
+                                  customBorderSide: Border.all(
+                                    color: GashopperTheme.black,
+                                    width: 1.5,
+                                  ),
+                                  onPressed: c.onPressReport,
+                                ),
+                              ),
+                            ],
+                          ).ltrbPadding(0, 0, 0, 16),
                           CustomButton(
                             title: 'Maintenance',
                             customBackgroundColor: GashopperTheme.appBackGrounColor,

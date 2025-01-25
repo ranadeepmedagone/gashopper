@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gashopper/app/modules/maintenance/bindings/maintenance_bindings.dart';
 import 'package:get/get.dart';
 
 import '../modules/create/create_bindings.dart';
@@ -9,7 +10,9 @@ import '../modules/home/home_bindings.dart';
 import '../modules/home/home_screen.dart';
 import '../modules/list/list_bindings.dart';
 import '../modules/list/list_screen.dart';
-import '../modules/maintenance/maintenance_main_screen.dart';
+import '../modules/maintenance/view/maintenance_inventory_screen.dart';
+import '../modules/maintenance/view/maintenance_main_screen.dart';
+import '../modules/maintenance/view/station_status_update_screen.dart';
 import '../modules/no_data_screen.dart';
 import '../modules/photo_upload/photo_upload_bindings.dart';
 import '../modules/photo_upload/photo_upload_screen.dart';
@@ -104,8 +107,24 @@ class RouteGenerator {
       case Routes.maintenanceMainScreen:
         return GetPageRoute(
           routeName: Routes.maintenanceMainScreen,
-          binding: PDFViewerBindings(),
+          binding: MaintenanceBindings(),
           page: () => MaintenanceMainScreen(),
+          settings: settings,
+        );
+
+      case Routes.maintenanceStationStatusUpdateScreen:
+        return GetPageRoute(
+          routeName: Routes.maintenanceStationStatusUpdateScreen,
+          binding: MaintenanceBindings(),
+          page: () => MaintenanceStationStatusUpdateScreen(),
+          settings: settings,
+        );
+
+      case Routes.maintenanceInventoryScreen:
+        return GetPageRoute(
+          routeName: Routes.maintenanceInventoryScreen,
+          binding: MaintenanceBindings(),
+          page: () => MaintenanceInventoryScreen(),
           settings: settings,
         );
 

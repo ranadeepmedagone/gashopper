@@ -11,4 +11,7 @@ abstract class Routes {
   static const String noDataScreen = '/no_data';
   static const String pdfViewewScreen = '/pdf_viewer';
   static const String maintenanceMainScreen = '/maintenance_main';
+  static const String maintenanceStationStatusUpdateScreen =
+      '/maintenance_station_status_update';
+  static const String maintenanceInventoryScreen = '/maintenance_inventory';
 }

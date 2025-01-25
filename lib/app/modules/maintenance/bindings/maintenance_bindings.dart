@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'maintenance_controller.dart';
+import '../controller/maintenance_controller.dart';
 
 class MaintenanceBindings extends Bindings {
   @override
