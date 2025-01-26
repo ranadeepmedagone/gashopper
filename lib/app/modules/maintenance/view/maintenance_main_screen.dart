@@ -151,6 +151,7 @@ class MaintenanceMainScreen extends StatelessWidget {
                   ),
                   onPressed: () {
                     showModalBottomSheet(
+                      showDragHandle: true,
                       context: context,
                       enableDrag: true,
                       isDismissible: true,
@@ -169,7 +170,6 @@ class MaintenanceMainScreen extends StatelessWidget {
                               bottom: MediaQuery.of(context).viewInsets.bottom,
                               left: 16,
                               right: 16,
-                              top: 16,
                             ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,

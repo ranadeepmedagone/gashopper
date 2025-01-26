@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mQ = MediaQuery.of(context);
+
     return GetBuilder<HomeController>(
         initState: (state) {},
         builder: (c) {
@@ -108,33 +111,6 @@ class HomeScreen extends StatelessWidget {
                             ),
                             onPressed: c.onPressCashDrop,
                           ).ltrbPadding(0, 0, 0, 16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: CustomButton(
-                                  title: 'Request',
-                                  customBackgroundColor: GashopperTheme.appBackGrounColor,
-                                  customBorderSide: Border.all(
-                                    color: GashopperTheme.black,
-                                    width: 1.5,
-                                  ),
-                                  onPressed: c.onPressRequest,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: CustomButton(
-                                  title: 'Report',
-                                  customBackgroundColor: GashopperTheme.appBackGrounColor,
-                                  customBorderSide: Border.all(
-                                    color: GashopperTheme.black,
-                                    width: 1.5,
-                                  ),
-                                  onPressed: c.onPressReport,
-                                ),
-                              ),
-                            ],
-                          ).ltrbPadding(0, 0, 0, 16),
                           CustomButton(
                             title: 'Maintenance',
                             customBackgroundColor: GashopperTheme.appBackGrounColor,
@@ -163,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                             thickness: 1,
                           ).ltrbPadding(0, 0, 0, 16),
                           CustomButton(
-                            title: 'Veeder root',
+                            title: 'Veeder root Open',
                             onPressed: () {
                               Get.toNamed(Routes.photoUploadScreen);
                             },
@@ -181,9 +157,128 @@ class HomeScreen extends StatelessWidget {
                             isRightIconEnd: true,
                           ).ltrbPadding(0, 0, 0, 16),
                           CustomButton(
-                            title: 'Ruby report',
+                            title: 'End of Day Reports',
                             onPressed: () {
-                              Get.toNamed(Routes.photoUploadScreen);
+                              showModalBottomSheet(
+                                showDragHandle: true,
+                                context: context,
+                                enableDrag: true,
+                                isDismissible: true,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(25.0),
+                                    topRight: Radius.circular(25.0),
+                                  ),
+                                ),
+                                builder: (BuildContext context) {
+                                  return PopScope(
+                                    canPop: false,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                                        left: 16,
+                                        right: 16,
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          CustomButton(
+                                            title: 'Ruby Tank report',
+                                            onPressed: () {
+                                              Get.toNamed(Routes.photoUploadScreen);
+                                            },
+                                            leftIcon: const Icon(
+                                              Icons.camera_alt_outlined,
+                                              color: GashopperTheme.black,
+                                              size: 26,
+                                            ).ltrbPadding(8, 0, 24, 0),
+                                            rightIcon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: GashopperTheme.black,
+                                              size: 18,
+                                            ),
+                                            isLeftIcon: true,
+                                            isRightIconEnd: true,
+                                          ).ltrbPadding(0, 0, 0, 16),
+                                          CustomButton(
+                                            title: 'Ruby Card report',
+                                            onPressed: () {
+                                              Get.toNamed(Routes.photoUploadScreen);
+                                            },
+                                            leftIcon: const Icon(
+                                              Icons.camera_alt_outlined,
+                                              color: GashopperTheme.black,
+                                              size: 26,
+                                            ).ltrbPadding(8, 0, 24, 0),
+                                            rightIcon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: GashopperTheme.black,
+                                              size: 18,
+                                            ),
+                                            isLeftIcon: true,
+                                            isRightIconEnd: true,
+                                          ).ltrbPadding(0, 0, 0, 16),
+                                          CustomButton(
+                                            title: 'Ruby Mobile report',
+                                            onPressed: () {
+                                              Get.toNamed(Routes.photoUploadScreen);
+                                            },
+                                            leftIcon: const Icon(
+                                              Icons.camera_alt_outlined,
+                                              color: GashopperTheme.black,
+                                              size: 26,
+                                            ).ltrbPadding(8, 0, 24, 0),
+                                            rightIcon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: GashopperTheme.black,
+                                              size: 18,
+                                            ),
+                                            isLeftIcon: true,
+                                            isRightIconEnd: true,
+                                          ).ltrbPadding(0, 0, 0, 16),
+                                          CustomButton(
+                                            title: 'Ruby Discount',
+                                            onPressed: () {
+                                              Get.toNamed(Routes.photoUploadScreen);
+                                            },
+                                            leftIcon: const Icon(
+                                              Icons.camera_alt_outlined,
+                                              color: GashopperTheme.black,
+                                              size: 26,
+                                            ).ltrbPadding(8, 0, 24, 0),
+                                            rightIcon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: GashopperTheme.black,
+                                              size: 18,
+                                            ),
+                                            isLeftIcon: true,
+                                            isRightIconEnd: true,
+                                          ).ltrbPadding(0, 0, 0, 16),
+                                          CustomButton(
+                                            title: 'Veeder root Close',
+                                            onPressed: () {
+                                              Get.toNamed(Routes.photoUploadScreen);
+                                            },
+                                            leftIcon: const Icon(
+                                              Icons.camera_alt_outlined,
+                                              color: GashopperTheme.black,
+                                              size: 26,
+                                            ).ltrbPadding(8, 0, 24, 0),
+                                            rightIcon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              color: GashopperTheme.black,
+                                              size: 18,
+                                            ),
+                                            isLeftIcon: true,
+                                            isRightIconEnd: true,
+                                          ).ltrbPadding(0, 0, 0, 40),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
                             },
                             leftIcon: const Icon(
                               Icons.camera_alt_outlined,
@@ -219,7 +314,125 @@ class HomeScreen extends StatelessWidget {
                           CustomButton(
                             title: 'Change Price',
                             onPressed: () {
-                              Get.toNamed(Routes.photoUploadScreen);
+                              showModalBottomSheet(
+                                showDragHandle: true,
+                                context: context,
+                                enableDrag: true,
+                                isDismissible: true,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(25.0),
+                                    topRight: Radius.circular(25.0),
+                                  ),
+                                ),
+                                builder: (BuildContext context) {
+                                  return PopScope(
+                                    canPop: false,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                                        left: 16,
+                                        right: 16,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Text(
+                                            'New price',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w700,
+                                              letterSpacing: 0.5,
+                                              color: Colors.black,
+                                            ),
+                                          ).ltrbPadding(0, 0, 0, 16),
+                                          CachedNetworkImage(
+                                            imageBuilder: (context, imageProvider) => Container(
+                                              width: mQ.size.width,
+                                              height: mQ.size.height / 3,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                color: GashopperTheme.grey2,
+                                                borderRadius:
+                                                    const BorderRadius.all(Radius.circular(12)),
+                                              ),
+                                              child: const Center(
+                                                child: Icon(
+                                                  Icons.cancel_sharp,
+                                                  color: GashopperTheme.red,
+                                                  size: 80,
+                                                ),
+                                              ),
+                                            ),
+                                            imageUrl: 'https://picsum.photos/id/10/200/300',
+                                            alignment: Alignment.center,
+                                            fit: BoxFit.cover,
+                                            width: mQ.size.width,
+                                            height: mQ.size.height / 3,
+                                            placeholder: (context, url) => Container(
+                                              width: mQ.size.width / 2.5,
+                                              height: mQ.size.height / 3,
+                                              decoration: const BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      'https://picsum.photos/id/10/200/300'),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                color: GashopperTheme.grey2,
+                                                borderRadius:
+                                                    BorderRadius.all(Radius.circular(12)),
+                                              ),
+                                              child: const Center(
+                                                child: Icon(
+                                                  Icons.cancel_sharp,
+                                                  color: GashopperTheme.red,
+                                                  size: 80,
+                                                ),
+                                              ),
+                                            ),
+                                            errorWidget: (context, url, error) => const Icon(
+                                              Icons.cancel_sharp,
+                                              color: GashopperTheme.red,
+                                              size: 80,
+                                            ),
+                                          ).ltrbPadding(0, 0, 0, 16),
+                                          CustomButton(
+                                            title: 'Accept',
+                                            onPressed: () {},
+                                          ).ltrbPadding(0, 0, 0, 16),
+                                          Row(
+                                            children: [
+                                              CustomButton(
+                                                title: 'Back',
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                                customBackgroundColor:
+                                                    GashopperTheme.appBackGrounColor,
+                                              ).ltrbPadding(0, 0, 0, 16),
+                                              Expanded(
+                                                child: CustomButton(
+                                                  title: 'Submit Photo',
+                                                  onPressed: () {
+                                                    Get.toNamed(
+                                                      Routes.photoUploadScreen,
+                                                    );
+                                                  },
+                                                ).ltrbPadding(0, 0, 0, 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
                             },
                             leftIcon: const Icon(
                               Icons.camera_alt_outlined,
