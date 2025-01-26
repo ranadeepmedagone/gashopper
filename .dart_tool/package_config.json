@@ -542,6 +542,54 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "open_file",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/open_file-3.5.10",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "open_file_android",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/open_file_android-1.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "open_file_ios",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/open_file_ios-1.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "open_file_linux",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/open_file_linux-0.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "open_file_mac",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/open_file_mac-1.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "open_file_platform_interface",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/open_file_platform_interface-1.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "open_file_web",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/open_file_web-0.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "open_file_windows",
+      "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/open_file_windows-0.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "package_config",
       "rootUri": "file:///Users/ranadeepmedagone/.pub-cache/hosted/pub.dev/package_config-2.1.1",
       "packageUri": "lib/",
@@ -956,7 +1004,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2024-12-27T12:37:24.671579Z",
+  "generated": "2025-01-22T17:48:36.426625Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///Users/ranadeepmedagone/flutter",
