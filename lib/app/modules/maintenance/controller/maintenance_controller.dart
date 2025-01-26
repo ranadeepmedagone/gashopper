@@ -1,3 +1,7 @@
 import 'package:get/get.dart';
 
-class MaintenanceController extends GetxController {}
+import '../../home/home_controller.dart';
+
+class MaintenanceController extends GetxController {
+  final homeController = Get.put(HomeController());
+}

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gashopper/app/modules/maintenance/bindings/maintenance_bindings.dart';
 import 'package:get/get.dart';
 
 import '../modules/create/create_bindings.dart';
@@ -10,8 +9,11 @@ import '../modules/home/home_bindings.dart';
 import '../modules/home/home_screen.dart';
 import '../modules/list/list_bindings.dart';
 import '../modules/list/list_screen.dart';
+import '../modules/maintenance/bindings/maintenance_bindings.dart';
 import '../modules/maintenance/view/maintenance_inventory_screen.dart';
 import '../modules/maintenance/view/maintenance_main_screen.dart';
+import '../modules/maintenance/view/maintenance_report_problem.dart';
+import '../modules/maintenance/view/maintenance_report_problem_create_screen.dart';
 import '../modules/maintenance/view/station_status_update_screen.dart';
 import '../modules/no_data_screen.dart';
 import '../modules/photo_upload/photo_upload_bindings.dart';
@@ -125,6 +127,21 @@ class RouteGenerator {
           routeName: Routes.maintenanceInventoryScreen,
           binding: MaintenanceBindings(),
           page: () => MaintenanceInventoryScreen(),
+          settings: settings,
+        );
+
+      case Routes.maintenanceReportProblemScreen:
+        return GetPageRoute(
+          routeName: Routes.maintenanceReportProblemScreen,
+          binding: MaintenanceBindings(),
+          page: () => const MaintenanceReportProblemScreen(),
+          settings: settings,
+        );
+      case Routes.maintenanceReportProblemCreateScreen:
+        return GetPageRoute(
+          routeName: Routes.maintenanceReportProblemCreateScreen,
+          binding: MaintenanceBindings(),
+          page: () => const MaintenanceReportProblemCreateScreen(),
           settings: settings,
         );
 

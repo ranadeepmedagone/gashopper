@@ -14,4 +14,7 @@ abstract class Routes {
   static const String maintenanceStationStatusUpdateScreen =
       '/maintenance_station_status_update';
   static const String maintenanceInventoryScreen = '/maintenance_inventory';
+  static const String maintenanceReportProblemScreen = '/maintenance_report_problem';
+  static const String maintenanceReportProblemCreateScreen =
+      '/maintenance_report_problem_create';
 }
