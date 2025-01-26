@@ -388,8 +388,10 @@ import 'package:gashopper/app/core/utils/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 
 import '../../core/theme/app_theme.dart';
+import '../../core/utils/widgets/custom_button.dart';
 import '../../core/utils/widgets/custom_dropdown.dart';
 import '../../data/models/app_inputs.dart';
+import '../list/list_screen.dart';
 import 'shift_update_controller.dart';
 
 class ShiftUpdateScreen extends StatelessWidget {
@@ -482,6 +484,207 @@ class ShiftUpdateScreen extends StatelessWidget {
                   isToday: DateTime.now().day == controller.currentWeekStart.day,
                 ),
                 const SizedBox(height: 16),
+                const Divider(
+                  color: GashopperTheme.grey1,
+                  thickness: 1,
+                ),
+                const SizedBox(height: 16),
+                CustomButton(
+                  title: 'New',
+                  customTextStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                    color: GashopperTheme.black,
+                  ),
+                  customBackgroundColor: GashopperTheme.appBackGrounColor,
+                  customBorderSide: Border.all(
+                    color: GashopperTheme.black,
+                    width: 1.5,
+                  ),
+                  leftIcon: const Icon(
+                    Icons.add,
+                    color: GashopperTheme.black,
+                    size: 28,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                'Add Employee',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.5,
+                                  color: Colors.black,
+                                ),
+                              ).ltrbPadding(0, 0, 0, 24),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Employee',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                      color: Colors.black,
+                                    ),
+                                  ).ltrbPadding(0, 0, 0, 4),
+                                  CustomDropdownButton<IdNameRecord>(
+                                    value: null,
+                                    items: const [],
+                                    // c.requestTypes
+                                    //     .map((e) => DropdownMenuItem(
+                                    //           value: e,
+                                    //           child: Text(
+                                    //             e.name ?? '',
+                                    //             style: const TextStyle(
+                                    //               color: GashopperTheme.black,
+                                    //               fontSize: 16,
+                                    //               fontWeight: FontWeight.w700,
+                                    //               letterSpacing: 0.5,
+                                    //             ),
+                                    //           ),
+                                    //         ))
+                                    //     .toList(),
+                                    hintText: 'Select employee',
+                                    errorMessage: '',
+                                    hintStyle: GashopperTheme.fontWeightApplier(
+                                      FontWeight.w600,
+                                      const TextStyle(
+                                        fontSize: 16,
+                                        letterSpacing: 0.5,
+                                        color: GashopperTheme.grey1,
+                                      ),
+                                    ),
+                                    onChanged: (value) {
+                                      // Handle selection change
+                                      // c.selectedRequestOrReport = value;
+                                      // c.update();
+                                    },
+                                    onSaved: (value) {
+                                      // Handle value save
+                                      // c.selectedRequestOrReport = value;
+                                      // c.update();
+                                    },
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderColor: GashopperTheme.black,
+                                    borderWidth: 1.5,
+                                    padding: const EdgeInsets.all(8),
+                                    icon: const Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: Colors.grey,
+                                    ),
+                                    dropdownShadow: BoxShadow(
+                                      color: Colors.grey.withAlphaOpacity(0.4),
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 16,
+                                    ),
+                                  ),
+                                ],
+                              ).ltrbPadding(0, 0, 0, 8),
+                              const Text(
+                                'Hours',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.5,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Container(
+                                height: 45,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1.5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: TextField(
+                                  controller: TextEditingController(),
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 14),
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                      horizontal: 16,
+                                    ),
+                                  ),
+                                  onChanged: (value) {},
+                                ),
+                              ).ltrbPadding(0, 0, 0, 24),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomButton(
+                                      customButtonHeight: 50,
+                                      title: 'Cancel',
+                                      customBackgroundColor: GashopperTheme.appBackGrounColor,
+                                      customBorderSide: Border.all(
+                                        color: GashopperTheme.black,
+                                        width: 1.5,
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: CustomButton(
+                                      customButtonHeight: 50,
+                                      title: 'Save',
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ).ltrbPadding(0, 0, 0, 16),
+                const Text(
+                  'Employees',
+                  style: TextStyle(
+                    fontSize: 16,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w700,
+                    color: GashopperTheme.black,
+                  ),
+                ).ltrbPadding(0, 0, 0, 8),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return const ListCard(
+                      isPending: false,
+                      title: 'Employee 1',
+                      value: '10:00 hrs',
+                    ).ltrbPadding(0, 0, 0, 16);
+                  },
+                ),
               ],
             ),
           ),

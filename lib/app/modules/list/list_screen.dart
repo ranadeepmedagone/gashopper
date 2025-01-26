@@ -23,8 +23,9 @@ class SalesListScreen extends StatelessWidget {
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: GashopperTheme.appBackGrounColor,
-        appBar: CustomAppBar(
-          title: c.mainController.getTypeNmae(),
+        appBar: const CustomAppBar(
+          title: 'Business Unit',
+          isTitleCentered: true,
         ),
         body: (c.isCashDropsLoading ||
                 c.isStationRequestsLoading ||
@@ -37,6 +38,15 @@ class SalesListScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        c.mainController.getTypeNmae(),
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                          color: GashopperTheme.black,
+                        ),
+                      ).ltrbPadding(0, 0, 0, 16),
                       CustomButton(
                         title: 'Create',
                         customTextStyle: const TextStyle(

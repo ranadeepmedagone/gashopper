@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../data/services/dialog_service.dart';
 import '../../../routes/app_pages.dart';
 import '../../theme/app_theme.dart';
+import 'custom_profile.dart';
 
 class NavDrawer extends StatelessWidget {
   final Function()? onLogout;
@@ -28,11 +29,11 @@ class NavDrawer extends StatelessWidget {
           children: <Widget>[
             // TODO: Implement Profile Image
             // TODO Resolve the terminal error
-            // const ProfileImage(
-            //   imagePath:
-            //       'https://static.langimg.com/photo/imgsize-29734,msid-63682163/navbharat-times.jpg',
-            //   size: 80,
-            // ).ltrbPadding(0, 0, 0, 4),
+            const ProfileImage(
+              imagePath:
+                  'https://static.langimg.com/photo/imgsize-29734,msid-63682163/navbharat-times.jpg',
+              size: 80,
+            ).ltrbPadding(0, 0, 0, 4),
             if (loginUserEmail != null)
               Text(
                 loginUserEmail!,
@@ -60,16 +61,19 @@ class NavDrawer extends StatelessWidget {
             _buildDrawerItem('Home', Icons.home, () {
               Get.back();
             }),
+            _buildDrawerItem('Reports', Icons.business, () {}),
+
             _buildDrawerItem('Shift', Icons.work_history_outlined, () {
               Get.toNamed(Routes.shiftUpdateScreen);
             }),
-            _buildDrawerItem('DSR', Icons.edit_document, () {
-              Get.toNamed(
-                Routes.pdfViewewScreen,
-              );
+            // _buildDrawerItem('DSR', Icons.edit_document, () {
+            //   Get.toNamed(
+            //     Routes.pdfViewewScreen,
+            //   );
+            // }),
+            _buildDrawerItem('Settings', Icons.settings, () {
+              Get.toNamed(Routes.settingsScreen);
             }),
-            _buildDrawerItem('Request / Reports', Icons.business, () {}),
-            // _buildDrawerItem('Settings', Icons.settings, () {}),
             _buildDrawerItem('About', Icons.info, () async {
               await dialgService.showCustomDialog(
                 title: 'About',

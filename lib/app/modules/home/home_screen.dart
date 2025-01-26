@@ -32,6 +32,7 @@ class HomeScreen extends StatelessWidget {
             appBar: CustomAppBar(
               showBackButton: false,
               title: 'Business Unit',
+              isTitleCentered: true,
               customLeadingWidget: IconButton(
                 color: GashopperTheme.black,
                 tooltip: 'Menu',
@@ -375,7 +376,7 @@ class HomeScreen extends StatelessWidget {
                                             width: mQ.size.width,
                                             height: mQ.size.height / 3,
                                             placeholder: (context, url) => Container(
-                                              width: mQ.size.width / 2.5,
+                                              width: mQ.size.width,
                                               height: mQ.size.height / 3,
                                               decoration: const BoxDecoration(
                                                 image: DecorationImage(

@@ -28,8 +28,9 @@ class CreateScreen extends StatelessWidget {
       return Scaffold(
         key: _scaffoldKey,
         backgroundColor: GashopperTheme.appBackGrounColor,
-        appBar: CustomAppBar(
-          title: 'Create ${c.mainController.getTypeNmae()}',
+        appBar: const CustomAppBar(
+          title: 'Business Unit',
+          isTitleCentered: true,
         ),
         bottomNavigationBar: Container(
           margin: MediaQuery.of(context).padding.bottom > 12.0
@@ -113,6 +114,15 @@ class CreateScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        'Create ${c.mainController.getTypeNmae()}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.5,
+                          color: GashopperTheme.black,
+                        ),
+                      ).ltrbPadding(0, 0, 0, 16),
                       // ------------------------------ Sales ------------------------------
                       // ------------------------------ Sales ------------------------------
                       // ------------------------------ Sales ------------------------------

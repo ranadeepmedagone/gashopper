@@ -22,6 +22,7 @@ import '../modules/registration/registration_bindings.dart';
 import '../modules/registration/registration_screen.dart';
 import '../modules/scanner/scanner_bindings.dart';
 import '../modules/scanner/scanner_screen.dart';
+import '../modules/settings/view/settings_screen.dart';
 import '../modules/shift_update/shift_update_bindings.dart';
 import '../modules/shift_update/shift_update_screen.dart';
 import '../modules/splash/splash_binding.dart';
@@ -142,6 +143,13 @@ class RouteGenerator {
           routeName: Routes.maintenanceReportProblemCreateScreen,
           binding: MaintenanceBindings(),
           page: () => const MaintenanceReportProblemCreateScreen(),
+          settings: settings,
+        );
+      case Routes.settingsScreen:
+        return GetPageRoute(
+          routeName: Routes.settingsScreen,
+          binding: MaintenanceBindings(),
+          page: () => const SettingsScreen(),
           settings: settings,
         );
 

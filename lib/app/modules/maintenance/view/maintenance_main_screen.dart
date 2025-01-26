@@ -32,7 +32,17 @@ class MaintenanceMainScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Text(
+                  'Maintenance',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                    color: GashopperTheme.black,
+                  ),
+                ).ltrbPadding(0, 0, 0, 16),
                 Stack(
                   alignment: Alignment.centerRight,
                   children: [
@@ -194,7 +204,7 @@ class MaintenanceMainScreen extends StatelessWidget {
                                 ).ltrbPadding(0, 0, 0, 16),
                                 CachedNetworkImage(
                                   imageBuilder: (context, imageProvider) => Container(
-                                    width: mQ.size.width / 2.5,
+                                    width: mQ.size.width,
                                     height: mQ.size.height / 3,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
@@ -215,10 +225,10 @@ class MaintenanceMainScreen extends StatelessWidget {
                                   imageUrl: 'https://picsum.photos/id/10/200/300',
                                   alignment: Alignment.center,
                                   fit: BoxFit.cover,
-                                  width: mQ.size.width / 2.5,
+                                  width: mQ.size.width,
                                   height: mQ.size.height / 3,
                                   placeholder: (context, url) => Container(
-                                    width: mQ.size.width / 2.5,
+                                    width: mQ.size.width,
                                     height: mQ.size.height / 3,
                                     decoration: const BoxDecoration(
                                       image: DecorationImage(
