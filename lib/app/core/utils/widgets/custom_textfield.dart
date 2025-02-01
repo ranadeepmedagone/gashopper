@@ -56,6 +56,8 @@ class CustomTextField extends StatelessWidget {
         keyboardType: keyboardType,
         obscureText: obscureText,
         focusNode: focusNode,
+        maxLines: 5,
+        minLines: 1,
         decoration: InputDecoration(
           fillColor: GashopperTheme.appBackGrounColor,
           hintText: hintText,

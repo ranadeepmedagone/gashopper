@@ -401,75 +401,84 @@ class ShiftUpdateScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ShiftUpdateController>(builder: (controller) {
       return Scaffold(
-        appBar: const CustomAppBar(title: 'Shif Update'),
+        appBar: const CustomAppBar(title: 'Business Unit'),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // const Text(
+                //   'Select employe',
+                //   style: TextStyle(
+                //     fontSize: 14,
+                //     letterSpacing: 0.5,
+                //     fontWeight: FontWeight.w700,
+                //     color: GashopperTheme.black,
+                //   ),
+                // ).ltrbPadding(0, 0, 0, 8),
+                // CustomDropdownButton<IdNameRecord>(
+                //   value: controller.selectedEmployee,
+                //   items: controller.employees
+                //       .map((e) => DropdownMenuItem(
+                //             value: e,
+                //             child: Text(
+                //               e.name ?? '',
+                //               style: const TextStyle(
+                //                 color: GashopperTheme.black,
+                //                 fontSize: 16,
+                //                 fontWeight: FontWeight.w700,
+                //                 letterSpacing: 0.5,
+                //               ),
+                //             ),
+                //           ))
+                //       .toList(),
+                //   hintText: 'Select user',
+                //   errorMessage: null,
+                //   hintStyle: GashopperTheme.fontWeightApplier(
+                //     FontWeight.w600,
+                //     const TextStyle(
+                //       fontSize: 16,
+                //       letterSpacing: 0.5,
+                //       color: GashopperTheme.grey1,
+                //     ),
+                //   ),
+                //   onChanged: (value) {
+                //     // Handle selection change
+                //     controller.selectedEmployee = value;
+                //     controller.update();
+                //   },
+                //   onSaved: (value) {
+                //     // Handle value save
+                //     controller.selectedEmployee = value;
+                //     controller.update();
+                //   },
+                //   borderRadius: BorderRadius.circular(12),
+                //   // c.errorMessage != null ? GashopperTheme.red :
+                //   borderColor: GashopperTheme.black,
+                //   borderWidth: 1.5,
+                //   padding: const EdgeInsets.all(8),
+                //   icon: const Icon(
+                //     Icons.keyboard_arrow_down,
+                //     color: Colors.grey,
+                //   ),
+                //   dropdownShadow: BoxShadow(
+                //     color: Colors.grey.withAlphaOpacity(0.4),
+                //     offset: const Offset(0, 4),
+                //     blurRadius: 16,
+                //   ),
+                // ).ltrbPadding(0, 0, 0, 16),
                 const Text(
-                  'Select employe',
+                  'Shift Update',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 20,
                     letterSpacing: 0.5,
                     fontWeight: FontWeight.w700,
                     color: GashopperTheme.black,
                   ),
-                ).ltrbPadding(0, 0, 0, 8),
-                CustomDropdownButton<IdNameRecord>(
-                  value: controller.selectedEmployee,
-                  items: controller.employees
-                      .map((e) => DropdownMenuItem(
-                            value: e,
-                            child: Text(
-                              e.name ?? '',
-                              style: const TextStyle(
-                                color: GashopperTheme.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  hintText: 'Select user',
-                  errorMessage: null,
-                  hintStyle: GashopperTheme.fontWeightApplier(
-                    FontWeight.w600,
-                    const TextStyle(
-                      fontSize: 16,
-                      letterSpacing: 0.5,
-                      color: GashopperTheme.grey1,
-                    ),
-                  ),
-                  onChanged: (value) {
-                    // Handle selection change
-                    controller.selectedEmployee = value;
-                    controller.update();
-                  },
-                  onSaved: (value) {
-                    // Handle value save
-                    controller.selectedEmployee = value;
-                    controller.update();
-                  },
-                  borderRadius: BorderRadius.circular(12),
-                  // c.errorMessage != null ? GashopperTheme.red :
-                  borderColor: GashopperTheme.black,
-                  borderWidth: 1.5,
-                  padding: const EdgeInsets.all(8),
-                  icon: const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.grey,
-                  ),
-                  dropdownShadow: BoxShadow(
-                    color: Colors.grey.withAlphaOpacity(0.4),
-                    offset: const Offset(0, 4),
-                    blurRadius: 16,
-                  ),
                 ).ltrbPadding(0, 0, 0, 16),
                 const Text(
-                  'Dec, 2024',
+                  'Jan 26, 2025',
                   style: TextStyle(
                     fontSize: 14,
                     letterSpacing: 0.5,
@@ -517,7 +526,6 @@ class ShiftUpdateScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               const Text(
@@ -532,6 +540,29 @@ class ShiftUpdateScreen extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  const Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Date: 20/01/2025',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.5,
+                                          color: GashopperTheme.grey1,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Day: Sunday',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.5,
+                                          color: GashopperTheme.grey1,
+                                        ),
+                                      ),
+                                    ],
+                                  ).ltrbPadding(0, 0, 0, 16),
                                   const Text(
                                     'Employee',
                                     style: TextStyle(
@@ -591,47 +622,47 @@ class ShiftUpdateScreen extends StatelessWidget {
                                       offset: const Offset(0, 4),
                                       blurRadius: 16,
                                     ),
+                                  ).ltrbPadding(0, 0, 0, 8),
+                                  const Text(
+                                    'Hours',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Container(
+                                    height: 45,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1.5,
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: TextField(
+                                      controller: TextEditingController(),
+                                      keyboardType: TextInputType.number,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(fontSize: 14),
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(8),
+                                          borderSide: BorderSide.none,
+                                        ),
+                                        contentPadding: const EdgeInsets.symmetric(
+                                          vertical: 12,
+                                          horizontal: 16,
+                                        ),
+                                      ),
+                                      onChanged: (value) {},
+                                    ),
                                   ),
                                 ],
-                              ).ltrbPadding(0, 0, 0, 8),
-                              const Text(
-                                'Hours',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.5,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Container(
-                                height: 45,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1.5,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: TextField(
-                                  controller: TextEditingController(),
-                                  keyboardType: TextInputType.number,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 14),
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                      horizontal: 16,
-                                    ),
-                                  ),
-                                  onChanged: (value) {},
-                                ),
                               ).ltrbPadding(0, 0, 0, 24),
                               Row(
                                 children: [

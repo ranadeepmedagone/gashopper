@@ -142,7 +142,7 @@ class MaintenanceInventoryScreen extends StatelessWidget {
                                                       letterSpacing: 0.5,
                                                       color: Colors.black),
                                                 ),
-                                                const Spacer(),
+                                                const SizedBox(width: 24),
                                                 Container(
                                                   alignment: Alignment.center,
                                                   child: InkWell(

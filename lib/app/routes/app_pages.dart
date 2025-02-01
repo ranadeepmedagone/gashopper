@@ -18,4 +18,5 @@ abstract class Routes {
   static const String maintenanceReportProblemCreateScreen =
       '/maintenance_report_problem_create';
   static const String settingsScreen = '/settings';
+  static const String maintenanceChatScreen = '/maintenance_chat';
 }

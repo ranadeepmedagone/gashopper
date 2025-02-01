@@ -10,6 +10,7 @@ import '../modules/home/home_screen.dart';
 import '../modules/list/list_bindings.dart';
 import '../modules/list/list_screen.dart';
 import '../modules/maintenance/bindings/maintenance_bindings.dart';
+import '../modules/maintenance/view/maintenance_chat_screen.dart';
 import '../modules/maintenance/view/maintenance_inventory_screen.dart';
 import '../modules/maintenance/view/maintenance_main_screen.dart';
 import '../modules/maintenance/view/maintenance_report_problem.dart';
@@ -150,6 +151,13 @@ class RouteGenerator {
           routeName: Routes.settingsScreen,
           binding: MaintenanceBindings(),
           page: () => const SettingsScreen(),
+          settings: settings,
+        );
+      case Routes.maintenanceChatScreen:
+        return GetPageRoute(
+          routeName: Routes.maintenanceChatScreen,
+          binding: MaintenanceBindings(),
+          page: () => const MaintenanceChatScreen(),
           settings: settings,
         );
 

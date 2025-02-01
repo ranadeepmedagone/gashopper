@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
+import 'package:get/get.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/widgets/custom_appbar.dart';
 import '../../../core/utils/widgets/custom_button.dart';
 import '../../../core/utils/widgets/custom_dropdown.dart';
 import '../../../data/models/app_inputs.dart';
+import '../../../routes/app_pages.dart';
 
 class MaintenanceStationStatusUpdateScreen extends StatelessWidget {
   MaintenanceStationStatusUpdateScreen({super.key});
@@ -55,7 +57,11 @@ class MaintenanceStationStatusUpdateScreen extends StatelessWidget {
             Expanded(
               child: CustomButton(
                 title: 'Save',
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(
+                    Routes.maintenanceChatScreen,
+                  );
+                },
               ),
             ),
           ],
