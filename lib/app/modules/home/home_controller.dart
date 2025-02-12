@@ -130,6 +130,7 @@ class HomeController extends GetxController {
         update();
         return;
       }
+
       appInputs = AppInputs.fromJson(response?.data);
     } catch (e) {
       await _dialogService.showErrorDialog(

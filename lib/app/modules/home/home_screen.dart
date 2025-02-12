@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,7 @@ import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
 import '../../core/utils/widgets/custom_loader.dart';
 import '../../core/utils/widgets/custom_navbar.dart';
+import '../../core/utils/widgets/price_change_board.dart';
 import '../../routes/app_pages.dart';
 import 'home_controller.dart';
 
@@ -21,8 +21,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mQ = MediaQuery.of(context);
-
     return GetBuilder<HomeController>(
         initState: (state) {},
         builder: (c) {
@@ -349,59 +347,7 @@ class HomeScreen extends StatelessWidget {
                                               color: Colors.black,
                                             ),
                                           ).ltrbPadding(0, 0, 0, 16),
-                                          CachedNetworkImage(
-                                            imageBuilder: (context, imageProvider) => Container(
-                                              width: mQ.size.width,
-                                              height: mQ.size.height / 3,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                color: GashopperTheme.grey2,
-                                                borderRadius:
-                                                    const BorderRadius.all(Radius.circular(12)),
-                                              ),
-                                              child: const Center(
-                                                child: Icon(
-                                                  Icons.cancel_sharp,
-                                                  color: GashopperTheme.red,
-                                                  size: 80,
-                                                ),
-                                              ),
-                                            ),
-                                            imageUrl: 'https://picsum.photos/id/10/200/300',
-                                            alignment: Alignment.center,
-                                            fit: BoxFit.cover,
-                                            width: mQ.size.width,
-                                            height: mQ.size.height / 3,
-                                            placeholder: (context, url) => Container(
-                                              width: mQ.size.width,
-                                              height: mQ.size.height / 3,
-                                              decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                      'https://picsum.photos/id/10/200/300'),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                color: GashopperTheme.grey2,
-                                                borderRadius:
-                                                    BorderRadius.all(Radius.circular(12)),
-                                              ),
-                                              child: const Center(
-                                                child: Icon(
-                                                  Icons.cancel_sharp,
-                                                  color: GashopperTheme.red,
-                                                  size: 80,
-                                                ),
-                                              ),
-                                            ),
-                                            errorWidget: (context, url, error) => const Icon(
-                                              Icons.cancel_sharp,
-                                              color: GashopperTheme.red,
-                                              size: 80,
-                                            ),
-                                          ).ltrbPadding(0, 0, 0, 16),
+                                          const PriceChangeBoard().ltrbPadding(0, 0, 0, 16),
                                           CustomButton(
                                             title: 'Accept',
                                             onPressed: () {},

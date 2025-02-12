@@ -222,33 +222,105 @@ class ListCard extends StatelessWidget {
               ),
               borderRadius: const BorderRadius.all(Radius.circular(12)),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
               children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: GashopperTheme.fontWeightApplier(
-                      FontWeight.w700,
-                      const TextStyle(
-                        fontSize: 16,
-                        letterSpacing: 0.5,
-                        color: GashopperTheme.black,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: GashopperTheme.fontWeightApplier(
+                          FontWeight.w700,
+                          const TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 0.5,
+                            color: GashopperTheme.black,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  value,
-                  style: GashopperTheme.fontWeightApplier(
-                    FontWeight.w700,
-                    TextStyle(
-                      fontSize: 16,
-                      letterSpacing: 0.5,
-                      color: customValueTextColor ?? GashopperTheme.black,
+                    const SizedBox(width: 8),
+                    Text(
+                      value,
+                      style: GashopperTheme.fontWeightApplier(
+                        FontWeight.w700,
+                        TextStyle(
+                          fontSize: 16,
+                          letterSpacing: 0.5,
+                          color: customValueTextColor ?? GashopperTheme.black,
+                        ),
+                      ),
                     ),
+                  ],
+                ),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    dividerColor: Colors.transparent,
+                  ),
+                  child: ExpansionTile(
+                    title: const Row(
+                      children: [
+                        SizedBox(width: 8),
+                        Text(
+                          'Student Details',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xff3D5066),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onExpansionChanged: (bool isExpanded) {
+                      // controller.isExpanded = isExpanded;
+                      // controller.update();
+                    },
+                    trailing: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: const Color(0xff01A3FF),
+                      ),
+                      child:
+                          // !controller.isExpanded
+                          //     ? const Icon(
+                          //         Icons.keyboard_arrow_right,
+                          //         color: Colors.white,
+                          //       )
+                          //     :
+                          const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Colors.white,
+                      ),
+                    ),
+                    children: [
+                      Divider(
+                        color: const Color(0xff01A3FF).withAlphaOpacity(0.2),
+                        thickness: 1,
+                        height: 2,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  title,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xff3D5066),
+                                  ),
+                                ).ltrbPadding(0, 0, 0, 4),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ).ltrbPadding(20, 8, 20, 16),
+                    ],
                   ),
                 ),
               ],
