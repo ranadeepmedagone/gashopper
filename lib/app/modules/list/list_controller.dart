@@ -44,6 +44,9 @@ class ListController extends GetxController {
   // Loding state
   bool isCashDropsLoading = false;
 
+  // Expanded state
+  bool isExpanded = false;
+
   // Get all cash drops
   Future<void> getAllCashDrops() async {
     try {

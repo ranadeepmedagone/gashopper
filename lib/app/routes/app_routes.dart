@@ -88,7 +88,7 @@ class RouteGenerator {
         return GetPageRoute(
           routeName: Routes.shiftUpdateScreen,
           binding: ShiftUpdateBindings(),
-          page: () => const ShiftUpdateScreen(),
+          page: () => ShiftUpdateScreen(),
           settings: settings,
         );
 

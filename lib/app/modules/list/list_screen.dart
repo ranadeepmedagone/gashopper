@@ -188,6 +188,8 @@ class ListCard extends StatelessWidget {
   final bool isPending;
   final Color? customValueTextColor;
   final Function()? onTap;
+  final String? buttonTitle;
+  final Function()? onTapButton;
 
   const ListCard({
     super.key,
@@ -195,139 +197,119 @@ class ListCard extends StatelessWidget {
     required this.value,
     this.isPending = false,
     this.customValueTextColor,
+    this.buttonTitle,
     this.onTap,
+    this.onTapButton,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 8),
-      decoration: BoxDecoration(
-        color:
-            isPending ? GashopperTheme.grey1.withAlphaOpacity(0.5) : GashopperTheme.appYellow,
-        borderRadius: const BorderRadius.all(Radius.circular(16)),
-      ),
-      child: Material(
-        color: GashopperTheme.grey2,
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        child: InkWell(
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: isPending ? GashopperTheme.grey1 : GashopperTheme.appYellow,
-                width: 1.5,
-              ),
+    return GetBuilder<ListController>(
+      builder: (controller) {
+        return Container(
+          padding: const EdgeInsets.only(left: 8),
+          decoration: BoxDecoration(
+            color: isPending
+                ? GashopperTheme.grey1.withAlphaOpacity(0.5)
+                : GashopperTheme.appYellow,
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
+          ),
+          child: Material(
+            color: GashopperTheme.grey2,
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            child: InkWell(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        title,
-                        style: GashopperTheme.fontWeightApplier(
-                          FontWeight.w700,
-                          const TextStyle(
-                            fontSize: 16,
-                            letterSpacing: 0.5,
-                            color: GashopperTheme.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      value,
-                      style: GashopperTheme.fontWeightApplier(
-                        FontWeight.w700,
-                        TextStyle(
-                          fontSize: 16,
-                          letterSpacing: 0.5,
-                          color: customValueTextColor ?? GashopperTheme.black,
-                        ),
-                      ),
-                    ),
-                  ],
+              onTap: onTap,
+              child: Container(
+                // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: isPending ? GashopperTheme.grey1 : GashopperTheme.appYellow,
+                    width: 1.5,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
                 ),
-                Theme(
+                child: Theme(
                   data: Theme.of(context).copyWith(
                     dividerColor: Colors.transparent,
                   ),
                   child: ExpansionTile(
-                    title: const Row(
+                    title: Row(
                       children: [
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text(
-                          'Student Details',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xff3D5066),
+                          title,
+                          style: GashopperTheme.fontWeightApplier(
+                            FontWeight.w700,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.black,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          value,
+                          style: GashopperTheme.fontWeightApplier(
+                            FontWeight.w700,
+                            const TextStyle(
+                              fontSize: 16,
+                              letterSpacing: 0.5,
+                              color: GashopperTheme.black,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     onExpansionChanged: (bool isExpanded) {
-                      // controller.isExpanded = isExpanded;
-                      // controller.update();
+                      controller.isExpanded = isExpanded;
+                      controller.update();
                     },
                     trailing: Container(
                       height: 30,
                       width: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
-                        color: const Color(0xff01A3FF),
+                        color: GashopperTheme.appYellow,
                       ),
-                      child:
-                          // !controller.isExpanded
-                          //     ? const Icon(
-                          //         Icons.keyboard_arrow_right,
-                          //         color: Colors.white,
-                          //       )
-                          //     :
-                          const Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Colors.white,
-                      ),
+                      child: !controller.isExpanded
+                          ? const Icon(
+                              Icons.keyboard_arrow_right,
+                              color: GashopperTheme.black,
+                            )
+                          : const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: GashopperTheme.black,
+                            ),
                     ),
                     children: [
-                      Divider(
-                        color: const Color(0xff01A3FF).withAlphaOpacity(0.2),
-                        thickness: 1,
-                        height: 2,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  title,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xff3D5066),
-                                  ),
-                                ).ltrbPadding(0, 0, 0, 4),
-                              ],
+                      if (buttonTitle != null)
+                        Divider(
+                          color: GashopperTheme.appYellow.withAlphaOpacity(0.2),
+                          thickness: 1,
+                          height: 2,
+                        ),
+                      if (buttonTitle != null)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomButton(
+                                customButtonHeight: 35,
+                                title: buttonTitle!,
+                                onPressed: onTapButton,
+                              ),
                             ),
-                          ),
-                        ],
-                      ).ltrbPadding(20, 8, 20, 16),
+                          ],
+                        ).ltrbPadding(20, 8, 20, 16),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

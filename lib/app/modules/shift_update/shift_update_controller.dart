@@ -1,171 +1,101 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:intl/intl.dart';
-
-// class ShiftUpdateController extends GetxController {
-//   List<Shift> shifts = [];
-//   List<Shift> savedShifts = [];
-//   bool isLoading = false;
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     addEmptyShift();
-//   }
-
-//   void addEmptyShift() {
-//     shifts.add(
-//       Shift(
-//         id: shifts.length + 1,
-//         startTime: '',
-//         endTime: '',
-//         date: '',
-//         duration: '',
-//         isSaved: false,
-//       ),
-//     );
-//     update();
-//   }
-
-//   bool isCurrentShiftComplete() {
-//     if (shifts.isEmpty) return false;
-//     final currentShift = shifts.last;
-//     return currentShift.date.isNotEmpty &&
-//         currentShift.startTime.isNotEmpty &&
-//         currentShift.endTime.isNotEmpty;
-//   }
-
-//   void saveCurrentShift() {
-//     if (isCurrentShiftComplete()) {
-//       final currentShift = shifts.last;
-//       currentShift.isSaved = true;
-//       savedShifts.add(currentShift);
-//       addEmptyShift();
-//       update();
-//     }
-//   }
-
-//   void cancelCurrentShift() {
-//     if (shifts.isNotEmpty && !shifts.last.isSaved) {
-//       shifts.removeLast();
-//       addEmptyShift();
-//       update();
-//     }
-//   }
-
-//   void updateShiftDate(int index, DateTime date) {
-//     if (index < shifts.length && !shifts[index].isSaved) {
-//       shifts[index] = shifts[index].copyWith(
-//         date: DateFormat('yyyy-MM-dd').format(date),
-//       );
-//       update();
-//     }
-//   }
-
-//   void updateShiftTime(int index, String timeType, TimeOfDay time) {
-//     if (index < shifts.length && !shifts[index].isSaved) {
-//       final timeString = formatTimeOfDay(time);
-//       if (timeType == 'start') {
-//         shifts[index] = shifts[index].copyWith(startTime: timeString);
-//       } else {
-//         shifts[index] = shifts[index].copyWith(endTime: timeString);
-//       }
-//       _calculateDuration(index);
-//       update();
-//     }
-//   }
-
-//   void _calculateDuration(int index) {
-//     final shift = shifts[index];
-//     if (shift.startTime.isNotEmpty && shift.endTime.isNotEmpty) {
-//       try {
-//         final startTime = DateFormat('hh:mm a').parse(shift.startTime);
-//         final endTime = DateFormat('hh:mm a').parse(shift.endTime);
-
-//         final duration = endTime.difference(startTime);
-//         final hours = duration.inHours;
-//         final minutes = duration.inMinutes % 60;
-
-//         shifts[index] = shift.copyWith(
-//           duration: '${hours}h ${minutes}m',
-//         );
-//         update();
-//       } catch (e) {}
-//     }
-//   }
-
-//   String formatTimeOfDay(TimeOfDay time) {
-//     final now = DateTime.now();
-//     final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-//     return DateFormat('hh:mm a').format(dt);
-//   }
-// }
-
-// // shift_model.dart
-
-// class Shift {
-//   final int id;
-//   final String startTime;
-//   final String endTime;
-//   final String date;
-//   final String duration;
-//   bool isSaved;
-
-//   Shift({
-//     required this.id,
-//     required this.startTime,
-//     required this.endTime,
-//     required this.date,
-//     required this.duration,
-//     this.isSaved = false,
-//   });
-
-//   Shift copyWith({
-//     int? id,
-//     String? startTime,
-//     String? endTime,
-//     String? date,
-//     String? duration,
-//     bool? isSaved,
-//   }) {
-//     return Shift(
-//       id: id ?? this.id,
-//       startTime: startTime ?? this.startTime,
-//       endTime: endTime ?? this.endTime,
-//       date: date ?? this.date,
-//       duration: duration ?? this.duration,
-//       isSaved: isSaved ?? this.isSaved,
-//     );
-//   }
-// }
-
+import 'package:gashopper/app/modules/home/home_controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../data/api/dio_helpers.dart';
 import '../../data/models/app_inputs.dart';
+import '../../data/models/user_shift.dart';
+import '../../data/services/dialog_service.dart';
 
 class ShiftUpdateController extends GetxController {
-  // State variables (not Rx since we're using GetBuilder)
   List<Map<String, String>> weekDays = [];
   DateTime currentWeekStart = DateTime.now();
   List<IdNameRecord> employees = [];
-  IdNameRecord? selectedEmployee;
   String? errorMessage;
+
+  final _dioHelper = Get.find<DioHelper>();
+  final _dialogService = Get.find<DialogService>();
+  final HomeController homeController = Get.find<HomeController>();
+
+  // Observable values for datetime selection
+  Rx<DateTime?> selectedStartTime = Rx<DateTime?>(null);
+  Rx<DateTime?> selectedEndTime = Rx<DateTime?>(null);
+
+  IdNameRecord? _selectedUser;
+  IdNameRecord? get selectedUser => _selectedUser;
+
+  bool _isEditShiftUser = false;
+  bool get isEditShiftUser => _isEditShiftUser;
+
+  bool isUserShiftsLoading = false;
+  List<UserShift> userShiftsList = [];
 
   @override
   void onInit() async {
     super.onInit();
-    // Initialize the current week's data
+    await getAllUserShifts();
     await generateWeekDays();
-    // Load employees (you would typically fetch this from an API)
-    await loadEmployees();
-
-    selectedEmployee = employees.first;
   }
 
-  // Generate week days for the current selected week
+  void resetState() {
+    _isEditShiftUser = false;
+    _selectedUser = null;
+    selectedStartTime.value = null;
+    selectedEndTime.value = null;
+    update();
+  }
+
+  set selectedUser(IdNameRecord? value) {
+    if (_selectedUser?.id != value?.id) {
+      _selectedUser = value;
+      update();
+    }
+  }
+
+  set isEditShiftUser(bool value) {
+    if (_isEditShiftUser != value) {
+      _isEditShiftUser = value;
+      update();
+    }
+  }
+
+  String formatDateTime(DateTime? dateTime) {
+    if (dateTime == null) return "No date selected";
+    return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(dateTime.toUtc());
+  }
+
+  void updateStartTime(DateTime? time) {
+    selectedStartTime.value = time;
+    update();
+  }
+
+  void updateEndTime(DateTime? time) {
+    selectedEndTime.value = time;
+    update();
+  }
+
+  IdNameRecord? findMatchingUser(int? userId, String? userName) {
+    if (userId == null || homeController.appInputs?.stationUsers == null) {
+      return null;
+    }
+    return homeController.appInputs?.stationUsers?.firstWhere(
+      (user) => user.id == userId,
+      orElse: () => IdNameRecord(id: userId, name: userName),
+    );
+  }
+
+  /// When updating a shift, auto fill the current details.
+  Future<void> onUserShiftUpdate(UserShift userShift) async {
+    resetState();
+    _selectedUser = findMatchingUser(userShift.userId, userShift.userName);
+    // Auto fill the start and end time fields
+    selectedStartTime.value = userShift.startTime;
+    selectedEndTime.value = userShift.endTime;
+    _isEditShiftUser = true;
+    update();
+  }
+
   Future<void> generateWeekDays() async {
-    // Get the start of the week (Sunday)
     DateTime weekStart = currentWeekStart.subtract(
       Duration(days: currentWeekStart.weekday % 7),
     );
@@ -183,22 +113,19 @@ class ShiftUpdateController extends GetxController {
         'date': DateFormat('dd').format(currentDay),
         'hours': '8:00',
         'fullDate': DateFormat('yyyy-MM-dd').format(currentDay),
-        'isToday': isToday.toString(), // Add isToday flag
+        'isToday': isToday.toString(),
       };
     });
 
-    update(); // Notify GetBuilder to rebuild
+    update();
   }
 
-  // Navigate to previous week
   void goToPreviousWeek() {
     currentWeekStart = currentWeekStart.subtract(const Duration(days: 7));
     generateWeekDays();
   }
 
-  // Navigate to next week
   void goToNextWeek() {
-    // You might want to add validation here to prevent going beyond certain date
     DateTime nextWeek = currentWeekStart.add(const Duration(days: 7));
     if (nextWeek.isBefore(DateTime.now().add(const Duration(days: 0)))) {
       currentWeekStart = nextWeek;
@@ -206,99 +133,127 @@ class ShiftUpdateController extends GetxController {
     }
   }
 
-  // Load employees
-  Future<void> loadEmployees() async {
-    try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 1));
-      employees = [
-        IdNameRecord(id: 0, name: 'All'),
-        IdNameRecord(id: 1, name: 'John Doe'),
-        IdNameRecord(id: 2, name: 'Jane Smith'),
-        // Add more employees as needed
-      ];
-      update();
-    } catch (e) {
-      errorMessage = 'Failed to load employees';
-      update();
-    }
-  }
-
-  // Handle employee selection
-  void onEmployeeSelected(IdNameRecord? employee) {
-    selectedEmployee = employee;
-    errorMessage = null;
-    update();
-
-    // Load the selected employee's schedule
-    if (employee != null) {
-      loadEmployeeSchedule(employee.id ?? 0);
-    }
-  }
-
-  // Load employee schedule for the current week
-  void loadEmployeeSchedule(int employeeId) async {
-    try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 1));
-
-      // Here you would typically:
-      // 1. Make API call to get employee's schedule for current week
-      // 2. Update the weekDays list with actual hours
-      // 3. Call update() to refresh the UI
-
-      // For demonstration, randomly updating hours
-      weekDays = weekDays.map((day) {
-        return {
-          ...day,
-          'hours': '${(DateTime.now().millisecondsSinceEpoch % 8 + 4)}H',
-        };
-      }).toList();
-
-      update();
-    } catch (e) {
-      errorMessage = 'Failed to load schedule';
-      update();
-    }
-  }
-
-  // Save updated schedule
-  Future<void> saveSchedule() async {
-    if (selectedEmployee == null) {
-      errorMessage = 'Please select an employee';
-      update();
-      return;
-    }
-
-    try {
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 1));
-
-      // Here you would:
-      // 1. Format the data as needed by your API
-      // 2. Make the API call to save the schedule
-      // 3. Handle success/failure
-
-      Get.snackbar(
-        'Success',
-        'Schedule updated successfully',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } catch (e) {
-      errorMessage = 'Failed to save schedule';
-      update();
-    }
-  }
-
-  // Get the week range string for display
   String get weekRangeString {
     final weekEnd = currentWeekStart.add(const Duration(days: 6));
     return '${DateFormat('MMM dd').format(currentWeekStart)} - ${DateFormat('MMM dd').format(weekEnd)}';
   }
 
-  // Check if we can go to next week (prevent going too far into future)
   bool get canGoToNextWeek {
     DateTime nextWeek = currentWeekStart.add(const Duration(days: 7));
     return nextWeek.isBefore(DateTime.now().add(const Duration(days: 30)));
+  }
+
+  Future<void> getAllUserShifts() async {
+    try {
+      isUserShiftsLoading = true;
+      update();
+
+      final (response, error) = await _dioHelper.getAllUserShifts();
+
+      if (error != null || response?.data == null) {
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: error ?? 'No data received',
+          buttonText: 'OK',
+        );
+        return;
+      }
+
+      if (response?.data is List) {
+        try {
+          userShiftsList = (response?.data as List)
+              .map((item) => UserShift.fromJson(item as Map<String, dynamic>))
+              .toList();
+        } catch (e) {
+          await _dialogService.showErrorDialog(
+            title: 'Error',
+            description: 'Failed to process shifts data',
+            buttonText: 'OK',
+          );
+          return;
+        }
+      }
+    } catch (e) {
+      await _dialogService.showErrorDialog(
+        title: 'Error',
+        description: e.toString(),
+        buttonText: 'OK',
+      );
+    } finally {
+      isUserShiftsLoading = false;
+      update();
+    }
+  }
+
+  Future<void> createUserShift(DateTime? startTime) async {
+    if (startTime != null && selectedUser != null) {
+      try {
+        isUserShiftsLoading = true;
+        Get.back();
+        update();
+
+        final (response, error) = await _dioHelper.createUserShift(
+          startTime: startTime.toUtc(),
+          employeeId: selectedUser!.id!,
+        );
+
+        if (error != null || response?.data == null) {
+          await _dialogService.showErrorDialog(
+            title: 'Error',
+            description: error ?? 'No data received',
+            buttonText: 'OK',
+          );
+          return;
+        }
+
+        await getAllUserShifts();
+      } catch (e) {
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: e.toString(),
+          buttonText: 'OK',
+        );
+      } finally {
+        isUserShiftsLoading = false;
+        update();
+      }
+    }
+  }
+
+  Future<void> updateUserShift(DateTime? startTime, DateTime? endTime, int shiftId) async {
+    if (startTime != null && endTime != null && selectedUser != null) {
+      try {
+        isUserShiftsLoading = true;
+        Get.back();
+        update();
+
+        final (response, error) = await _dioHelper.updateUserShift(
+          startTime: startTime.toUtc(),
+          endTime: endTime.toUtc(),
+          employeeId: selectedUser!.id!,
+          shiftId: shiftId,
+        );
+
+        if (error != null || response?.data == null) {
+          await _dialogService.showErrorDialog(
+            title: 'Error',
+            description: error ?? 'No data received',
+            buttonText: 'OK',
+          );
+          return;
+        }
+
+        await getAllUserShifts();
+      } catch (e) {
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: e.toString(),
+          buttonText: 'OK',
+        );
+      } finally {
+        isUserShiftsLoading = false;
+        update();
+      }
+    }
   }
 }

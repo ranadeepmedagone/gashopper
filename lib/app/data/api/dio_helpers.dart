@@ -173,7 +173,7 @@ class DioHelper extends GetxController {
     );
   }
 
-  // Get all cash drops
+  // Get all station requests
   Future<(dio.Response?, String?)> getAllStationRequests() async {
     return _handleRequest(
       () => _dio.get(
@@ -247,6 +247,49 @@ class DioHelper extends GetxController {
           'description': description,
           'added_amount': addedAmount,
           'payment_type_id': paymentTypeId,
+        },
+      ),
+    );
+  }
+
+  // Get all user shifts
+  Future<(dio.Response?, String?)> getAllUserShifts() async {
+    return _handleRequest(
+      () => _dio.get(
+        ApiEndPoints.userShiftAPIEndpoint,
+      ),
+    );
+  }
+
+  // Create user shift
+  Future<(dio.Response?, String?)> createUserShift({
+    DateTime? startTime,
+    required int employeeId,
+  }) async {
+    return _handleRequest(
+      () => _dio.post(
+        ApiEndPoints.userShiftAPIEndpoint,
+        data: {
+          'start_time': startTime?.toUtc().toIso8601String(),
+          'user_id': employeeId,
+        },
+      ),
+    );
+  }
+
+  Future<(dio.Response?, String?)> updateUserShift({
+    required DateTime startTime,
+    required DateTime endTime,
+    required int employeeId,
+    required int shiftId,
+  }) {
+    return _handleRequest(
+      () => _dio.put(
+        '${ApiEndPoints.userShiftAPIEndpoint}/$shiftId',
+        data: {
+          'start_time': startTime.toUtc().toIso8601String(),
+          'end_time': endTime.toUtc().toIso8601String(),
+          'user_id': employeeId,
         },
       ),
     );
