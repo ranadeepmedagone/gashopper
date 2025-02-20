@@ -17,6 +17,8 @@ class ShiftUpdateController extends GetxController {
   final _dialogService = Get.find<DialogService>();
   final HomeController homeController = Get.find<HomeController>();
 
+  List<DailyTotalWorkingHours> dailyTotalWorkingHours = [];
+
   // Observable values for datetime selection
   Rx<DateTime?> selectedStartTime = Rx<DateTime?>(null);
   Rx<DateTime?> selectedEndTime = Rx<DateTime?>(null);
@@ -34,6 +36,8 @@ class ShiftUpdateController extends GetxController {
   void onInit() async {
     super.onInit();
     await getAllUserShifts();
+    // Get the daily working hours from the appInputs
+    dailyTotalWorkingHours = homeController.appInputs?.dailyTotalWorkingHours ?? [];
     await generateWeekDays();
   }
 
@@ -84,17 +88,18 @@ class ShiftUpdateController extends GetxController {
     );
   }
 
-  /// When updating a shift, auto fill the current details.
+  /// When updating a shift, auto-fill the current details.
   Future<void> onUserShiftUpdate(UserShift userShift) async {
     resetState();
     _selectedUser = findMatchingUser(userShift.userId, userShift.userName);
-    // Auto fill the start and end time fields
+    // Auto-fill the start and end time fields
     selectedStartTime.value = userShift.startTime;
     selectedEndTime.value = userShift.endTime;
     _isEditShiftUser = true;
     update();
   }
 
+  /// Generate the week days list using the daily working hours if available.
   Future<void> generateWeekDays() async {
     DateTime weekStart = currentWeekStart.subtract(
       Duration(days: currentWeekStart.weekday % 7),
@@ -108,10 +113,25 @@ class ShiftUpdateController extends GetxController {
           currentDay.month == today.month &&
           currentDay.day == today.day;
 
+      // Try to find matching daily working hours record.
+      DailyTotalWorkingHours? record;
+      try {
+        record = dailyTotalWorkingHours.firstWhere((r) =>
+            r.day == currentDay.day &&
+            r.month == currentDay.month &&
+            r.year == currentDay.year);
+      } catch (e) {
+        record = null;
+      }
+      // Use the found total working hours (or default to '0').
+      String hours = record != null && record.totalWorkingHours != null
+          ? record.totalWorkingHours.toString()
+          : '0';
+
       return {
         'day': DateFormat('E').format(currentDay).substring(0, 1),
         'date': DateFormat('dd').format(currentDay),
-        'hours': '8:00',
+        'hours': hours,
         'fullDate': DateFormat('yyyy-MM-dd').format(currentDay),
         'isToday': isToday.toString(),
       };

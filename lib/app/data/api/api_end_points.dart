@@ -39,4 +39,13 @@ class ApiEndPoints {
 
   // User Shift API
   static const userShiftAPIEndpoint = '$baseUrl/user_shift';
+
+  // Inventory History API
+
+  static const inventoryCreateyAPIEndpoint = '$baseUrl/station_fuel_sale/inventory';
+
+  static const inventoryHistoryAPIEndpoint = '$inventoryCreateyAPIEndpoint/history';
+
+  // File upload
+  static const postUploadFile = '$baseUrl/media/upload_s3';
 }

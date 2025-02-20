@@ -63,7 +63,7 @@ class AuthService extends GetxService {
       }
 
       final token = _tokenBox?.get(_tokenKey);
-      debugPrint('Retrieved token: ${token?.token}');
+      // debugPrint('Retrieved token: ${token?.token}');
       return token;
     } catch (e) {
       // debugPrint('Error getting token: $e');

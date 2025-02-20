@@ -10,6 +10,7 @@ import 'package:path/path.dart' as path;
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_appbar.dart';
 import '../../core/utils/widgets/custom_button.dart';
+import '../../core/utils/widgets/custom_loader.dart';
 import 'photo_upload_controller.dart';
 
 class PhotoUploadScreen extends StatelessWidget {
@@ -42,48 +43,52 @@ class PhotoUploadScreen extends StatelessWidget {
               ),
             ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: controller.selectedImageFile != null
-                ? CustomButton(
-                    title: 'Upload Photo',
-                    onPressed: () {},
-                  ).ltrbPadding(0, 0, 0, 16)
-                : Row(
-                    children: [
-                      CustomButton(
-                        title: 'Go Back',
-                        onPressed: () {
-                          Get.back();
-                        },
-                        customBackgroundColor: GashopperTheme.appBackGrounColor,
-                      ).ltrbPadding(0, 0, 0, 16),
-                      if (controller.selectedImageFile == null)
-                        Expanded(
-                          child: CustomButton(
-                            title: 'Take Photo',
-                            onPressed: () {
-                              controller.isAttachmentUpload
-                                  ? null
-                                  : controller.onCaptureImage();
-                            },
-                            leftIcon: const Icon(
-                              Icons.camera_alt_outlined,
-                              color: GashopperTheme.black,
-                              size: 26,
-                            ).ltrbPadding(8, 0, 24, 0),
-                            rightIcon: const Icon(
-                              Icons.arrow_forward_ios,
-                              color: GashopperTheme.black,
-                              size: 18,
-                            ),
-                            isLeftIcon: true,
-                            isRightIconEnd: true,
-                          ).ltrbPadding(0, 0, 0, 16),
+          child: controller.fileUploading
+              ? const Center(child: CustomLoader())
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: controller.selectedImageFile != null
+                      ? CustomButton(
+                          title: 'Upload Photo',
+                          onPressed: () {
+                            controller.uploadImage();
+                          },
+                        ).ltrbPadding(0, 0, 0, 16)
+                      : Row(
+                          children: [
+                            CustomButton(
+                              title: 'Go Back',
+                              onPressed: () {
+                                Get.back();
+                              },
+                              customBackgroundColor: GashopperTheme.appBackGrounColor,
+                            ).ltrbPadding(0, 0, 0, 16),
+                            if (controller.selectedImageFile == null)
+                              Expanded(
+                                child: CustomButton(
+                                  title: 'Take Photo',
+                                  onPressed: () {
+                                    controller.isAttachmentUpload
+                                        ? null
+                                        : controller.onCaptureImage();
+                                  },
+                                  leftIcon: const Icon(
+                                    Icons.camera_alt_outlined,
+                                    color: GashopperTheme.black,
+                                    size: 26,
+                                  ).ltrbPadding(8, 0, 24, 0),
+                                  rightIcon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: GashopperTheme.black,
+                                    size: 18,
+                                  ),
+                                  isLeftIcon: true,
+                                  isRightIconEnd: true,
+                                ).ltrbPadding(0, 0, 0, 16),
+                              ),
+                          ],
                         ),
-                    ],
-                  ),
-          ),
+                ),
         ),
         body: SingleChildScrollView(
           child: Padding(

@@ -5,6 +5,7 @@ import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gashopper/app/data/api/api_end_points.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart' as path;
 
 import '../services/auth_service.dart';
 import '../services/dialog_service.dart';
@@ -277,6 +278,7 @@ class DioHelper extends GetxController {
     );
   }
 
+  // Update user shift
   Future<(dio.Response?, String?)> updateUserShift({
     required DateTime startTime,
     required DateTime endTime,
@@ -293,6 +295,53 @@ class DioHelper extends GetxController {
         },
       ),
     );
+  }
+
+  // Inventory History
+  Future<(dio.Response?, String?)> getAllInventoryHistory() async {
+    return _handleRequest(
+      () => _dio.get(
+        ApiEndPoints.inventoryHistoryAPIEndpoint,
+      ),
+    );
+  }
+
+  // Create inventory
+  Future<(dio.Response?, String?)> createInventory({
+    String? inventoryName,
+    int? count,
+  }) async {
+    return _handleRequest(
+      () => _dio.post(
+        ApiEndPoints.inventoryCreateyAPIEndpoint,
+        data: {
+          'name': inventoryName,
+          'count': count,
+        },
+      ),
+    );
+  }
+
+  // File upload
+  Future<(dio.Response?, String?)> fileUpload(String filePath) async {
+    return _handleRequest(() async {
+      String fileName = path.basename(filePath);
+      String fileNameToSend;
+
+      if (fileName.length > 80) {
+        final extension = path.extension(fileName);
+        final truncatedName = fileName.substring(0, 80 - extension.length);
+        fileNameToSend = '$truncatedName$extension';
+      } else {
+        fileNameToSend = fileName;
+      }
+
+      dio.FormData formData = dio.FormData.fromMap({
+        'Files': await dio.MultipartFile.fromFile(filePath, filename: fileNameToSend),
+      });
+
+      return _dio.post(ApiEndPoints.postUploadFile, data: formData);
+    });
   }
 }
 

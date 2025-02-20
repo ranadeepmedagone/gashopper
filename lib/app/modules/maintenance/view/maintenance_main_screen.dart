@@ -63,19 +63,25 @@ class MaintenanceMainScreen extends StatelessWidget {
                               width: MediaQuery.of(context).size.width,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: 10,
+                                itemCount: c.stationPumps.length,
                                 itemBuilder: (context, index) {
+                                  final stationPump = c.stationPumps[index];
                                   return InkWell(
-                                    onTap: () {
-                                      Get.toNamed(Routes.maintenanceStationStatusUpdateScreen);
-                                    },
+                                    onTap: stationPump.isActive == false
+                                        ? null
+                                        : () {
+                                            Get.toNamed(
+                                                Routes.maintenanceStationStatusUpdateScreen);
+                                          },
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
-                                        const Icon(
+                                        Icon(
                                           Icons.local_gas_station,
                                           size: 80,
-                                          color: GashopperTheme.appYellow,
+                                          color: stationPump.isActive == true
+                                              ? GashopperTheme.appYellow
+                                              : GashopperTheme.grey1,
                                         ),
                                         Container(
                                           padding: const EdgeInsets.all(4),
@@ -87,9 +93,9 @@ class MaintenanceMainScreen extends StatelessWidget {
                                             ),
                                             shape: BoxShape.circle,
                                           ),
-                                          child: const Text(
-                                            '5',
-                                            style: TextStyle(
+                                          child: Text(
+                                            stationPump.stationId.toString(),
+                                            style: const TextStyle(
                                               color: GashopperTheme.black,
                                               fontSize: 12,
                                               fontWeight: FontWeight.w600,

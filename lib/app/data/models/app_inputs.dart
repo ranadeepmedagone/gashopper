@@ -262,7 +262,7 @@ class StationInventoryHistory {
   final DateTime? createdAt;
 
   @JsonKey(name: "action_type")
-  final String? actionType;
+  final int? actionType;
 
   @JsonKey(name: "reason")
   final String? reason;

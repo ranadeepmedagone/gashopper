@@ -176,7 +176,7 @@ StationInventoryHistory _$StationInventoryHistoryFromJson(
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
-      actionType: json['action_type'] as String?,
+      actionType: (json['action_type'] as num?)?.toInt(),
       reason: json['reason'] as String?,
       count: (json['count'] as num?)?.toInt(),
       userId: (json['user_id'] as num?)?.toInt(),

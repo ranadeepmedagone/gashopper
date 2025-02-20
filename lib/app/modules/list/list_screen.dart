@@ -235,16 +235,19 @@ class ListCard extends StatelessWidget {
                   ),
                   child: ExpansionTile(
                     title: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(width: 8),
-                        Text(
-                          title,
-                          style: GashopperTheme.fontWeightApplier(
-                            FontWeight.w700,
-                            const TextStyle(
-                              fontSize: 16,
-                              letterSpacing: 0.5,
-                              color: GashopperTheme.black,
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: GashopperTheme.fontWeightApplier(
+                              FontWeight.w700,
+                              const TextStyle(
+                                fontSize: 16,
+                                letterSpacing: 0.5,
+                                color: GashopperTheme.black,
+                              ),
                             ),
                           ),
                         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gashopper/app/core/utils/helpers.dart';
 import 'package:gashopper/app/core/utils/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/widgets/custom_button.dart';
@@ -148,6 +149,15 @@ class ShiftUpdateScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const Text(
+                        'Employee',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          color: Colors.black,
+                        ),
+                      ).ltrbPadding(0, 0, 0, 4),
                       // Wrap dropdown in IgnorePointer to disable changes during update.
                       IgnorePointer(
                         ignoring: controller.isEditShiftUser,
@@ -274,9 +284,9 @@ class ShiftUpdateScreen extends StatelessWidget {
                             color: GashopperTheme.black,
                           ),
                         ).ltrbPadding(0, 0, 0, 16),
-                        const Text(
-                          'Jan 26, 2025',
-                          style: TextStyle(
+                        Text(
+                          DateFormat('MMM dd, yyyy').format(DateTime.now()),
+                          style: const TextStyle(
                             fontSize: 14,
                             letterSpacing: 0.5,
                             fontWeight: FontWeight.w700,
@@ -394,9 +404,9 @@ class WeeklyHoursScroll extends StatelessWidget {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: weekHours.map((day) {
                 return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4),
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     // color: GashopperTheme.appYellow,
@@ -417,10 +427,11 @@ class WeeklyHoursScroll extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                            color: day['isToday'] == 'true'
-                                ? GashopperTheme.appYellow
-                                : GashopperTheme.appBackGrounColor,
-                            borderRadius: const BorderRadius.all(Radius.circular(12))),
+                          borderRadius: const BorderRadius.all(Radius.circular(12)),
+                          color: day['isToday'] == 'true'
+                              ? GashopperTheme.appYellow
+                              : GashopperTheme.appBackGrounColor,
+                        ),
                         child: Text(
                           day['date'] ?? '',
                           style: const TextStyle(
