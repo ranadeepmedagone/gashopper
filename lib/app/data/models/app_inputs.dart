@@ -131,6 +131,9 @@ class User {
   @JsonKey(name: "gas_station")
   final GasStationUser? gasStation;
 
+  @JsonKey(name: "user_permissions")
+  final List<UserPermission>? permission;
+
   User({
     this.id,
     this.firstName,
@@ -149,6 +152,7 @@ class User {
     this.updatedAt,
     this.stationId,
     this.gasStation,
+    this.permission,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -323,5 +327,31 @@ class DailyTotalWorkingHours {
 
   Map<String, dynamic> toJson() {
     return _$DailyTotalWorkingHoursToJson(this);
+  }
+}
+
+@JsonSerializable()
+class UserPermission {
+  @JsonKey(name: "user_id")
+  final int? userId;
+
+  @JsonKey(name: "station_id")
+  final int? stationId;
+
+  @JsonKey(name: "permission_id")
+  final int? permissionId;
+
+  UserPermission({
+    this.userId,
+    this.stationId,
+    this.permissionId,
+  });
+
+  factory UserPermission.fromJson(Map<String, dynamic> json) {
+    return _$UserPermissionFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() {
+    return _$UserPermissionToJson(this);
   }
 }

@@ -73,7 +73,9 @@ class HomeScreen extends StatelessWidget {
                 ? null
                 : NavDrawer(
                     onLogout: c.authService.logout,
-                    loginUserEmail: c.registrationController.emailTextEditingController.text,
+                    loginUserEmail: c.appInputs?.userDetails?.email,
+                    logInUserMobile: c.appInputs?.userDetails?.primaryPhone,
+                    userProfilePic: c.appInputs?.userDetails?.profilePicId?.toString(),
                   ),
             body: c.isAppInputsLoading
                 ? const Center(child: CustomLoader())

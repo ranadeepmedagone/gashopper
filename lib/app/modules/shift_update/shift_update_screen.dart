@@ -347,8 +347,8 @@ class ShiftUpdateScreen extends StatelessWidget {
                               isPending: false,
                               title: userShift.userName ?? '',
                               value: userShift.totalWorkingHours ?? '',
-                              buttonTitle: 'Update user',
-                              onTapButton: () async {
+                              leftButtonTitle: 'Update user',
+                              onTapLeftButton: () async {
                                 await controller.onUserShiftUpdate(userShift);
                                 showCreateAndUpdateDialog(
                                   // ignore: use_build_context_synchronously

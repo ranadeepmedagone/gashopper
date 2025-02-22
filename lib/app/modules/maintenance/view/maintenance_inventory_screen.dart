@@ -399,8 +399,21 @@ class _MaintenanceInventoryScreenState extends State<MaintenanceInventoryScreen>
                       ),
                     ).ltrbPadding(0, 0, 0, 4),
                     CustomDropdownButton<IdNameRecord>(
-                      value: null,
-                      items: const [],
+                      value: controller.selectedHistoryReason,
+                      items: controller.historyReasons
+                          .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(
+                                  e.name ?? '',
+                                  style: const TextStyle(
+                                    color: GashopperTheme.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
                       hintText: 'Select reason',
                       errorMessage: '',
                       hintStyle: GashopperTheme.fontWeightApplier(
@@ -411,8 +424,14 @@ class _MaintenanceInventoryScreenState extends State<MaintenanceInventoryScreen>
                           color: GashopperTheme.grey1,
                         ),
                       ),
-                      onChanged: (value) {},
-                      onSaved: (value) {},
+                      onChanged: (value) {
+                        controller.selectedHistoryReason = value;
+                        controller.update();
+                      },
+                      onSaved: (value) {
+                        controller.selectedHistoryReason = value;
+                        controller.update();
+                      },
                       borderRadius: BorderRadius.circular(12),
                       borderColor: GashopperTheme.black,
                       borderWidth: 1.5,

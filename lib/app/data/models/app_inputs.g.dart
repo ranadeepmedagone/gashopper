@@ -94,6 +94,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           ? null
           : GasStationUser.fromJson(
               json['gas_station'] as Map<String, dynamic>),
+      permission: (json['user_permissions'] as List<dynamic>?)
+          ?.map((e) => UserPermission.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -114,6 +117,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'updated_at': instance.updatedAt?.toIso8601String(),
       'station_id': instance.stationId,
       'gas_station': instance.gasStation,
+      'user_permissions': instance.permission,
     };
 
 GasStationUser _$GasStationUserFromJson(Map<String, dynamic> json) =>
@@ -212,4 +216,18 @@ Map<String, dynamic> _$DailyTotalWorkingHoursToJson(
       'month': instance.month,
       'year': instance.year,
       'total_working_hours': instance.totalWorkingHours,
+    };
+
+UserPermission _$UserPermissionFromJson(Map<String, dynamic> json) =>
+    UserPermission(
+      userId: (json['user_id'] as num?)?.toInt(),
+      stationId: (json['station_id'] as num?)?.toInt(),
+      permissionId: (json['permission_id'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$UserPermissionToJson(UserPermission instance) =>
+    <String, dynamic>{
+      'user_id': instance.userId,
+      'station_id': instance.stationId,
+      'permission_id': instance.permissionId,
     };

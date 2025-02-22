@@ -73,28 +73,32 @@ class CreateScreen extends StatelessWidget {
                     if (c.mainController.isOnPressCashDrop && !c.isCashDropsCreating) {
                       if (c.cashDropDesController.text.trim().isNotEmpty &&
                           c.cashDropAmountController.text.trim().isNotEmpty) {
-                        c.createCashDrop();
+                        c.listController.isEditCashDrop
+                            ? c.updateCashDrop()
+                            : c.createCashDrop();
                       }
                     }
                     if ((c.mainController.isOnPressReports ||
                             c.mainController.isOnPressRequest) &&
                         !c.isStationRequestsOrReportsCreating) {
                       if (c.stationRequestOrReportDesController.text.trim().isNotEmpty) {
-                        c.createStationRequestOrReport();
+                        c.listController.isEditStationRequest
+                            ? c.updateStationRequest()
+                            : c.createStationRequestOrReport();
                       }
                     }
                     if (c.mainController.isOnPressSales && !c.isSaleCreating) {
                       if (c.selectedSalePayment != null &&
                           c.selectedFuel != null &&
                           c.saleAmountController.text.trim().isNotEmpty) {
-                        c.createSale();
+                        c.listController.isEditSale ? c.updateSale() : c.createSale();
                       }
                     }
                     if (c.mainController.isOnPressExpenses && !c.isExpensesCreating) {
                       if (c.selectedExpensePayment != null &&
                           c.expensesDesController.text.trim().isNotEmpty &&
                           c.expensesAmountController.text.trim().isNotEmpty) {
-                        c.createExpense();
+                        c.listController.isEditExpense ? c.updateExpense() : c.createExpense();
                       }
                     }
                   },

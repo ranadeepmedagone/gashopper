@@ -69,21 +69,3 @@ class UserShift {
 
   Map<String, dynamic> toJson() => _$UserShiftToJson(this);
 }
-
-
-  // {
-  //   "id": 0,
-  //   "start_time": "2025-02-16T13:20:41.790Z",
-  //   "end_time": "2025-02-16T13:20:41.790Z",
-  //   "station_id": 0,
-  //   "station_name": "string",
-  //   "user_id": 0,
-  //   "user_name": "string",
-  //   "created_by_user_id": 0,
-  //   "created_by_user_name": "string",
-  //   "created_at": "2025-02-16T13:20:41.790Z",
-  //   "updated_at": "2025-02-16T13:20:41.790Z",
-  //   "updated_by_user_id": 0,
-  //   "updated_by_user_name": "string",
-  //   "total_working_hours": "string"
-  // }

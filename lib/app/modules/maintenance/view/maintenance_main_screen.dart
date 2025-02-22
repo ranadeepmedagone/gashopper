@@ -71,7 +71,10 @@ class MaintenanceMainScreen extends StatelessWidget {
                                         ? null
                                         : () {
                                             Get.toNamed(
-                                                Routes.maintenanceStationStatusUpdateScreen);
+                                                Routes.maintenanceStationStatusUpdateScreen,
+                                                arguments: {
+                                                  'stationPump': stationPump,
+                                                });
                                           },
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,7 +97,7 @@ class MaintenanceMainScreen extends StatelessWidget {
                                             shape: BoxShape.circle,
                                           ),
                                           child: Text(
-                                            stationPump.stationId.toString(),
+                                            stationPump.id.toString(),
                                             style: const TextStyle(
                                               color: GashopperTheme.black,
                                               fontSize: 12,
@@ -206,57 +209,6 @@ class MaintenanceMainScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                 ).ltrbPadding(0, 0, 0, 16),
-                                // CachedNetworkImage(
-                                //   imageBuilder: (context, imageProvider) => Container(
-                                //     width: mQ.size.width,
-                                //     height: mQ.size.height / 3,
-                                //     decoration: BoxDecoration(
-                                //       image: DecorationImage(
-                                //         image: imageProvider,
-                                //         fit: BoxFit.cover,
-                                //       ),
-                                //       color: GashopperTheme.grey2,
-                                //       borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                //     ),
-                                //     child: const Center(
-                                //       child: Icon(
-                                //         Icons.cancel_sharp,
-                                //         color: GashopperTheme.red,
-                                //         size: 80,
-                                //       ),
-                                //     ),
-                                //   ),
-                                //   imageUrl: 'https://picsum.photos/id/10/200/300',
-                                //   alignment: Alignment.center,
-                                //   fit: BoxFit.cover,
-                                //   width: mQ.size.width,
-                                //   height: mQ.size.height / 3,
-                                //   placeholder: (context, url) => Container(
-                                //     width: mQ.size.width,
-                                //     height: mQ.size.height / 3,
-                                //     decoration: const BoxDecoration(
-                                //       image: DecorationImage(
-                                //         image:
-                                //             NetworkImage('https://picsum.photos/id/10/200/300'),
-                                //         fit: BoxFit.cover,
-                                //       ),
-                                //       color: GashopperTheme.grey2,
-                                //       borderRadius: BorderRadius.all(Radius.circular(12)),
-                                //     ),
-                                //     child: const Center(
-                                //       child: Icon(
-                                //         Icons.cancel_sharp,
-                                //         color: GashopperTheme.red,
-                                //         size: 80,
-                                //       ),
-                                //     ),
-                                //   ),
-                                //   errorWidget: (context, url, error) => const Icon(
-                                //     Icons.cancel_sharp,
-                                //     color: GashopperTheme.red,
-                                //     size: 80,
-                                //   ),
-                                // ).ltrbPadding(0, 0, 0, 16),
                                 const PriceChangeBoard().ltrbPadding(0, 0, 0, 16),
                                 Row(
                                   children: [

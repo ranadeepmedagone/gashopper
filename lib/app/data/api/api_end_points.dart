@@ -17,6 +17,7 @@ class ApiEndPoints {
 
   // Gas Station API
   static const gasStationAPIEndpoint = '$baseUrl/gas_station';
+  static const stationPumpAPIEndpoint = '$gasStationAPIEndpoint/pump_history';
 
   // Auth APIs
   static const requestOtpEndpoint = '$baseUrl/auth/otp/request';
@@ -41,9 +42,7 @@ class ApiEndPoints {
   static const userShiftAPIEndpoint = '$baseUrl/user_shift';
 
   // Inventory History API
-
   static const inventoryCreateyAPIEndpoint = '$baseUrl/station_fuel_sale/inventory';
-
   static const inventoryHistoryAPIEndpoint = '$inventoryCreateyAPIEndpoint/history';
 
   // File upload

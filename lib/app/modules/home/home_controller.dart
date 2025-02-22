@@ -37,7 +37,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    // TODO FOR NOW WE HAVE ADDED HERE FOR TESTING PURPOSES
+
     await getAppInputs();
     await getGasStations();
   }

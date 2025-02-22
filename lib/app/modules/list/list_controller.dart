@@ -14,6 +14,11 @@ class ListController extends GetxController {
   final _dioHelper = Get.find<DioHelper>();
   final _dialogService = Get.find<DialogService>();
 
+  bool isEditCashDrop = false;
+  bool isEditSale = false;
+  bool isEditExpense = false;
+  bool isEditStationRequest = false;
+
   @override
   void onInit() async {
     super.onInit();

@@ -102,6 +102,15 @@ class SalesListScreen extends StatelessWidget {
                               isPending: false,
                               title: cashDrop.description ?? '',
                               value: '${cashDrop.amount}',
+                              leftButtonTitle: 'Edit',
+                              rightButtonTitle: 'Delete',
+                              onTapLeftButton: () {
+                                c.isEditCashDrop = true;
+                                c.update();
+                                Get.toNamed(Routes.createScreen, arguments: {
+                                  'cashDrop': cashDrop,
+                                });
+                              },
                             ).ltrbPadding(0, 0, 0, 16);
                           },
                         ),
@@ -119,6 +128,15 @@ class SalesListScreen extends StatelessWidget {
                               isPending: false,
                               title: stationRequest.description ?? '',
                               value: '${stationRequest.requestTypeName}',
+                              leftButtonTitle: 'Edit',
+                              rightButtonTitle: 'Delete',
+                              onTapLeftButton: () {
+                                c.isEditStationRequest = true;
+                                c.update();
+                                Get.toNamed(Routes.createScreen, arguments: {
+                                  'stationRequest': stationRequest,
+                                });
+                              },
                             ).ltrbPadding(0, 0, 0, 16);
                           },
                         ),
@@ -136,6 +154,15 @@ class SalesListScreen extends StatelessWidget {
                               isPending: false,
                               title: stationReport.description ?? '',
                               value: '${stationReport.requestTypeName}',
+                              leftButtonTitle: 'Edit',
+                              rightButtonTitle: 'Delete',
+                              onTapLeftButton: () {
+                                c.isEditStationRequest = true;
+                                c.update();
+                                Get.toNamed(Routes.createScreen, arguments: {
+                                  'stationRequest': stationReport,
+                                });
+                              },
                             ).ltrbPadding(0, 0, 0, 16);
                           },
                         ),
@@ -153,6 +180,15 @@ class SalesListScreen extends StatelessWidget {
                               isPending: false,
                               title: fuelSale.fuelTypeId.toString(), // TODO: FUEL NAME
                               value: '${fuelSale.addedAmount}',
+                              leftButtonTitle: 'Edit',
+                              rightButtonTitle: 'Delete',
+                              onTapLeftButton: () {
+                                c.isEditSale = true;
+                                c.update();
+                                Get.toNamed(Routes.createScreen, arguments: {
+                                  'sale': fuelSale,
+                                });
+                              },
                             ).ltrbPadding(0, 0, 0, 16);
                           },
                         ),
@@ -170,6 +206,15 @@ class SalesListScreen extends StatelessWidget {
                               isPending: false,
                               title: expenses.description ?? '',
                               value: '${expenses.addedAmount}',
+                              leftButtonTitle: 'Edit',
+                              rightButtonTitle: 'Delete',
+                              onTapLeftButton: () {
+                                c.isEditExpense = true;
+                                c.update();
+                                Get.toNamed(Routes.createScreen, arguments: {
+                                  'expense': expenses,
+                                });
+                              },
                             ).ltrbPadding(0, 0, 0, 16);
                           },
                         ),
@@ -188,8 +233,10 @@ class ListCard extends StatelessWidget {
   final bool isPending;
   final Color? customValueTextColor;
   final Function()? onTap;
-  final String? buttonTitle;
-  final Function()? onTapButton;
+  final String? leftButtonTitle;
+  final String? rightButtonTitle;
+  final Function()? onTapLeftButton;
+  final Function()? onTapRightButton;
 
   const ListCard({
     super.key,
@@ -197,9 +244,11 @@ class ListCard extends StatelessWidget {
     required this.value,
     this.isPending = false,
     this.customValueTextColor,
-    this.buttonTitle,
+    this.leftButtonTitle,
+    this.rightButtonTitle,
     this.onTap,
-    this.onTapButton,
+    this.onTapLeftButton,
+    this.onTapRightButton,
   });
 
   @override
@@ -287,24 +336,35 @@ class ListCard extends StatelessWidget {
                             ),
                     ),
                     children: [
-                      if (buttonTitle != null)
+                      if (leftButtonTitle != null || rightButtonTitle != null)
                         Divider(
                           color: GashopperTheme.appYellow.withAlphaOpacity(0.2),
                           thickness: 1,
                           height: 2,
                         ),
-                      if (buttonTitle != null)
-                        Row(
-                          children: [
+                      Row(
+                        children: [
+                          if (leftButtonTitle != null)
                             Expanded(
                               child: CustomButton(
                                 customButtonHeight: 35,
-                                title: buttonTitle!,
-                                onPressed: onTapButton,
+                                title: leftButtonTitle ?? '',
+                                onPressed: onTapLeftButton,
                               ),
                             ),
-                          ],
-                        ).ltrbPadding(20, 8, 20, 16),
+                          if (leftButtonTitle != null && rightButtonTitle != null)
+                            const SizedBox(width: 8),
+                          if (rightButtonTitle != null)
+                            Expanded(
+                              child: CustomButton(
+                                customButtonHeight: 35,
+                                title: rightButtonTitle ?? '',
+                                onPressed: onTapRightButton,
+                                customBackgroundColor: GashopperTheme.red,
+                              ),
+                            ),
+                        ],
+                      ).ltrbPadding(20, 8, 20, 16),
                     ],
                   ),
                 ),

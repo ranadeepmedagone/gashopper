@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../data/api/dio_helpers.dart';
 import '../../../data/models/app_inputs.dart';
 import '../../../data/services/dialog_service.dart';
+import '../../../routes/app_pages.dart';
 import '../../home/home_controller.dart';
 
 class MaintenanceController extends GetxController {
@@ -27,6 +28,8 @@ class MaintenanceController extends GetxController {
   List<StationInventory> stationInventories = [];
   List<StationPump> stationPumps = [];
   List<StationInventoryHistory> inventoryHistory = [];
+  List<IdNameRecord> priorityTypes = [];
+  List<IdNameRecord> historyReasons = [];
 
   bool editInventory = false;
 
@@ -35,12 +38,32 @@ class MaintenanceController extends GetxController {
   TextEditingController inventoryNameController = TextEditingController();
   TextEditingController countController = TextEditingController();
 
+  TextEditingController stationPumpDesController = TextEditingController();
+
+  IdNameRecord? _selectedPriority;
+  IdNameRecord? get selectedPriority => _selectedPriority;
+  set selectedPriority(IdNameRecord? value) {
+    _selectedPriority = value;
+    update();
+  }
+
+  IdNameRecord? _selectedHistoryReason;
+  IdNameRecord? get selectedHistoryReason => _selectedHistoryReason;
+  set selectedHistoryReason(IdNameRecord? value) {
+    _selectedHistoryReason = value;
+    update();
+  }
+
+  StationPump? stationPump;
+
   @override
   void onInit() async {
     await getInventoryHistory();
 
     stationInventories = homeController.appInputs?.stationInventories ?? [];
     stationPumps = homeController.appInputs?.stationPumps ?? [];
+    priorityTypes = homeController.appInputs?.priorityTypes ?? [];
+    historyReasons = homeController.appInputs?.historyReasons ?? [];
 
     messages.addAll([
       {"sender": "Asta", "message": senderText, "timestamp": DateTime.now()},
@@ -89,6 +112,10 @@ class MaintenanceController extends GetxController {
   String formatTime(DateTime time) {
     return DateFormat.Hm().format(time); // Format as HH:mm
   }
+
+  // --------------------------------------------------------------
+  // ----------------------Inventory history ---------------------
+  // --------------------------------------------------------------
 
   // Get inventory history
   Future<void> getInventoryHistory() async {
@@ -139,6 +166,10 @@ class MaintenanceController extends GetxController {
     }
   }
 
+  // --------------------------------------------------------------
+  // ----------------------Inventory create ---------------------
+  // --------------------------------------------------------------
+
   Future<void> createInventory() async {
     // Prevent multiple simultaneous calls
     if (isInventoryListLoading) return;
@@ -187,6 +218,56 @@ class MaintenanceController extends GetxController {
       // Reset loading state
       isInventoryListLoading = false;
       editInventory = true;
+      update();
+    }
+  }
+
+  // --------------------------------------------------------------
+  // ----------------------Station Pump create ---------------------
+  // --------------------------------------------------------------
+
+  bool isCreateStationPumpLoading = false;
+
+  Future<void> createStationPump() async {
+    try {
+      // Set initial loading state
+      isCreateStationPumpLoading = true;
+      update();
+
+      final (response, error) = await dioHelper.createStationPump(
+        stationPumpId: stationPump!.id!,
+        issueDescription: stationPumpDesController.text.trim(),
+        attachments: [],
+      );
+
+      // Handle error cases
+      if (error != null || response?.data == null) {
+        isCreateStationPumpLoading = false;
+        update();
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: error ?? 'Error creating station pump',
+          buttonText: 'OK',
+        );
+
+        return;
+      }
+
+      // Handle success
+      await homeController.getAppInputs();
+
+      Get.toNamed(
+        Routes.maintenanceChatScreen,
+      );
+    } catch (e) {
+      await _dialogService.showErrorDialog(
+        title: 'Error',
+        description: e.toString(),
+        buttonText: 'OK',
+      );
+    } finally {
+      // Reset loading state
+      isCreateStationPumpLoading = false;
       update();
     }
   }

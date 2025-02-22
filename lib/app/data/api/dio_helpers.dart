@@ -4,6 +4,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gashopper/app/data/api/api_end_points.dart';
+import 'package:gashopper/app/data/models/station_request.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' as path;
 
@@ -68,15 +69,16 @@ class DioHelper extends GetxController {
     } catch (err) {
       if (err is dio.DioException) {
         // First check if there's a server error message
-        final responseData = err.response?.data;
-        if (responseData != null) {
-          if (responseData is Map && responseData['message'] != null) {
-            return (null, responseData['message'].toString());
-          }
-          if (responseData is String && responseData.isNotEmpty) {
-            return (null, responseData);
-          }
-        }
+
+        // final responseData = err.response?.data;
+        // if (responseData != null) {
+        //   if (responseData is Map && responseData['message'] != null) {
+        //     return (null, responseData['message'].toString());
+        //   }
+        //   if (responseData is String && responseData.isNotEmpty) {
+        //     return (null, responseData);
+        //   }
+        // }
 
         // If no server message, use status code based messages
         switch (err.response?.statusCode) {
@@ -149,6 +151,26 @@ class DioHelper extends GetxController {
     );
   }
 
+  // Create station pump
+  Future<(dio.Response?, String?)> createStationPump({
+    required int stationPumpId,
+    required String? issueDescription,
+    required List<Attachment>? attachments,
+  }) async {
+    return _handleRequest(
+      () => _dio.post(
+        ApiEndPoints.stationPumpAPIEndpoint,
+        data: {
+          'pump_id': stationPumpId,
+          'issue_description': issueDescription,
+          'attachments': [
+            attachments,
+          ]
+        },
+      ),
+    );
+  }
+
   // Get all cash drops
   Future<(dio.Response?, String?)> getAllCashDrops() async {
     return _handleRequest(
@@ -174,6 +196,23 @@ class DioHelper extends GetxController {
     );
   }
 
+  // Cash drop update
+  Future<(dio.Response?, String?)> updateCashDrop({
+    required int cashDropId,
+    required String? description,
+    required int amount,
+  }) async {
+    return _handleRequest(
+      () => _dio.put(
+        '${ApiEndPoints.cashDropAPIEndpoint}/$cashDropId',
+        data: {
+          'amount': amount,
+          'description': description,
+        },
+      ),
+    );
+  }
+
   // Get all station requests
   Future<(dio.Response?, String?)> getAllStationRequests() async {
     return _handleRequest(
@@ -191,6 +230,23 @@ class DioHelper extends GetxController {
     return _handleRequest(
       () => _dio.post(
         ApiEndPoints.stationRequestAPIEndpoint,
+        data: {
+          'request_type_id': requestTypeId,
+          'description': description,
+        },
+      ),
+    );
+  }
+
+  // Station request update
+  Future<(dio.Response?, String?)> updateStationRequest({
+    required int stationRequestId,
+    required int requestTypeId,
+    required String? description,
+  }) async {
+    return _handleRequest(
+      () => _dio.put(
+        '${ApiEndPoints.stationRequestAPIEndpoint}/$stationRequestId',
         data: {
           'request_type_id': requestTypeId,
           'description': description,
@@ -226,6 +282,25 @@ class DioHelper extends GetxController {
     );
   }
 
+  // Sale update
+  Future<(dio.Response?, String?)> updateSale({
+    required int saleId,
+    required int fuelTypeId,
+    required int addedAmount,
+    required int paymentTypeId,
+  }) async {
+    return _handleRequest(
+      () => _dio.put(
+        '${ApiEndPoints.saleAPIEndpoint}/$saleId',
+        data: {
+          'fuel_type_id': fuelTypeId,
+          'added_amount': addedAmount,
+          'payment_type_id': paymentTypeId,
+        },
+      ),
+    );
+  }
+
   // Get all expenses
   Future<(dio.Response?, String?)> getAllExpenses() async {
     return _handleRequest(
@@ -244,6 +319,25 @@ class DioHelper extends GetxController {
     return _handleRequest(
       () => _dio.post(
         ApiEndPoints.expensesAPIEndpoint,
+        data: {
+          'description': description,
+          'added_amount': addedAmount,
+          'payment_type_id': paymentTypeId,
+        },
+      ),
+    );
+  }
+
+  // Expense update
+  Future<(dio.Response?, String?)> updateExpense({
+    required int expenseId,
+    required String? description,
+    required int addedAmount,
+    required int paymentTypeId,
+  }) async {
+    return _handleRequest(
+      () => _dio.put(
+        '${ApiEndPoints.expensesAPIEndpoint}/$expenseId',
         data: {
           'description': description,
           'added_amount': addedAmount,

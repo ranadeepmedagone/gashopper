@@ -10,10 +10,14 @@ import 'custom_profile.dart';
 class NavDrawer extends StatelessWidget {
   final Function()? onLogout;
   final String? loginUserEmail;
+  final int? logInUserMobile;
+  final String? userProfilePic;
   NavDrawer({
     super.key,
     this.onLogout,
     this.loginUserEmail,
+    this.logInUserMobile,
+    this.userProfilePic,
   });
 
   final dialgService = Get.find<DialogService>();
@@ -27,16 +31,13 @@ class NavDrawer extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         child: Column(
           children: <Widget>[
-            // TODO: Implement Profile Image
-            // TODO Resolve the terminal error
-            const ProfileImage(
-              imagePath:
-                  'https://static.langimg.com/photo/imgsize-29734,msid-63682163/navbharat-times.jpg',
+            ProfileImage(
+              imagePath: userProfilePic ?? '',
               size: 80,
             ).ltrbPadding(0, 0, 0, 4),
             if (loginUserEmail != null)
               Text(
-                loginUserEmail!,
+                loginUserEmail ?? '',
                 style: GashopperTheme.fontWeightApplier(
                   FontWeight.w600,
                   textTheme.bodyMedium!.copyWith(
@@ -45,16 +46,17 @@ class NavDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-            Text(
-              '91+ 8074635315',
-              style: GashopperTheme.fontWeightApplier(
-                FontWeight.w700,
-                textTheme.bodyMedium!.copyWith(
-                  color: GashopperTheme.black,
-                  fontSize: 16,
+            if (logInUserMobile != null)
+              Text(
+                logInUserMobile?.toString() ?? '',
+                style: GashopperTheme.fontWeightApplier(
+                  FontWeight.w700,
+                  textTheme.bodyMedium!.copyWith(
+                    color: GashopperTheme.black,
+                    fontSize: 16,
+                  ),
                 ),
               ),
-            ),
             const Divider(
               color: GashopperTheme.grey1,
             ).ltrbPadding(0, 16, 0, 16),
