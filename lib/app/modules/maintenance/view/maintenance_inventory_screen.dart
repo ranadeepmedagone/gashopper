@@ -122,11 +122,14 @@ class _MaintenanceInventoryScreenState extends State<MaintenanceInventoryScreen>
                                 ),
                                 onPressed: () {
                                   controller.editInventory = false;
+                                  controller.countController.text = '';
+                                  controller.selectedHistoryReason = null;
+                                  controller.inventoryNameController.text = '';
 
                                   _showEditDialog(
                                     context,
                                     null,
-                                    controller,
+                                    null,
                                   );
                                 },
                               ).ltrbPadding(0, 0, 0, 8),
@@ -174,15 +177,34 @@ class _MaintenanceInventoryScreenState extends State<MaintenanceInventoryScreen>
                                                 itemBuilder: (context, index) {
                                                   final stationInventory =
                                                       controller.stationInventories[index];
+
+                                                  // Find matching history item by inventory ID instead of using same index
+                                                  final stationInventoryHistory =
+                                                      controller.inventoryHistory.firstWhere(
+                                                    (history) =>
+                                                        history.inventoryId ==
+                                                        stationInventory.id,
+                                                    orElse: () => StationInventoryHistory(),
+                                                  );
+
                                                   return InventoryItem(
                                                     name: stationInventory.name ?? '',
                                                     count: stationInventory.currentCount
                                                         .toString(),
                                                     onTap: () {
+                                                      controller.editInventory = true;
+
+                                                      controller.countController.text =
+                                                          stationInventory.currentCount
+                                                              .toString();
+
+                                                      controller.inventoryNameController.text =
+                                                          stationInventory.name ?? '';
+
                                                       _showEditDialog(
                                                         context,
                                                         stationInventory,
-                                                        controller,
+                                                        stationInventoryHistory,
                                                       );
                                                     },
                                                   ).ltrbPadding(0, 0, 12, 8);
@@ -212,20 +234,19 @@ class _MaintenanceInventoryScreenState extends State<MaintenanceInventoryScreen>
                                 color: GashopperTheme.black,
                               ),
                             ).ltrbPadding(0, 0, 0, 16),
-                            const HistoryItem(totalSale: '11/10', name: 'Fuel', count: '234')
-                                .ltrbPadding(0, 0, 0, 8),
-                            const HistoryItem(totalSale: '11/10', name: 'Ultra', count: '4343')
-                                .ltrbPadding(0, 0, 0, 8),
-                            const HistoryItem(
-                                    totalSale: '11/10', name: 'Diesel', count: '65456')
-                                .ltrbPadding(0, 0, 0, 8),
-                            const HistoryItem(totalSale: '11/10', name: 'Oil', count: '124214')
-                                .ltrbPadding(0, 0, 0, 8),
-                            const HistoryItem(
-                                    totalSale: '11/10', name: 'Antifreeze', count: '42')
-                                .ltrbPadding(0, 0, 0, 8),
-                            const HistoryItem(totalSale: '11/10', name: 'Def', count: '4')
-                                .ltrbPadding(0, 0, 0, 8),
+                            ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: controller.inventoryHistory.length,
+                              itemBuilder: (context, index) {
+                                final historyInventory = controller.inventoryHistory[index];
+                                return HistoryItem(
+                                  totalSale: historyInventory.actionType.toString(),
+                                  name: historyInventory.reason ?? '',
+                                  count: historyInventory.employeeName.toString(),
+                                ).ltrbPadding(0, 0, 12, 8);
+                              },
+                            ),
                           ],
                         )
                       ],
@@ -240,248 +261,266 @@ class _MaintenanceInventoryScreenState extends State<MaintenanceInventoryScreen>
   void _showEditDialog(
     BuildContext context,
     StationInventory? stationInventory,
-    MaintenanceController controller,
+    StationInventoryHistory? stationInventoryHistory,
   ) {
-    controller.countController = TextEditingController(
-      text: stationInventory?.currentCount.toString(),
-    );
-
     final textTheme = Get.textTheme;
 
     showDialog(
       context: context,
-      builder: (context) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                controller.editInventory ? 'Edit Inventory' : 'Add Inventory',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                  color: Colors.black,
-                ),
-              ).ltrbPadding(0, 0, 0, 24),
-              if (!controller.editInventory)
-                const Text(
-                  'Inventory Name',
-                  style: TextStyle(
+      builder: (context) => GetBuilder<MaintenanceController>(builder: (controller) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  controller.editInventory ? 'Edit Inventory' : 'Add Inventory',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                    color: Colors.black,
+                  ),
+                ).ltrbPadding(0, 0, 0, 24),
+                if (!controller.editInventory)
+                  const Text(
+                    'Inventory Name',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5,
+                      color: Colors.black,
+                    ),
+                  ).ltrbPadding(0, 0, 0, 8),
+                if (!controller.editInventory)
+                  CustomTextField(
+                    hintText: 'Inventory Name',
+                    hintStyle: GashopperTheme.fontWeightApplier(
+                      FontWeight.w600,
+                      textTheme.bodyMedium!.copyWith(
+                        color: GashopperTheme.grey1,
+                        fontSize: 14,
+                      ),
+                    ),
+                    borderRadius: 12,
+                    borderColor: Colors.grey[400]!,
+                    focusedBorderColor: GashopperTheme.appYellow,
+                    borderWidth: 1.5,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    controller: controller.inventoryNameController,
+                    // keyboardType: TextInputType.text,
+                    onChanged: (value) {},
+                  ).ltrbPadding(0, 0, 0, 16),
+                Text(
+                  controller.editInventory ? "Name: ${stationInventory?.name ?? ''}" : 'Count',
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.5,
                     color: Colors.black,
                   ),
                 ).ltrbPadding(0, 0, 0, 8),
-              if (!controller.editInventory)
-                CustomTextField(
-                  hintText: 'Inventory Name',
-                  hintStyle: GashopperTheme.fontWeightApplier(
-                    FontWeight.w600,
-                    textTheme.bodyMedium!.copyWith(
-                      color: GashopperTheme.grey1,
-                      fontSize: 14,
-                    ),
-                  ),
-                  borderRadius: 12,
-                  borderColor: Colors.grey[400]!,
-                  focusedBorderColor: GashopperTheme.appYellow,
-                  borderWidth: 1.5,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  controller: controller.inventoryNameController,
-                  // keyboardType: TextInputType.text,
-                  onChanged: (value) {},
-                ).ltrbPadding(0, 0, 0, 16),
-              const Text(
-                'Count',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                  color: Colors.black,
-                ),
-              ).ltrbPadding(0, 0, 0, 8),
-              Row(
-                children: [
-                  if (controller.editInventory)
-                    Text(
-                      stationInventory?.name ?? '',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                        color: Colors.black,
-                      ),
-                    ),
-                  if (controller.editInventory) const SizedBox(width: 24),
-                  Container(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {
-                        int currentValue = int.tryParse(controller.countController.text) ?? 0;
-                        if (currentValue > 0) {
-                          controller.countController.text = (currentValue - 1).toString();
-                        }
-                      },
-                      child: const Icon(
-                        Icons.remove,
-                        color: GashopperTheme.red,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Container(
-                      height: 45,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.5,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: TextField(
-                        controller: controller.countController,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 14),
-                        decoration: InputDecoration(
-                          isDense: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 12,
-                            horizontal: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Container(
-                    alignment: Alignment.center,
-                    child: InkWell(
-                      onTap: () {
-                        int currentValue = int.tryParse(controller.countController.text) ?? 0;
-                        controller.countController.text = (currentValue + 1).toString();
-                      },
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.green,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ).ltrbPadding(0, 0, 0, 16),
-              if (controller.editInventory)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
                   children: [
-                    const Text(
-                      'Reason',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                        color: Colors.black,
-                      ),
-                    ).ltrbPadding(0, 0, 0, 4),
-                    CustomDropdownButton<IdNameRecord>(
-                      value: controller.selectedHistoryReason,
-                      items: controller.historyReasons
-                          .map((e) => DropdownMenuItem(
-                                value: e,
-                                child: Text(
-                                  e.name ?? '',
-                                  style: const TextStyle(
-                                    color: GashopperTheme.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.5,
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                      hintText: 'Select reason',
-                      errorMessage: '',
-                      hintStyle: GashopperTheme.fontWeightApplier(
-                        FontWeight.w600,
-                        const TextStyle(
-                          fontSize: 16,
-                          letterSpacing: 0.5,
-                          color: GashopperTheme.grey1,
+                    if (controller.editInventory) const SizedBox(width: 24),
+                    Container(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: controller.editInventory
+                            ? () {
+                                // Use the current value in the text field directly
+                                int currentValue =
+                                    int.tryParse(controller.countController.text.trim()) ?? 0;
+                                if (currentValue > 0) {
+                                  controller.countController.text =
+                                      (currentValue - 1).toString();
+                                  controller.update();
+                                }
+                              }
+                            : () {
+                                int currentValue =
+                                    int.tryParse(controller.countController.text.trim()) ?? 0;
+                                if (currentValue > 0) {
+                                  controller.countController.text =
+                                      (currentValue - 1).toString();
+                                  controller.update();
+                                }
+                              },
+                        child: const Icon(
+                          Icons.remove,
+                          color: GashopperTheme.red,
+                          size: 20,
                         ),
                       ),
-                      onChanged: (value) {
-                        controller.selectedHistoryReason = value;
-                        controller.update();
-                      },
-                      onSaved: (value) {
-                        controller.selectedHistoryReason = value;
-                        controller.update();
-                      },
-                      borderRadius: BorderRadius.circular(12),
-                      borderColor: GashopperTheme.black,
-                      borderWidth: 1.5,
-                      padding: const EdgeInsets.all(8),
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Colors.grey,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Container(
+                        height: 45,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.5,
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: TextField(
+                          controller: controller.countController,
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 14),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 12,
+                              horizontal: 16,
+                            ),
+                          ),
+                        ),
                       ),
-                      dropdownShadow: BoxShadow(
-                        color: Colors.grey.withAlphaOpacity(0.4),
-                        offset: const Offset(0, 4),
-                        blurRadius: 16,
+                    ),
+                    const SizedBox(width: 16),
+                    Container(
+                      alignment: Alignment.center,
+                      child: InkWell(
+                        onTap: controller.editInventory
+                            ? () {
+                                // Use the current value in the text field directly
+                                int currentValue =
+                                    int.tryParse(controller.countController.text.trim()) ?? 0;
+                                controller.countController.text = (currentValue + 1).toString();
+                                controller.update();
+                              }
+                            : () {
+                                int currentValue =
+                                    int.tryParse(controller.countController.text.trim()) ?? 0;
+                                controller.countController.text = (currentValue + 1).toString();
+                                controller.update();
+                              },
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.green,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
-                ).ltrbPadding(0, 0, 0, 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                      customButtonHeight: 50,
-                      title: 'Cancel',
-                      customBackgroundColor: GashopperTheme.appBackGrounColor,
-                      customBorderSide: Border.all(
-                        color: GashopperTheme.black,
-                        width: 1.5,
+                ).ltrbPadding(0, 0, 0, 16),
+                if (controller.editInventory)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Reason',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          color: Colors.black,
+                        ),
+                      ).ltrbPadding(0, 0, 0, 4),
+                      CustomDropdownButton<IdNameRecord>(
+                        value: controller.selectedHistoryReason,
+                        items: controller.historyReasons
+                            .map((e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(
+                                    e.name ?? '',
+                                    style: const TextStyle(
+                                      color: GashopperTheme.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        hintText: 'Select reason',
+                        errorMessage: '',
+                        hintStyle: GashopperTheme.fontWeightApplier(
+                          FontWeight.w600,
+                          const TextStyle(
+                            fontSize: 16,
+                            letterSpacing: 0.5,
+                            color: GashopperTheme.grey1,
+                          ),
+                        ),
+                        onChanged: (value) {
+                          controller.selectedHistoryReason = value;
+                          controller.update();
+                        },
+                        onSaved: (value) {
+                          controller.selectedHistoryReason = value;
+                          controller.update();
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        borderColor: GashopperTheme.black,
+                        borderWidth: 1.5,
+                        padding: const EdgeInsets.all(8),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Colors.grey,
+                        ),
+                        dropdownShadow: BoxShadow(
+                          color: Colors.grey.withAlphaOpacity(0.4),
+                          offset: const Offset(0, 4),
+                          blurRadius: 16,
+                        ),
                       ),
-                      onPressed: () => Navigator.of(context).pop(),
+                    ],
+                  ).ltrbPadding(0, 0, 0, 24),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomButton(
+                        customButtonHeight: 50,
+                        title: 'Cancel',
+                        customBackgroundColor: GashopperTheme.appBackGrounColor,
+                        customBorderSide: Border.all(
+                          color: GashopperTheme.black,
+                          width: 1.5,
+                        ),
+                        onPressed: () {
+                          controller.editInventory = false;
+                          Get.back();
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: CustomButton(
-                      customButtonHeight: 50,
-                      title: 'Save',
-                      onPressed: () {
-                        if (!controller.editInventory) {
-                          // controller.countController.clear();
-                          // controller.inventoryNameController.clear();
-                          controller.createInventory();
-                        }
-                      },
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: CustomButton(
+                        customButtonHeight: 50,
+                        title: controller.editInventory ? 'Edit' : 'Create',
+                        onPressed: () {
+                          if (!controller.editInventory) {
+                            controller.createInventory();
+                          } else {
+                            controller.inventoryEdit(
+                              stationInventoryHistory,
+                              stationInventory,
+                            );
+                          }
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

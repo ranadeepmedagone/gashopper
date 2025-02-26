@@ -139,9 +139,10 @@ class MaintenanceMainScreen extends StatelessWidget {
                     width: 1.5,
                   ),
                   onPressed: () {
-                    Get.toNamed(
-                      Routes.maintenanceReportProblemScreen,
-                    );
+                    c.homeController.onPressReport();
+                    // Get.toNamed(
+                    //   Routes.maintenanceReportProblemScreen,
+                    // );
                   },
                   customButtonHeight: 50,
                 ).ltrbPadding(0, 0, 0, 16),

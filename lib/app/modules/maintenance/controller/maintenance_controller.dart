@@ -171,7 +171,6 @@ class MaintenanceController extends GetxController {
   // --------------------------------------------------------------
 
   Future<void> createInventory() async {
-    // Prevent multiple simultaneous calls
     if (isInventoryListLoading) return;
 
     Get.back();
@@ -182,14 +181,11 @@ class MaintenanceController extends GetxController {
       isInventoryListLoading = true;
       update();
 
-      // Parse count and make API call
-      final count = countController.text.trim().isNotEmpty
-          ? int.parse(countController.text.trim())
-          : null;
-
       final (response, error) = await dioHelper.createInventory(
         inventoryName: inventoryNameController.text.trim(),
-        count: count,
+        count: countController.text.trim().isNotEmpty
+            ? int.parse(countController.text.trim())
+            : null,
       );
 
       // Handle error cases
@@ -206,8 +202,16 @@ class MaintenanceController extends GetxController {
         return;
       }
 
-      // Handle success
       await homeController.getAppInputs();
+      stationInventories = homeController.appInputs?.stationInventories ?? [];
+      await getInventoryHistory();
+
+      countController.clear();
+      countController.text = '';
+      inventoryNameController.clear();
+      inventoryNameController.text = '';
+
+      update();
     } catch (e) {
       await _dialogService.showErrorDialog(
         title: 'Error',
@@ -217,7 +221,58 @@ class MaintenanceController extends GetxController {
     } finally {
       // Reset loading state
       isInventoryListLoading = false;
-      editInventory = true;
+      update();
+    }
+  }
+
+  Future<void> inventoryEdit(
+    StationInventoryHistory? stationInventoryHistory,
+    StationInventory? stationInventory,
+  ) async {
+    if (isInventoryListLoading) return;
+
+    Get.back();
+    try {
+      editInventory = false;
+      isInventoryListLoading = true;
+      update();
+
+      final (response, error) = await dioHelper.editInventory(
+        inventoryId: stationInventory!.id!,
+        actionType: stationInventoryHistory?.actionType ?? 0,
+        reason: selectedHistoryReason?.name ?? '',
+        count: int.tryParse(countController.text.trim()),
+        userId: homeController.appInputs?.userDetails?.id ?? 0,
+      );
+
+      // Handle error cases
+      if (error != null || response?.data == null) {
+        await _dialogService.showErrorDialog(
+          title: 'Error',
+          description: error ?? 'No data received',
+          buttonText: 'OK',
+        );
+        return;
+      }
+
+      await homeController.getAppInputs();
+      stationInventories = homeController.appInputs?.stationInventories ?? [];
+      await getInventoryHistory();
+
+      countController.clear();
+      countController.text = '';
+      inventoryNameController.clear();
+      inventoryNameController.text = '';
+
+      update();
+    } catch (e) {
+      await _dialogService.showErrorDialog(
+        title: 'Error',
+        description: e.toString(),
+        buttonText: 'OK',
+      );
+    } finally {
+      isInventoryListLoading = false;
       update();
     }
   }

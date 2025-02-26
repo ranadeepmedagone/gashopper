@@ -70,15 +70,15 @@ class DioHelper extends GetxController {
       if (err is dio.DioException) {
         // First check if there's a server error message
 
-        // final responseData = err.response?.data;
-        // if (responseData != null) {
-        //   if (responseData is Map && responseData['message'] != null) {
-        //     return (null, responseData['message'].toString());
-        //   }
-        //   if (responseData is String && responseData.isNotEmpty) {
-        //     return (null, responseData);
-        //   }
-        // }
+        final responseData = err.response?.data;
+        if (responseData != null) {
+          if (responseData is Map && responseData['message'] != null) {
+            return (null, responseData['message'].toString());
+          }
+          if (responseData is String && responseData.isNotEmpty) {
+            return (null, responseData);
+          }
+        }
 
         // If no server message, use status code based messages
         switch (err.response?.statusCode) {
@@ -410,9 +410,28 @@ class DioHelper extends GetxController {
         ApiEndPoints.inventoryCreateyAPIEndpoint,
         data: {
           'name': inventoryName,
-          'count': count,
+          'current_count': count,
         },
       ),
+    );
+  }
+
+// Edit inventory
+  Future<(dio.Response?, String?)> editInventory({
+    required int inventoryId,
+    required int? actionType,
+    required String? reason,
+    required int? count,
+    required int? userId,
+  }) async {
+    return _handleRequest(
+      () => _dio.put(ApiEndPoints.inventoryHistoryAPIEndpoint, data: {
+        "inventory_id": inventoryId,
+        "action_type": actionType,
+        "reason": reason,
+        "count": count,
+        "user_id": userId,
+      }),
     );
   }
 

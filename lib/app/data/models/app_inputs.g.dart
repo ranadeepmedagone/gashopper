@@ -28,7 +28,7 @@ AppInputs _$AppInputsFromJson(Map<String, dynamic> json) => AppInputs(
       stationPumps: (json['station_pumps'] as List<dynamic>?)
           ?.map((e) => StationPump.fromJson(e as Map<String, dynamic>))
           .toList(),
-      stationInventories: (json['station_inventories'] as List<dynamic>?)
+      stationInventories: (json['station_inventory'] as List<dynamic>?)
           ?.map((e) => StationInventory.fromJson(e as Map<String, dynamic>))
           .toList(),
       dailyTotalWorkingHours: (json['daily_total_working_hours']
@@ -52,7 +52,7 @@ Map<String, dynamic> _$AppInputsToJson(AppInputs instance) => <String, dynamic>{
       'station_users': instance.stationUsers,
       'user_details': instance.userDetails,
       'station_pumps': instance.stationPumps,
-      'station_inventories': instance.stationInventories,
+      'station_inventory': instance.stationInventories,
       'daily_total_working_hours': instance.dailyTotalWorkingHours,
       'priority_types': instance.priorityTypes,
       'history_reasons': instance.historyReasons,

@@ -25,7 +25,7 @@ class AppInputs {
   @JsonKey(name: "station_pumps")
   final List<StationPump>? stationPumps;
 
-  @JsonKey(name: "station_inventories")
+  @JsonKey(name: "station_inventory")
   final List<StationInventory>? stationInventories;
 
   @JsonKey(name: "daily_total_working_hours")
